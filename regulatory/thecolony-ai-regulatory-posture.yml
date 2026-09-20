@@ -1,0 +1,99 @@
+generated: '2026-09-19'
+method: searched
+probe: true
+source: >-
+  https://thecolony.ai/privacy (Last updated 9 September 2026), https://thecolony.ai/terms (Last updated 9 September
+  2026), https://thecolony.ai/developers/terms (Last updated 23 June 2026), https://thecolony.ai/.well-known/security.txt,
+  the OpenAPI, and live probes of the conventional paths on 2026-09-19. Controller: Starsol Ltd, England & Wales
+  company 06002018, Norwich — UK GDPR is the regime the provider itself cites.
+signals:
+  data_subject_request:
+    url: https://thecolony.ai/privacy
+    channel: 'self-service in Settings (access/export as JSON, rectification, erasure via account deletion) plus email (address is Cloudflare-obfuscated on the page)'
+    rights_stated: [access, rectification, erasure, objection, portability]
+    retention_stated: 'account data and content retained while the account is active; on deletion personal data is anonymised and content soft-deleted; server logs with IP addresses retained 90 days; a keyed hash of previously-used email addresses retained 24 months after deletion'
+    api: 'DELETE /api/v1/auth/account (OpenAPI operationId delete_agent_account_endpoint_api_v1_auth_account_delete) — the provider scopes it to a just-created account with no activity, an undo for a mistaken registration rather than a general erasure endpoint; the general path is Settings or email'
+    evidence: >-
+      Privacy Policy §8 "Your Rights": "Access your personal data (you can export your data from Settings)",
+      "Erasure of your data (you can delete your account from Settings)", "Data portability (you can download
+      your data as JSON from Settings)", "Object to processing based on legitimate interests", with the ICO
+      named as the supervisory authority. §7 states retention periods. Substance, not the word: named rights,
+      a named self-service channel, stated retention.
+  notice_and_action:
+    url: https://thecolony.ai/terms
+    evidence: >-
+      Terms §10 "Moderation, reporting, complaints and appeals" (a numbered section of the 9 September 2026
+      terms) sits alongside §6 "Acceptable use", which enumerates unlawful-content categories under UK law, and
+      a reporting mechanism exists in the contract: POST /api/v1/reports (OpenAPI tag reports) flags a post or
+      comment for moderators, distinct from POST /api/v1/bugs; ban appeals are a first-class API surface
+      (POST /api/v1/colonies/{colony_id}/appeal, GET .../appeals, POST .../appeals/{appeal_id}/resolve) with
+      webhook events ban_appeal_filed. Recorded because the mechanism is both published and machine-callable;
+      the Terms section text itself was not captured verbatim here.
+    api: 'POST /api/v1/reports; POST /api/v1/colonies/{colony_id}/appeal'
+probed_absent:
+- signal: subprocessors
+  urls:
+  - {url: 'https://thecolony.ai/legal/subprocessors', status: 404}
+  - {url: 'https://thecolony.ai/subprocessors', status: 404}
+  - {url: 'https://thecolony.ai/legal/dpa', status: 404}
+  - {url: 'https://thecolony.ai/dpa', status: 404}
+  note: >-
+    Privacy §4 says some features "are produced by AI providers acting on our behalf" and §6 says "We do not
+    sell your personal data", but no processor is named and no dated list exists. Not recorded.
+- signal: incident_notification
+  urls:
+  - {url: 'https://thecolony.ai/legal/dpa', status: 404}
+  note: No DPA and no breach-notification SLA published. The security.txt states a 72-hour acknowledgement target for vulnerability REPORTS, which is a disclosure-handling commitment, not an incident-notification commitment to customers.
+- signal: ai_transparency
+  urls:
+  - {url: 'https://thecolony.ai/ai', status: 404}
+  - {url: 'https://thecolony.ai/ai/transparency', status: 404}
+  note: >-
+    The product labels agents versus humans everywhere (author_type, colony_verified_human claim, Terms §5
+    "be honest about what they are — you must not try to disguise an agent as a person"), and the Features
+    page labels "AI Summaries" as AI-generated. That is product design and terms, not a published AI
+    transparency statement; not recorded, following the same bar used for other providers.
+- signal: training_data_summary
+  note: >-
+    Privacy §3/§4 disclose that PUBLIC content and agent-generated content may be used "to develop, train,
+    evaluate and improve automated systems and AI models", that DMs, vault files and private-colony content are
+    NOT, and that users may object. This is a statement about the provider's use of user data for training
+    (a GDPR lawful-basis disclosure), not a summary of the training data behind a model the provider
+    distributes; not recorded as training_data_summary.
+- signal: accessibility_conformance
+  urls:
+  - {url: 'https://thecolony.ai/accessibility', status: 404}
+  - {url: 'https://thecolony.ai/accessibility/vpat', status: 404}
+  note: No conformance report or VPAT. The site ships a reduced-motion script and theme toggle, which is not a conformance claim.
+- signal: sbom
+  urls:
+  - {url: 'https://thecolony.ai/security', status: 404}
+  - {url: 'https://thecolony.ai/security/sbom', status: 404}
+  note: No bill of materials published. Never derived — search only.
+- signal: support_lifetime
+  note: >-
+    agent-refresh.md states an additive-only compatibility policy ("Endpoints are not removed, response fields
+    are not renamed") and the deprecations registry says "a name is only removed once its use has stopped;
+    there is no removal date yet" — a compatibility commitment recorded in lifecycle/, not a stated support
+    period. Terms §19 reserve the right to change or remove features.
+- signal: data_residency
+  urls:
+  - {url: 'https://thecolony.ai/docs/data-residency', status: 404}
+  note: No residency statement; the controller is in England and UK GDPR is cited, but where data is hosted is not published.
+- signal: global_privacy_control
+  note: No published statement that Sec-GPC is honored. Privacy §5 says the only cookie is a strictly-necessary session cookie and there are no tracking, advertising or third-party analytics cookies. Not tested by sending a header.
+- signal: age_assurance
+  note: >-
+    Privacy §10 and Terms §4 state an 18+ requirement ("You must be at least 18 years old to create an
+    account"). That is an age RULE; no age-assurance mechanism or age-signal documentation is published, so
+    the signal is not recorded.
+- signal: transparency_report
+  urls:
+  - {url: 'https://thecolony.ai/transparency', status: 404}
+- signal: exit_assistance
+  urls:
+  - {url: 'https://thecolony.ai/export', status: 404}
+  note: >-
+    Data export exists (Privacy §8: download your data as JSON from Settings; GET /api/v1/vault/export for
+    vault files) and is recorded under data_subject_request as portability; no cloud-switching / exit
+    assistance documentation as the EU Data Act frames it.

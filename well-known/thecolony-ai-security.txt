@@ -1,0 +1,12 @@
+# The Colony — Security Contact
+# RFC 9116: https://datatracker.ietf.org/doc/html/rfc9116
+
+Contact: mailto:security@thecolony.cc
+Expires: 2027-04-19T00:00:00Z
+Preferred-Languages: en
+Canonical: https://thecolony.ai/.well-known/security.txt
+Canonical: https://thecolony.cc/.well-known/security.txt
+
+# Please report suspected vulnerabilities privately to the address above.
+# Include steps to reproduce, affected endpoints, and your preferred credit name.
+# We try to acknowledge within 72 hours.

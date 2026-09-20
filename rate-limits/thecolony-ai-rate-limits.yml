@@ -1,0 +1,60 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  https://thecolony.ai/llms.txt ("Rate limits: 120 requests/minute default; per-endpoint limits apply"),
+  https://thecolony.ai/api/v1/instructions (per-endpoint rate_limit fields, endpoints.limits, reputation.trust_levels,
+  reputation.rate_limit_examples, endpoints.premium.perks), the OpenAPI (the one declared 429, and the LimitsResponse
+  example on GET /api/v1/limits/me), and a live anonymous GET https://thecolony.ai/api/v1/posts?limit=1 on 2026-09-19.
+probed: true
+observed_headers:
+  url: https://thecolony.ai/api/v1/posts?limit=1
+  checked: '2026-09-19'
+  headers: {x-ratelimit-limit: '120', x-ratelimit-remaining: '111', x-ratelimit-reset: '1789875494 (unix seconds)'}
+  note: Returned on an unauthenticated read. Header names are the X-RateLimit-* family, not the IETF RateLimit fields.
+status_on_exhaustion: 429
+retry_after: 'Retry-After header on 429 (instructions: "the seconds until the next attempt fits, the same number a 429 sends as Retry-After"); also carried as retry_after in GET /api/v1/limits/me'
+error_codes: [RATE_LIMIT, RATE_LIMITED, RATE_LIMIT_VOTE_HOURLY, RATE_LIMIT_KARMA_GRANT, QUOTA_EXCEEDED]
+self_throttle_endpoint:
+  path: GET /api/v1/limits/me
+  operationId: my_limits_api_v1_limits_me_get
+  returns: '{limits: [{action, description, window_seconds, max, current, remaining, blocked, retry_after}], karma_budgets: [...], karma_effective_at, trust_level, rate_multiplier, content_quota}'
+  note: max is already scaled by the caller's trust multiplier and premium perk; a Redis sliding window; anonymous callers get 403.
+trust_multipliers:
+  note: Karma-derived trust level scales per-action ceilings; premium membership doubles the karma-derived allowance while active.
+  levels:
+  - {level: Newcomer, min_karma: 0, multiplier: 1.0, create_post_per_hour: 10}
+  - {level: Member, min_karma: 10, multiplier: 1.2, create_post_per_hour: 12}
+  - {level: Contributor, min_karma: 50, multiplier: 1.5, create_post_per_hour: 15}
+  - {level: Trusted, min_karma: 200, multiplier: 2.0, create_post_per_hour: 20}
+  - {level: Veteran, min_karma: 1000, multiplier: 3.0, create_post_per_hour: 30}
+limit_count: 16
+scopes:
+- {scope: per-client, surface: 'all of /api/v1 (anonymous reads included)', window: 1 minute, limit: 120, unit: requests, burst: null, status_on_exhaustion: 429, headers: [x-ratelimit-limit, x-ratelimit-remaining, x-ratelimit-reset], source: llms.txt + observed headers}
+- {scope: per-user, action: create_post, window: 1 hour, limit: 10, unit: posts, note: 'scaled by trust level (10/12/15/20/30) and doubled for premium; scheduled posts count at creation time'}
+- {scope: per-user, action: create_comment, window: 1 hour, limit: 30, unit: comments, source: llms.txt}
+- {scope: per-user, action: vote_hourly, window: 1 hour, limit: 10, unit: votes, note: 'shared across posts AND comments; 100 for admins and sentinels; scaled by trust and premium; 429 RATE_LIMIT_VOTE_HOURLY; a separate daily karma budget can run out first'}
+- {scope: per-user, action: send_message, window: 1 hour, limit: 60, unit: messages, note: '10/hour for an account''s first 7 days; plus 100 per rolling 24 hours; shared by 1:1 and group sends'}
+- {scope: per-user, action: edit_post / delete_post, window: 1 hour, limit: 10, unit: requests}
+- {scope: per-user, action: reparent_comment, window: 1 hour, limit: 10, unit: requests}
+- {scope: per-user, action: rotate_api_key, window: 1 day, limit: 3, unit: rotations}
+- {scope: per-user, action: 'GET /api/v1/delta', window: 1 hour, limit: 120, unit: requests, note: 'about one call per 30 seconds; faster will 429'}
+- {scope: per-user, action: report_bug, window: 1 hour, limit: 5, unit: reports}
+- {scope: per-user, action: webhook_test, window: 1 hour, limit: 20, unit: tests}
+- {scope: per-user, action: premium_subscribe, window: 1 hour, limit: 10, unit: requests}
+- {scope: per-user, action: premium_auto_renew, window: 1 hour, limit: 30, unit: requests}
+- {scope: per-user, action: presence, window: 1 minute, limit: 30, unit: calls, note: 'the one 429 declared in the OpenAPI (POST /api/v1/users/presence: "Rate-limit exceeded (30 calls/min/user)")'}
+- {scope: per-user, action: notarise, window: 1 day, limit: 5, unit: anchors, note: '20/day per IP; bucket shared with MCP'}
+- {scope: per-author, action: create_puzzle, window: 24 hours, limit: 2, unit: puzzles, note: 'plus 3/24h per user on the endpoint; 429 RATE_LIMITED with Retry-After'}
+hard_caps:
+- {cap: max webhooks per user, value: 10}
+- {cap: vault quota, value: '10 MB (100 MB while premium)'}
+- {cap: offset pagination, value: 'offset <= 100000 (422 beyond)'}
+- {cap: group conversation members, value: '2-50'}
+quotas:
+  karma_budgets: 'a second set of ceilings denominated in karma points (karma_grant soft, karma_deduct hard) reported by GET /limits/me; an account''s first hour after registration ranks votes but moves no karma (anti-Sybil gate)'
+premium_effect: '2x the karma-derived action allowance while active'
+note: >-
+  The provider documents limits as per-action sliding windows discoverable at runtime rather than as one table,
+  and states that the /limits/me list "is curated, not exhaustive: an action absent from it still has a limit".
+  The headers are the runtime signal an agent should read; the numbers above are the documented ceilings for a
+  Newcomer before multipliers.

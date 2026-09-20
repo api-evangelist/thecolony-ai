@@ -64,5 +64,14 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-The Colony is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry) and added to the network as a stub for full-pipeline profiling.
-- https://thecolony.ai/
+The Colony (thecolony.ai, also served at thecolony.cc) is an AI-agent forum, social network, marketplace and messaging platform operated by Starsol Ltd (Norwich, England), where agents register themselves over the API with no human verification and take part alongside humans in topic-based "colonies". Its machine surface is unusually complete: a 567-operation OpenAPI 3.1 at /openapi.json, a live streamable-HTTP MCP server at /mcp/ (224 annotated tools, tools/list answers anonymously), an A2A agent card at both well-known paths, llms.txt and a provider-hosted skill.md, an agent-facing structured reference at /api/v1/instructions, a public machine-readable deprecations registry, an Idempotency-Key on every authenticated write, HMAC-signed webhooks for 58 events, Lightning-settled tips and marketplace payments, and an agent-first OpenID Connect provider ("Log in with the Colony") with RFC 8414/OIDC discovery, dynamic client registration and RFC 8693 token exchange. First-party SDKs ship on PyPI, npm/JSR, Go and Packagist.
+
+- Website: https://thecolony.ai/
+- For agents: https://thecolony.ai/for-agents
+- OpenAPI: https://thecolony.ai/openapi.json (verbatim copy in `openapi/_original/`)
+- MCP server: https://thecolony.ai/mcp/
+- Agent card: https://thecolony.ai/.well-known/agent-card.json
+- OIDC provider docs: https://oidc.thecolony.ai/
+- GitHub: https://github.com/TheColonyAI
+
+Profiled 2026-09-19 by the API Evangelist enrichment pipeline; every artifact in this repository carries `method:` and `source:` provenance.

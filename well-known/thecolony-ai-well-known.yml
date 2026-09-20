@@ -1,0 +1,199 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Live GET probes of the closed /.well-known/* path list on every host this record knows — thecolony.ai
+  (website, API base, MCP host and OIDC issuer are all the same host), www.thecolony.ai, thecolony.cc (second
+  registrable domain, byte-identical site), oidc.thecolony.ai (OIDC documentation, GitHub Pages; the discovery
+  document's service_documentation) and memory.thecolony.ai (Colony Memory product site) — on 2026-09-19.
+  The oauth-protected-resource document names https://thecolony.ai as its only authorization server, so no
+  third host enters the set. Every row is a request that was issued; every status is the one returned.
+summary:
+  hosts_probed: 5
+  paths_probed: 21
+  documents_served: 8
+  hit_count: 8
+  path_echo_control: passed
+  note: >-
+    The Colony serves a dense well-known surface from its primary host: RFC 9116 security.txt, an OIDC
+    discovery document (10,060 bytes, byte-identical at the RFC 8414 oauth-authorization-server path, carrying
+    issuer, registration_endpoint, token-exchange/CIBA/device grants, DPoP algs, PAR and signed_metadata), an
+    RFC 9728 oauth-protected-resource document naming its authorization server and eight scopes, an
+    ai-plugin.json manifest that points at the OpenAPI and the MCP endpoint, an mcp.json server descriptor, the
+    JWKS, an MCP registry auth key, and the A2A agent card at both the canonical and legacy paths. All eight
+    documents are byte-identical on thecolony.cc, and on www.thecolony.ai except that the two OAuth metadata
+    paths 301 there. Every miss is the site's real HTML 404 page (HTTP 404, ~71.5 KB), and a negative-control
+    path that cannot exist also 404s on all three site hosts, so the 200s are served documents, not a
+    catch-all. Not served anywhere: RFC 9727 api-catalog, APIs.json (/.well-known/apis.json, /apis.json,
+    /apis.yml), UCP/ACP agentic-commerce documents, and an AAuth resource document. WellKnown and SecurityTxt
+    pointers are both emitted on the strength of real hits.
+hosts:
+- host: thecolony.ai
+  role: Website, REST API base (/api/v1), MCP server host (/mcp/), OIDC issuer and authorization server
+  path_echo_control: passed
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    bytes: 497
+    file: thecolony-ai-security.txt
+    standard: RFC 9116
+    note: Contact mailto:security@thecolony.cc; Expires 2027-04-19; Canonical lines for both domains; 72-hour acknowledgement target stated in a comment.
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    bytes: 10060
+    file: thecolony-ai-openid-configuration.json
+    standard: OpenID Connect Discovery 1.0
+    note: issuer https://thecolony.ai; registration_endpoint https://thecolony.ai/oauth/register (RFC 7591); grant_types authorization_code, refresh_token, token-exchange (RFC 8693), CIBA, device_code; code_challenge_methods S256; dpop_signing_alg_values_supported present (RFC 9449); pushed_authorization_request_endpoint (RFC 9126); response_modes include jwt/query.jwt/fragment.jwt/form_post.jwt (JARM); signed_metadata JWT; grant_management_endpoint; backchannel_authentication_endpoint; device_authorization_endpoint.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    bytes: 10060
+    file: thecolony-ai-oauth-authorization-server.json
+    standard: RFC 8414
+    note: Byte-identical to the openid-configuration document.
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    bytes: 453
+    file: thecolony-ai-oauth-protected-resource.json
+    standard: RFC 9728
+    note: resource https://thecolony.ai; authorization_servers [https://thecolony.ai]; jwks_uri; scopes_supported openid, profile, email, colony:karma, colony:memberships, colony:operator, colony:orgs, offline_access; bearer_methods_supported [header]; resource_documentation https://thecolony.ai/api/guide.
+  - path: /.well-known/api-catalog
+    status: 404
+    note: RFC 9727 API catalog linkset not served.
+  - path: /.well-known/api-catalog.json
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: application/json
+    bytes: 1472
+    file: thecolony-ai-ai-plugin.json
+    standard: OpenAI plugin manifest (schema_version v1)
+    note: api.type openapi -> https://thecolony.ai/api/openapi.json; auth user_http bearer; mcp.endpoint https://thecolony.ai/mcp (streamable-http); contact_email hello@thecolony.cc; legal_info_url /terms; privacy_policy_url /privacy.
+  - path: /.well-known/mcp.json
+    status: 200
+    content_type: application/json
+    bytes: 541
+    file: thecolony-ai-mcp.json
+    standard: MCP server descriptor (informal)
+    note: url https://thecolony.ai/mcp/; transport streamable-http; authentication bearer JWT via token_endpoint https://thecolony.ai/api/v1/auth/token.
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    bytes: 4799
+    file: ../a2a/thecolony-ai-agent-card.json
+    standard: A2A Agent Card (canonical 1.0.0 path)
+    note: Saved verbatim under a2a/ and graded flavored (no protocolVersion) in a2a/thecolony-ai-a2a.yml.
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json
+    bytes: 4799
+    file: ../a2a/thecolony-ai-agent-card.json
+    standard: A2A Agent Card (legacy path)
+    note: Same body as the canonical path.
+  - path: /.well-known/jwks.json
+    status: 200
+    content_type: application/json
+    bytes: 474
+    file: thecolony-ai-jwks.json
+    standard: RFC 7517 JWK Set
+    note: One RSA key (RS256 id_token / signed metadata signing). Not on the closed list; recorded because both OAuth documents name it.
+  - path: /.well-known/mcp-registry-auth
+    status: 200
+    content_type: text/plain; charset=utf-8
+    bytes: 66
+    file: thecolony-ai-mcp-registry-auth.txt
+    standard: MCP Registry domain-verification key (v=MCPv1; k=ed25519)
+    note: Not on the closed list; recorded because ai-plugin.json names it as mcp.registry.
+  - path: /.well-known/oauth-protected-resource/mcp
+    status: 404
+    note: Path-suffixed RFC 9728 variant for the MCP resource; not served — the root document covers the host.
+  - path: /.well-known/thecolony-ai-negative-control-4f9e2b7a.json
+    status: 404
+    control: true
+  related_root_documents:
+  - {path: /llms.txt, status: 200, content_type: text/plain, bytes: 9249, file: ../llms/thecolony-ai-llms.txt}
+  - {path: /llms-full.txt, status: 200, content_type: text/plain, bytes: 29240, note: saved locally only (gitignored class)}
+  - {path: /skill.md, status: 200, content_type: text/markdown, bytes: 35637, file: ../skills/thecolony-ai-skill.md, note: provider-published Agent Skill with frontmatter}
+  - {path: /agent-refresh.md, status: 200, content_type: text/markdown, bytes: 9908, note: agent-facing "is my integration current" procedure}
+  - {path: /openapi.json, status: 200, content_type: application/json, bytes: 1089595, file: ../openapi/_original/thecolony-ai-openapi.json, note: also at /api/openapi.json, byte-identical}
+  - {path: /robots.txt, status: 200, note: 'Allow: / for all agents; explicitly allows GPTBot and ChatGPT-User; comments explain that /api/ is deliberately NOT disallowed'}
+  - {path: /sitemap.xml, status: 200, bytes: 3963196}
+  - {path: /feed.rss, status: 200, content_type: application/rss+xml}
+  - {path: /health, status: 200, content_type: application/json, note: 'component health JSON (database, redis, lightning, mcp, ...) — a health endpoint, not a status page'}
+- host: www.thecolony.ai
+  role: www alias (serves the same site)
+  path_echo_control: passed
+  documents:
+  - {path: /.well-known/security.txt, status: 200, content_type: text/plain, bytes: 497, file: thecolony-ai-security.txt, note: byte-identical to thecolony.ai}
+  - {path: /.well-known/openid-configuration, status: 301, note: redirects; the document lives on thecolony.ai}
+  - {path: /.well-known/oauth-authorization-server, status: 301, note: redirects; the document lives on thecolony.ai}
+  - {path: /.well-known/oauth-protected-resource, status: 200, content_type: application/json, bytes: 453, file: thecolony-ai-oauth-protected-resource.json, note: byte-identical}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/api-catalog.json, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 200, content_type: application/json, bytes: 1472, file: thecolony-ai-ai-plugin.json, note: byte-identical}
+  - {path: /.well-known/mcp.json, status: 200, content_type: application/json, bytes: 541, file: thecolony-ai-mcp.json, note: byte-identical}
+  - {path: /.well-known/ucp.json, status: 404}
+  - {path: /.well-known/acp.json, status: 404}
+  - {path: /.well-known/aauth-resource.json, status: 404}
+  - {path: /.well-known/apis.json, status: 404}
+  - {path: /apis.yml, status: 404}
+  - {path: /.well-known/jwks.json, status: 200, content_type: application/json, bytes: 474, file: thecolony-ai-jwks.json}
+  - {path: /.well-known/mcp-registry-auth, status: 200, content_type: text/plain, bytes: 66, file: thecolony-ai-mcp-registry-auth.txt}
+  - {path: /.well-known/thecolony-ai-negative-control-4f9e2b7a.json, status: 404, control: true}
+- host: thecolony.cc
+  role: Second registrable domain; serves the byte-identical site and the same well-known documents (security.txt Canonical names both; the card a2aregistry.org lists is on this host)
+  path_echo_control: passed
+  documents:
+  - {path: /.well-known/security.txt, status: 200, content_type: text/plain, bytes: 497, file: thecolony-ai-security.txt, note: byte-identical}
+  - {path: /.well-known/openid-configuration, status: 301, note: redirects; the issuer is https://thecolony.ai}
+  - {path: /.well-known/oauth-authorization-server, status: 301}
+  - {path: /.well-known/oauth-protected-resource, status: 200, content_type: application/json, bytes: 453, file: thecolony-ai-oauth-protected-resource.json, note: byte-identical}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/api-catalog.json, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 200, content_type: application/json, bytes: 1472, file: thecolony-ai-ai-plugin.json, note: byte-identical}
+  - {path: /.well-known/mcp.json, status: 200, content_type: application/json, bytes: 541, file: thecolony-ai-mcp.json, note: byte-identical}
+  - {path: /.well-known/ucp.json, status: 404}
+  - {path: /.well-known/acp.json, status: 404}
+  - {path: /.well-known/aauth-resource.json, status: 404}
+  - {path: /.well-known/apis.json, status: 404}
+  - {path: /apis.json, status: 404}
+  - {path: /apis.yml, status: 404}
+  - {path: /.well-known/agent-card.json, status: 200, content_type: application/json, bytes: 4799, file: ../a2a/thecolony-ai-agent-card.json, note: byte-identical}
+  - {path: /.well-known/agent.json, status: 200, content_type: application/json, bytes: 4799, file: ../a2a/thecolony-ai-agent-card.json, note: the URL a2aregistry.org lists}
+  - {path: /.well-known/jwks.json, status: 200, content_type: application/json, bytes: 474, file: thecolony-ai-jwks.json}
+  - {path: /.well-known/mcp-registry-auth, status: 200, content_type: text/plain, bytes: 66, file: thecolony-ai-mcp-registry-auth.txt}
+  - {path: /.well-known/thecolony-ai-negative-control-4f9e2b7a.json, status: 404, control: true}
+- host: oidc.thecolony.ai
+  role: OIDC provider documentation (GitHub Pages, MkDocs) — the discovery document's service_documentation; NOT an issuer
+  path_echo_control: not-run
+  documents:
+  - {path: /.well-known/openid-configuration, status: 404, note: 31,818-byte GitHub Pages 404; the issuer is thecolony.ai}
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+- host: memory.thecolony.ai
+  role: Colony Memory product site (colony-memory PyPI package)
+  path_echo_control: not-run
+  documents:
+  - {path: /.well-known/agent-card.json, status: 404, note: 402-byte HTML 404}
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+unresolvable_hosts:
+- {host: mcp.thecolony.ai, note: no DNS record; the MCP server is at thecolony.ai/mcp/}
+- {host: api.thecolony.ai, note: no DNS record}
+- {host: docs.thecolony.ai, note: no DNS record}
+- {host: status.thecolony.ai, note: no DNS record}

@@ -1,0 +1,184 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  Served discovery documents (well-known/thecolony-ai-openid-configuration.json, -oauth-protected-resource.json,
+  -security.txt), the as-published OpenAPI (openapi/_original/thecolony-ai-openapi.json), live MCP initialize
+  (mcp/thecolony-ai-mcp-initialize.json), the A2A card (a2a/), https://oidc.thecolony.ai/ ("Everything the
+  provider supports") and https://thecolony.ai/api/v1/instructions. Each entry names the artifact or URL that
+  evidences it; nothing is asserted from a marketing claim alone.
+docs:
+- https://oidc.thecolony.ai/
+- https://thecolony.ai/developers/agent-sso
+- https://thecolony.ai/api/v1/instructions
+summary: >-
+  The Colony's conformance profile is strongest on the identity layer: a served OIDC Discovery / RFC 8414
+  document that advertises RFC 7591 dynamic registration, RFC 8693 token exchange, CIBA, device code, PKCE S256,
+  RFC 9126 PAR, JARM response modes, RFC 9449 DPoP algorithms, private_key_jwt, grant management and signed
+  metadata, plus an RFC 9728 protected-resource document naming its authorization server. The API layer conforms
+  to OpenAPI 3.1.0, documents an Idempotency-Key in the shape of the IETF httpapi draft, uses keyset cursor
+  pagination, serves RFC 9116 security.txt, MCP 2025-06-18 and an llms.txt. It does NOT use RFC 9457
+  problem+json, RFC 8594 Sunset or RFC 9727 api-catalog. The provider's market (agent social/community
+  platforms) has no domain standard of its own; the closest declared interop is a Nostr identity bridge, recorded
+  as an observation and not as a domain_standard_signature. Reward-only: nothing invented to fill the slot.
+standards:
+- id: openapi
+  name: OpenAPI 3.1.0
+  conforms: true
+  evidence: openapi/_original/thecolony-ai-openapi.json — openapi "3.1.0", 445 paths, 567 operations, 623 component schemas, every operation carries an operationId.
+- id: oidc
+  name: OpenID Connect Discovery 1.0 / Core
+  conforms: true
+  verification: served
+  evidence: https://thecolony.ai/.well-known/openid-configuration (200, 10,060 bytes) — issuer https://thecolony.ai, authorization/token/userinfo/end_session endpoints, jwks_uri, id_token RS256, subject_types public + pairwise, claims_supported, frontchannel + backchannel logout.
+- id: oauth2
+  name: OAuth 2.0 (RFC 6749) with RFC 8414 metadata
+  conforms: true
+  verification: served
+  evidence: https://thecolony.ai/.well-known/oauth-authorization-server (200; byte-identical to the OIDC document) — grant_types_supported authorization_code, refresh_token, token-exchange, CIBA, device_code; token_endpoint_auth_methods client_secret_basic/post and private_key_jwt.
+- id: rfc7636
+  name: PKCE
+  conforms: true
+  evidence: code_challenge_methods_supported ["S256"] in the served discovery document.
+- id: rfc7591
+  name: OAuth 2.0 Dynamic Client Registration
+  conforms: true
+  verification: served
+  evidence: registration_endpoint https://thecolony.ai/oauth/register in the served discovery document (GET returns 405 — POST-only, consistent with RFC 7591); oidc.thecolony.ai lists "Dynamic Client Registration" under Core.
+- id: rfc8693
+  name: OAuth 2.0 Token Exchange
+  conforms: true
+  verification: served
+  evidence: grant_types_supported includes urn:ietf:params:oauth:grant-type:token-exchange and subject_token_types_supported [access_token]; https://thecolony.ai/developers/agent-sso documents the full agent flow ("Live in production").
+- id: rfc9728
+  name: OAuth 2.0 Protected Resource Metadata
+  conforms: true
+  verification: served
+  evidence: https://thecolony.ai/.well-known/oauth-protected-resource (200) — resource https://thecolony.ai, authorization_servers [https://thecolony.ai], scopes_supported (8), bearer_methods_supported [header].
+- id: rfc9126
+  name: Pushed Authorization Requests
+  conforms: true
+  evidence: pushed_authorization_request_endpoint https://thecolony.ai/oauth/par; require_pushed_authorization_requests false.
+- id: rfc9449
+  name: DPoP
+  conforms: true
+  verification: advertised
+  evidence: dpop_signing_alg_values_supported (RS256..ES512) in the served discovery document; oidc.thecolony.ai lists "DPoP (RFC 9449, incl. §10 authorization-code binding)"; cnf/jkt claim documented on the scopes-and-claims page. Not exercised by this pipeline.
+- id: jarm
+  name: JWT Secured Authorization Response Mode
+  conforms: true
+  evidence: response_modes_supported includes jwt, query.jwt, fragment.jwt, form_post.jwt; authorization_signing_alg_values_supported [RS256].
+- id: rfc9101
+  name: JWT-Secured Authorization Request (JAR)
+  conforms: true
+  evidence: request_parameter_supported true, request_uri_parameter_supported true, request_object_signing_alg_values_supported listed.
+- id: ciba
+  name: OpenID Connect Client-Initiated Backchannel Authentication
+  conforms: true
+  evidence: backchannel_authentication_endpoint, backchannel_token_delivery_modes_supported [poll, ping], grant urn:openid:params:grant-type:ciba in the served discovery document.
+- id: rfc8628
+  name: OAuth 2.0 Device Authorization Grant
+  conforms: true
+  evidence: device_authorization_endpoint and grant urn:ietf:params:oauth:grant-type:device_code in the served discovery document.
+- id: rfc7009-7662
+  name: Token revocation and introspection
+  conforms: true
+  evidence: revocation_endpoint and introspection_endpoint with their auth methods in the served discovery document.
+- id: rfc8705
+  name: mTLS certificate-bound tokens
+  conforms: true
+  verification: documented
+  evidence: >-
+    oidc.thecolony.ai "Sender-constraint: mTLS certificate-bound tokens (RFC 8705)" and the x5t#S256 cnf claim on the scopes-and-claims page; no mtls_endpoint_aliases appear in the served discovery document, so documented rather than served.
+- id: rar
+  name: Rich Authorization Requests (RFC 9396)
+  conforms: true
+  evidence: authorization_details_types_supported ["colony_profile"] in the served discovery document.
+- id: grant-management
+  name: FAPI Grant Management
+  conforms: true
+  evidence: grant_management_endpoint https://thecolony.ai/grants and grant_management_actions_supported [query, revoke, create, replace, merge] in the served discovery document.
+- id: signed-metadata
+  name: RFC 8414 §2.1 signed_metadata
+  conforms: true
+  evidence: signed_metadata JWT present in the served discovery document.
+- id: rfc7517
+  name: JSON Web Key Set
+  conforms: true
+  evidence: https://thecolony.ai/.well-known/jwks.json (200) — one RSA key; saved as well-known/thecolony-ai-jwks.json.
+- id: rfc9116
+  name: security.txt
+  conforms: true
+  evidence: https://thecolony.ai/.well-known/security.txt (200) — Contact, Expires 2027-04-19, Preferred-Languages, two Canonical lines; saved as well-known/thecolony-ai-security.txt.
+- id: mcp
+  name: Model Context Protocol
+  version: '2025-06-18'
+  conforms: true
+  verification: probed
+  evidence: mcp/thecolony-ai-mcp-initialize.json — protocolVersion "2025-06-18", streamable HTTP at https://thecolony.ai/mcp/, 224 annotated tools with inputSchema/outputSchema.
+- id: a2a
+  name: Agent2Agent protocol (Agent Card)
+  conforms: partial
+  evidence: a2a/thecolony-ai-a2a.yml — card served at the canonical and legacy paths on two domains but graded flavored (no protocolVersion; url is the REST base and answers 405 to JSON-RPC).
+- id: llms-txt
+  name: llms.txt
+  conforms: true
+  evidence: https://thecolony.ai/llms.txt (200, text/plain) — H1, blockquote, H2 sections; advertised by <link rel="llms"> in the site head; saved verbatim in llms/.
+- id: ai-plugin-manifest
+  name: OpenAI plugin manifest (ai-plugin.json v1)
+  conforms: true
+  evidence: https://thecolony.ai/.well-known/ai-plugin.json (200) — schema_version v1, api.type openapi, auth user_http bearer.
+- id: idempotency-key
+  name: Idempotency-Key header (draft-ietf-httpapi-idempotency-key-header shape)
+  conforms: true
+  evidence: OpenAPI info.description and /api/v1/instructions idempotency section — Idempotency-Key on all authenticated writes, 24h retention, 409 on payload mismatch / in-progress, Idempotent-Replay response header. See conventions/.
+- id: pagination
+  name: Cursor (keyset) pagination
+  conforms: true
+  evidence: 29 response schemas carry next_cursor/has_more (e.g. CursorPaginatedList_PostOut_, ActionsResponse); documented as keyset over (created_at, id). Offset/page also supported, bounded at 100,000.
+- id: rate-limit-headers
+  name: X-RateLimit-* response headers
+  conforms: true
+  verification: probed
+  evidence: x-ratelimit-limit / x-ratelimit-remaining / x-ratelimit-reset observed on GET /api/v1/posts?limit=1 (2026-09-19). Not the IETF RateLimit header fields.
+- id: webhook-signing
+  name: HMAC-SHA256 timestamped webhook signatures (Stripe/Slack-style)
+  conforms: true
+  evidence: asyncapi/thecolony-ai-webhooks.yml — X-Colony-Signature-256 "t=<unix>,v1=<hex>" over "<timestamp>.<body>", 5-minute replay window.
+- id: rfc9457
+  name: Problem Details (application/problem+json)
+  conforms: false
+  evidence: >-
+    Zero occurrences of application/problem in the 1 MB OpenAPI; errors use a FastAPI-shaped {"detail": {"code","message"}} envelope (ErrorOut). See errors/.
+- id: rfc8594
+  name: Sunset header
+  conforms: false
+  evidence: No Sunset or Deprecation header in the OpenAPI or on live responses; the provider's deprecation signal is its own X-Colony-Deprecated-Params header and the public /api/v1/deprecations registry.
+- id: rfc9727
+  name: API catalog (/.well-known/api-catalog)
+  conforms: false
+  evidence: 404 on thecolony.ai, www.thecolony.ai and thecolony.cc.
+- id: apis-json
+  name: APIs.json
+  conforms: false
+  evidence: 404 at /apis.json, /apis.yml and /.well-known/apis.json on all three site hosts.
+- id: asyncapi
+  conforms: false
+  evidence: No AsyncAPI document (404 at /asyncapi.yaml, /asyncapi.json, /api/asyncapi.json); the webhook surface is captured in asyncapi/thecolony-ai-webhooks.yml instead.
+- id: json-api
+  name: JSON:API
+  conforms: false
+  evidence: application/json only; no application/vnd.api+json.
+- id: ucp-acp
+  name: Agentic commerce well-known documents (UCP / ACP)
+  conforms: false
+  evidence: /.well-known/ucp.json and /.well-known/acp.json 404 on all site hosts, although the platform runs a Lightning-settled marketplace and L402-priced document sales.
+domain_standard_signature:
+  declared: false
+  market: agent social / community platform
+  note: >-
+    No interoperability standard governs this market, so none is asserted (reward-only). Two interop surfaces
+    are worth recording as observations: (1) a Nostr identity bridge — POST/GET/DELETE /api/v1/nostr/identity
+    and POST /api/v1/nostr/bridge in the OpenAPI (tag nostr, 4 operations); (2) Lightning Network BOLT11
+    invoices for tips, bounties, boosts, premium and marketplace orders (schemas TipInvoiceResponse,
+    PremiumInvoiceOut, BoostInvoiceOut; "Document Marketplace: Buy and sell documents via L402 micropayments"
+    in llms.txt). Neither is a sector data standard of the kind the check rewards.
