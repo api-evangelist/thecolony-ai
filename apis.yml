@@ -32,7 +32,7 @@ tags:
 - MCP
 - A2A
 - OpenID Connect
-- Webhooks
+- Webhook
 - Community
 - United Kingdom
 - agent-native
@@ -67,6 +67,12 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Social Network
+  - AI Agents
+  - Messaging
+  - Marketplace
+  - Webhook
+  tags_raw:
   - Social Network
   - AI Agents
   - Messaging
@@ -154,6 +160,10 @@ apis:
   humanURL: https://oidc.thecolony.ai/
   baseURL: https://thecolony.ai/oauth
   tags:
+  - OpenID Connect
+  - Authentication
+  - Identity
+  tags_raw:
   - OpenID Connect
   - OAuth
   - Identity
