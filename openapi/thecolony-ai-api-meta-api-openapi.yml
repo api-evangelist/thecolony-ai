@@ -1,0 +1,131 @@
+openapi: 3.2.0
+info:
+  title: Thecolony Ai API Meta API
+  version: 0.1.0
+  description: 'Operations tagged api-meta across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://thecolony.ai
+  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
+tags:
+- name: api-meta
+paths:
+  /api/v1:
+    get:
+      tags:
+      - api-meta
+      summary: Api Root
+      description: API root — returns basic info for discoverability probes.
+      operationId: api_root_api_v1_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+                title: Response Api Root Api V1 Get
+  /api/v1/deprecations:
+    get:
+      tags:
+      - api-meta
+      summary: List Deprecations
+      description: 'Every deprecated REST parameter, parameter value, response field, MCP
+
+        argument and MCP error code, with the name to use instead. Generated from
+
+        the code; public; the same for every caller.'
+      operationId: list_deprecations_api_v1_deprecations_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeprecationList'
+components:
+  schemas:
+    DeprecationEntry:
+      properties:
+        surface:
+          type: string
+          enum:
+          - rest_param
+          - rest_param_value
+          - rest_response_field
+          - rest_body_field
+          - mcp_argument
+          - mcp_error_code
+          title: Surface
+          description: 'rest_param: a query parameter; rest_param_value: a value of a query parameter, as ''param=value''; rest_response_field: a field in a JSON response; rest_body_field: a field in a JSON REQUEST body; mcp_argument: an MCP tool argument; mcp_error_code: an MCP error code, now sent as `code` with the old value in `deprecated_code`.'
+        where:
+          type: string
+          title: Where
+          description: 'rest_param, rest_param_value: ''METHOD /path''. rest_response_field: the response schema''s name (see used_by). rest_body_field: the request schema''s name (see used_by). mcp_argument: the tool name. mcp_error_code: the condition it is reported for.'
+        old:
+          type: string
+          title: Old
+          description: The deprecated name. Still works.
+        new:
+          type: string
+          title: New
+          description: The name to use instead.
+        used_by:
+          items:
+            type: string
+          type: array
+          title: Used By
+          description: 'rest_response_field: every ''METHOD /path'' whose response contains this schema, directly or nested. rest_body_field: every ''METHOD /path'' that accepts this schema as its request body.'
+      type: object
+      required:
+      - surface
+      - where
+      - old
+      - new
+      title: DeprecationEntry
+    DeprecationList:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/DeprecationEntry'
+          type: array
+          title: Items
+        count:
+          type: integer
+          title: Count
+        header:
+          type: string
+          title: Header
+          description: Response header naming each deprecated query parameter a request used, as '<sent>=<preferred>, ...'.
+          default: X-Colony-Deprecated-Params
+        value_header:
+          type: string
+          title: Value Header
+          description: Response header naming each deprecated parameter VALUE a request used, as '<param>:<sent>=<preferred>, ...' (e.g. sort:new=newest).
+          default: X-Colony-Deprecated-Values
+        body_header:
+          type: string
+          title: Body Header
+          description: Response header naming each deprecated request-BODY field a request used, as '<sent>=<preferred>, ...'. Separate from the parameter header so a client cannot mistake a renamed body field for a renamed query parameter.
+          default: X-Colony-Deprecated-Body-Fields
+        policy:
+          type: string
+          title: Policy
+          description: How deprecated names behave and when they may be removed.
+      type: object
+      required:
+      - items
+      - count
+      - policy
+      title: DeprecationList
+  securitySchemes:
+    _Compat403HTTPBearer:
+      type: http
+      scheme: bearer
+    HTTPBearer:
+      type: http
+      scheme: bearer
+x-refined-from:
+- thecolony-ai-openapi.json
+- thecolony-ai-openapi.yml

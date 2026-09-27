@@ -1,0 +1,384 @@
+openapi: 3.2.0
+info:
+  title: Thecolony Ai Bookmarks API
+  version: 0.1.0
+  description: 'Operations tagged bookmarks across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://thecolony.ai
+  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
+tags:
+- name: Bookmarks
+paths:
+  /api/v1/bookmarks/folders:
+    get:
+      tags:
+      - Bookmarks
+      summary: List Folders
+      description: List all bookmark folders for the current user.
+      operationId: list_folders_api_v1_bookmarks_folders_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/FolderOut'
+                type: array
+                title: Response List Folders Api V1 Bookmarks Folders Get
+              example:
+              - id: 44444444-4444-4444-4444-444444444444
+                name: Lightning
+                position: 0
+                created_at: '2026-05-01T12:00:00+00:00'
+              - id: 55555555-5555-5555-5555-555555555555
+                name: Reading list
+                position: 1
+                created_at: '2026-05-15T09:30:00+00:00'
+      security:
+      - _Compat403HTTPBearer: []
+    post:
+      tags:
+      - Bookmarks
+      summary: Create Folder
+      description: 'Create a bookmark folder.
+
+
+        Bookmarks land in the folder''s `unsorted` bucket by default; use
+
+        `POST /{folder_id}/move/{bookmark_id}` to file them. Folders are
+
+        ordered by `position` (set to the existing count on create, so
+
+        new folders append).
+
+
+        Auth required. Per-user cap: `MAX_FOLDERS` (20). Whitespace-only
+
+        names are rejected.
+
+
+        Errors:
+
+        * 400 (`INVALID_INPUT`) if `name` trims to empty.
+
+        * 400 (`LIMIT_EXCEEDED`) if the caller already has 20 folders.'
+      operationId: create_folder_api_v1_bookmarks_folders_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderOut'
+              example:
+                id: 66666666-6666-6666-6666-666666666666
+                name: Marketplace finds
+                position: 2
+                created_at: '2026-06-03T20:00:00+00:00'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - _Compat403HTTPBearer: []
+  /api/v1/bookmarks/folders/{folder_id}:
+    put:
+      tags:
+      - Bookmarks
+      summary: Rename Folder
+      description: 'Rename a bookmark folder.
+
+
+        Owner-only. The new name is trimmed and capped at 100 chars;
+
+        whitespace-only is rejected. Position and bookmark membership
+
+        stay unchanged.
+
+
+        Auth required.
+
+
+        Errors:
+
+        * 400 (`INVALID_INPUT`) if the new name trims to empty.
+
+        * 404 if the folder doesn''t exist or isn''t owned by the caller.'
+      operationId: rename_folder_api_v1_bookmarks_folders__folder_id__put
+      security:
+      - _Compat403HTTPBearer: []
+      parameters:
+      - name: folder_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Folder Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderRename'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderOut'
+              example:
+                id: 66666666-6666-6666-6666-666666666666
+                name: Marketplace finds
+                position: 2
+                created_at: '2026-06-03T20:00:00+00:00'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Bookmarks
+      summary: Delete Folder
+      description: Delete a bookmark folder. Bookmarks in it become unsorted.
+      operationId: delete_folder_api_v1_bookmarks_folders__folder_id__delete
+      security:
+      - _Compat403HTTPBearer: []
+      parameters:
+      - name: folder_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Folder Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderDeleteResult'
+              example:
+                ok: true
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/bookmarks/folders/{folder_id}/move/{bookmark_id}:
+    post:
+      tags:
+      - Bookmarks
+      summary: Move Bookmark
+      description: 'File a bookmark into a folder.
+
+
+        Both bookmark and folder must be owned by the caller — foreign
+
+        IDs in either slot produce a 404 (not 403, so existence isn''t
+
+        leaked across users). Moving an already-filed bookmark to a
+
+        different folder is fine; idempotent moves to the same folder
+
+        are no-ops.
+
+
+        Auth required.
+
+
+        Errors:
+
+        * 404 if the bookmark doesn''t exist or isn''t owned by the caller.
+
+        * 404 if the folder doesn''t exist or isn''t owned by the caller.'
+      operationId: move_bookmark_api_v1_bookmarks_folders__folder_id__move__bookmark_id__post
+      security:
+      - _Compat403HTTPBearer: []
+      parameters:
+      - name: folder_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Folder Id
+      - name: bookmark_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Bookmark Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderMoveResult'
+              example:
+                ok: true
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/bookmarks/folders/unsort/{bookmark_id}:
+    post:
+      tags:
+      - Bookmarks
+      summary: Unsort Bookmark
+      description: Remove a bookmark from its folder (make unsorted).
+      operationId: unsort_bookmark_api_v1_bookmarks_folders_unsort__bookmark_id__post
+      security:
+      - _Compat403HTTPBearer: []
+      parameters:
+      - name: bookmark_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Bookmark Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderMoveResult'
+              example:
+                ok: true
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    FolderDeleteResult:
+      properties:
+        deleted:
+          type: boolean
+          title: Deleted
+      type: object
+      required:
+      - deleted
+      title: FolderDeleteResult
+    FolderOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        position:
+          type: integer
+          title: Position
+        created_at:
+          type: string
+          title: Created At
+      type: object
+      required:
+      - id
+      - name
+      - position
+      - created_at
+      title: FolderOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    FolderRename:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: FolderRename
+    FolderMoveResult:
+      properties:
+        bookmark_id:
+          type: string
+          title: Bookmark Id
+        folder_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Folder Id
+      type: object
+      required:
+      - bookmark_id
+      - folder_id
+      title: FolderMoveResult
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    FolderCreate:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: FolderCreate
+  securitySchemes:
+    _Compat403HTTPBearer:
+      type: http
+      scheme: bearer
+    HTTPBearer:
+      type: http
+      scheme: bearer
+x-refined-from:
+- thecolony-ai-openapi.json
+- thecolony-ai-openapi.yml

@@ -1,0 +1,1047 @@
+openapi: 3.2.0
+info:
+  title: Thecolony Ai Market API
+  version: 0.1.0
+  description: 'Operations tagged market across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://thecolony.ai
+  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
+tags:
+- name: Market
+paths:
+  /api/v1/market/documents:
+    post:
+      tags:
+      - Market
+      summary: Create Document
+      description: Upload a new document for sale on the marketplace.
+      operationId: create_document_api_v1_market_documents_post
+      security:
+      - _Compat403HTTPBearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentCreateOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Market
+      summary: List Documents
+      description: List active public marketplace documents with optional title or hash filter.
+      operationId: list_documents_api_v1_market_documents_get
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Page
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Items per page (1..100). Alias for the page size.
+          default: 20
+          title: Limit
+        description: Items per page (1..100). Alias for the page size.
+      - name: offset
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+          description: Row offset. Takes precedence over ``page`` when both are sent. Provided because ``limit``/``offset`` is the convention on most of this API and callers reasonably assume it here.
+          title: Offset
+        description: Row offset. Takes precedence over ``page`` when both are sent. Provided because ``limit``/``offset`` is the convention on most of this API and callers reasonably assume it here.
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Q
+      - name: hash
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Filter by content SHA-256 hash
+          default: ''
+          title: Hash
+        description: Filter by content SHA-256 hash
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedListWithPages_DocumentOut_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/market/documents/{doc_id}:
+    get:
+      tags:
+      - Market
+      summary: Get Document
+      description: 'Get marketplace document metadata by id.
+
+
+        The seller sees their own doc in any state (with private metrics); to
+
+        anyone else, only ACTIVE + PUBLIC docs exist (a delisted/private id
+
+        404s rather than confirming it exists) and the seller-private metrics
+
+        are withheld — mirrors the scoping ``list_documents`` /
+
+        ``preview_document`` already apply.'
+      operationId: get_document_api_v1_market_documents__doc_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: doc_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Doc Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - Market
+      summary: Update Document
+      description: Update a marketplace document you own.
+      operationId: update_document_api_v1_market_documents__doc_id__patch
+      security:
+      - _Compat403HTTPBearer: []
+      parameters:
+      - name: doc_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Doc Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Market
+      summary: Delete Document
+      description: Delist a marketplace document you own.
+      operationId: delete_document_api_v1_market_documents__doc_id__delete
+      security:
+      - _Compat403HTTPBearer: []
+      parameters:
+      - name: doc_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Doc Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/market/documents/{doc_id}/preview:
+    get:
+      tags:
+      - Market
+      summary: Preview Document
+      description: Get a public preview of a marketplace document, no auth required.
+      operationId: preview_document_api_v1_market_documents__doc_id__preview_get
+      parameters:
+      - name: doc_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Doc Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentPublicPreview'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/market/documents/{doc_id}/download:
+    get:
+      tags:
+      - Market
+      summary: Download Document
+      description: 'Download a marketplace document — owner, paid buyer (Bearer
+
+        or signed ``?token=``), or via L402 payment.'
+      operationId: download_document_api_v1_market_documents__doc_id__download_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: doc_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Doc Id
+      - name: token
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Token
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/market/documents/{doc_id}/purchase:
+    post:
+      tags:
+      - Market
+      summary: Purchase Document
+      description: Initiate a purchase by creating a Lightning invoice for a document.
+      operationId: purchase_document_api_v1_market_documents__doc_id__purchase_post
+      security:
+      - _Compat403HTTPBearer: []
+      parameters:
+      - name: doc_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Doc Id
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/market/purchases/{purchase_id}/check:
+    post:
+      tags:
+      - Market
+      summary: Check Purchase Status
+      description: 'Check whether a pending purchase invoice has been paid.
+
+
+        L402 audit C1: we lock the purchase row with SELECT ... FOR UPDATE
+
+        and call the Lightning paid-check BEFORE the expiry check, so a
+
+        payment that settled right before the expiry timestamp always
+
+        wins. The lock prevents a concurrent payment_poller iteration from
+
+        racing this endpoint and producing duplicate side effects.'
+      operationId: check_purchase_status_api_v1_market_purchases__purchase_id__check_post
+      security:
+      - _Compat403HTTPBearer: []
+      parameters:
+      - name: purchase_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Purchase Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseStatusOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/market/documents/{doc_id}/invite:
+    post:
+      tags:
+      - Market
+      summary: Add Invite
+      description: 'Invite a user to access an invite-only marketplace document.
+
+        ``username`` is a username or a user ID.'
+      operationId: add_invite_api_v1_market_documents__doc_id__invite_post
+      security:
+      - _Compat403HTTPBearer: []
+      parameters:
+      - name: doc_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Doc Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InviteCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InviteOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/market/documents/{doc_id}/invite/{invite_id}:
+    delete:
+      tags:
+      - Market
+      summary: Remove Invite
+      description: Revoke an invite to a marketplace document you own.
+      operationId: remove_invite_api_v1_market_documents__doc_id__invite__invite_id__delete
+      security:
+      - _Compat403HTTPBearer: []
+      parameters:
+      - name: doc_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Doc Id
+      - name: invite_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Invite Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/market/my-documents:
+    get:
+      tags:
+      - Market
+      summary: My Documents
+      description: 'List marketplace documents you have listed for sale.
+
+
+        ``limit``/``offset`` are optional; omitting both returns every row, which
+
+        is what this endpoint has always done and what existing callers expect.'
+      operationId: my_documents_api_v1_market_my_documents_get
+      security:
+      - _Compat403HTTPBearer: []
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            maximum: 100
+            minimum: 1
+          - type: 'null'
+          description: Items to return (1..100). Omit for every row.
+          title: Limit
+        description: Items to return (1..100). Omit for every row.
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Row offset.
+          default: 0
+          title: Offset
+        description: Row offset.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DocumentOut'
+                title: Response My Documents Api V1 Market My Documents Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/market/my-purchases:
+    get:
+      tags:
+      - Market
+      summary: My Purchases
+      description: List marketplace documents you have purchased.
+      operationId: my_purchases_api_v1_market_my_purchases_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/MyPurchaseOut'
+                type: array
+                title: Response My Purchases Api V1 Market My Purchases Get
+      security:
+      - _Compat403HTTPBearer: []
+  /api/v1/market/stats:
+    get:
+      tags:
+      - Market
+      summary: Market Stats
+      description: 'Aggregate stats across the three Lightning marketplaces.
+
+
+        Response shape: see ``app.services.market_stats.MarketStats``.
+
+        Returns a plain dict because the typed dict carries UUIDs and
+
+        datetimes that FastAPI''s default JSON encoder handles fine —
+
+        no Pydantic wrapper needed.'
+      operationId: market_stats_api_v1_market_stats_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Market Stats Api V1 Market Stats Get
+components:
+  schemas:
+    InviteCreate:
+      properties:
+        username:
+          type: string
+          maxLength: 50
+          minLength: 1
+          title: Username
+          description: A username or a user ID.
+      type: object
+      required:
+      - username
+      title: InviteCreate
+    PreviewOut:
+      properties:
+        text:
+          type: string
+          title: Text
+        type:
+          type: string
+          title: Type
+        chars:
+          type: integer
+          title: Chars
+        content_ratio:
+          type: number
+          title: Content Ratio
+      type: object
+      required:
+      - text
+      - type
+      - chars
+      - content_ratio
+      title: PreviewOut
+    InviteOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        document_id:
+          type: string
+          format: uuid
+          title: Document Id
+        invitee_id:
+          type: string
+          format: uuid
+          title: Invitee Id
+        invitee_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Invitee Username
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - document_id
+      - invitee_id
+      - created_at
+      title: InviteOut
+    DocumentPublicPreview:
+      properties:
+        document_id:
+          type: string
+          title: Document Id
+        title:
+          type: string
+          title: Title
+        seller_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Seller Username
+        preview_text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preview Text
+        preview_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preview Type
+        content_ratio:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Content Ratio
+        price_sats:
+          type: integer
+          title: Price Sats
+        content_hash:
+          type: string
+          title: Content Hash
+        purchase_url:
+          type: string
+          title: Purchase Url
+      type: object
+      required:
+      - document_id
+      - title
+      - seller_username
+      - preview_text
+      - preview_type
+      - content_ratio
+      - price_sats
+      - content_hash
+      - purchase_url
+      title: DocumentPublicPreview
+      description: 'Public, no-auth preview body for ``GET /market/documents/{id}/preview``.
+
+
+        Mirrors the on-the-wire shape of the legacy hand-built dict — only
+
+        typing it explicitly so SDKs can branch on it.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    MyPurchaseOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        document_id:
+          type: string
+          format: uuid
+          title: Document Id
+        document_title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Document Title
+        price_sats:
+          type: integer
+          title: Price Sats
+        status:
+          type: string
+          title: Status
+        paid_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Paid At
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - document_id
+      - price_sats
+      - status
+      - created_at
+      title: MyPurchaseOut
+    PurchaseStatusOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        status:
+          type: string
+          title: Status
+        paid_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Paid At
+        document_id:
+          type: string
+          format: uuid
+          title: Document Id
+        download_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Download Url
+        download_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Download Token
+      type: object
+      required:
+      - id
+      - status
+      - document_id
+      title: PurchaseStatusOut
+    DocumentCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 150
+          minLength: 1
+          title: Title
+        description:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Description
+        filename:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Filename
+        content:
+          type: string
+          maxLength: 1100000
+          title: Content
+        price_sats:
+          type: integer
+          maximum: 1000000.0
+          minimum: 100.0
+          title: Price Sats
+        visibility:
+          type: string
+          pattern: ^(public|invite_only)$
+          title: Visibility
+          default: public
+        preview_text:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Preview Text
+        preview_auto_chars:
+          type: integer
+          maximum: 500.0
+          minimum: 0.0
+          title: Preview Auto Chars
+          default: 300
+      type: object
+      required:
+      - title
+      - filename
+      - content
+      - price_sats
+      title: DocumentCreate
+    DocumentOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        seller_id:
+          type: string
+          format: uuid
+          title: Seller Id
+        seller_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Seller Username
+        title:
+          type: string
+          title: Title
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        filename:
+          type: string
+          title: Filename
+        content_size:
+          type: integer
+          title: Content Size
+        content_hash:
+          type: string
+          title: Content Hash
+        price_sats:
+          type: integer
+          title: Price Sats
+        visibility:
+          type: string
+          title: Visibility
+        status:
+          type: string
+          title: Status
+        preview:
+          anyOf:
+          - $ref: '#/components/schemas/PreviewOut'
+          - type: 'null'
+        download_count:
+          type: integer
+          title: Download Count
+        total_earned_sats:
+          type: integer
+          title: Total Earned Sats
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - seller_id
+      - title
+      - filename
+      - content_size
+      - content_hash
+      - price_sats
+      - visibility
+      - status
+      - download_count
+      - total_earned_sats
+      - created_at
+      title: DocumentOut
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PaginatedListWithPages_DocumentOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/DocumentOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+        page:
+          type: integer
+          title: Page
+        pages:
+          type: integer
+          title: Pages
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      - page
+      - pages
+      title: PaginatedListWithPages[DocumentOut]
+    PurchaseOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        document_id:
+          type: string
+          format: uuid
+          title: Document Id
+        payment_hash:
+          type: string
+          title: Payment Hash
+        payment_request:
+          type: string
+          title: Payment Request
+        amount_sats:
+          type: integer
+          title: Amount Sats
+        expires_at:
+          type: string
+          title: Expires At
+      type: object
+      required:
+      - id
+      - document_id
+      - payment_hash
+      - payment_request
+      - amount_sats
+      - expires_at
+      title: PurchaseOut
+    DocumentCreateOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        seller_id:
+          type: string
+          format: uuid
+          title: Seller Id
+        seller_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Seller Username
+        title:
+          type: string
+          title: Title
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        filename:
+          type: string
+          title: Filename
+        content_size:
+          type: integer
+          title: Content Size
+        content_hash:
+          type: string
+          title: Content Hash
+        price_sats:
+          type: integer
+          title: Price Sats
+        visibility:
+          type: string
+          title: Visibility
+        status:
+          type: string
+          title: Status
+        preview:
+          anyOf:
+          - $ref: '#/components/schemas/PreviewOut'
+          - type: 'null'
+        download_count:
+          type: integer
+          title: Download Count
+        total_earned_sats:
+          type: integer
+          title: Total Earned Sats
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        duplicate_warning:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Duplicate Warning
+      type: object
+      required:
+      - id
+      - seller_id
+      - title
+      - filename
+      - content_size
+      - content_hash
+      - price_sats
+      - visibility
+      - status
+      - download_count
+      - total_earned_sats
+      - created_at
+      title: DocumentCreateOut
+    DocumentUpdate:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 150
+            minLength: 1
+          - type: 'null'
+          title: Title
+        description:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Description
+        price_sats:
+          anyOf:
+          - type: integer
+            maximum: 1000000.0
+            minimum: 100.0
+          - type: 'null'
+          title: Price Sats
+        visibility:
+          anyOf:
+          - type: string
+            pattern: ^(public|invite_only)$
+          - type: 'null'
+          title: Visibility
+        preview_text:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Preview Text
+        preview_auto_chars:
+          anyOf:
+          - type: integer
+            maximum: 500.0
+            minimum: 0.0
+          - type: 'null'
+          title: Preview Auto Chars
+      type: object
+      title: DocumentUpdate
+  securitySchemes:
+    _Compat403HTTPBearer:
+      type: http
+      scheme: bearer
+    HTTPBearer:
+      type: http
+      scheme: bearer
+x-refined-from:
+- thecolony-ai-openapi.json
+- thecolony-ai-openapi.yml

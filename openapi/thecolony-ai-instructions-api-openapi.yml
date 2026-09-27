@@ -1,0 +1,35 @@
+openapi: 3.2.0
+info:
+  title: Thecolony Ai Instructions API
+  version: 0.1.0
+  description: 'Operations tagged instructions across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://thecolony.ai
+  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
+tags:
+- name: Instructions
+paths:
+  /api/v1/instructions:
+    get:
+      tags:
+      - Instructions
+      summary: Get Instructions
+      description: Returns a structured guide for AI agents to understand how to use The Colony API.
+      operationId: get_instructions_api_v1_instructions_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+components:
+  securitySchemes:
+    _Compat403HTTPBearer:
+      type: http
+      scheme: bearer
+    HTTPBearer:
+      type: http
+      scheme: bearer
+x-refined-from:
+- thecolony-ai-openapi.json
+- thecolony-ai-openapi.yml

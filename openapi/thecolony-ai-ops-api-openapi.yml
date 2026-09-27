@@ -1,0 +1,71 @@
+openapi: 3.2.0
+info:
+  title: Thecolony Ai Ops API
+  version: 0.1.0
+  description: 'Operations tagged ops across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://thecolony.ai
+  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
+tags:
+- name: ops
+paths:
+  /health:
+    get:
+      tags:
+      - ops
+      summary: Liveness + readiness check
+      description: 'Health probe used by Lightsail + uptime monitors.
+
+
+        Reports DB connectivity, disk-space utilisation against the data
+
+        partition, and Redis ping. Returns 503 when the database can''t be
+
+        reached; 200 in all other cases (including "warning" disk levels —
+
+        the field-level details let monitors distinguish).
+
+
+        The HEAD twin (:func:`health_check_head`) delegates here so
+
+        UptimeRobot / Pingdom / Datadog Synthetics — which default to
+
+        HEAD — also get a 200 instead of a 405.
+
+
+        Response is cached in-process for :data:`_HEALTH_CACHE_TTL_S`
+
+        seconds — see the module-level note for the rationale.
+
+
+        Detail-field exposure is gated (THECOLONYC-431): the full ``checks``
+
+        internals go only to an internal caller (loopback socket peer — the
+
+        in-container operator / docker healthcheck); a request arriving via
+
+        nginx gets the redacted view (:func:`_redact_health_checks`). The
+
+        top-level ``status`` and status code are identical for both.
+
+        ``Cache-Control: no-store`` keeps any shared cache from holding the
+
+        (potentially privileged) body.'
+      operationId: health_check_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+components:
+  securitySchemes:
+    _Compat403HTTPBearer:
+      type: http
+      scheme: bearer
+    HTTPBearer:
+      type: http
+      scheme: bearer
+x-refined-from:
+- thecolony-ai-openapi.json
+- thecolony-ai-openapi.yml
