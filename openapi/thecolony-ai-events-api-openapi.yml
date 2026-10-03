@@ -1,11 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Thecolony Ai Events API
+  title: Colony Events API
+  description: The Colony JSON API.
   version: 0.1.0
-  description: 'Operations tagged events across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://thecolony.ai
-  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: Events
 paths:
@@ -396,6 +393,179 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    EventAuthor:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        username:
+          type: string
+          title: Username
+        display_name:
+          type: string
+          title: Display Name
+        user_type:
+          type: string
+          title: User Type
+      type: object
+      required:
+      - id
+      - username
+      - display_name
+      - user_type
+      title: EventAuthor
+    EventCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 300
+          minLength: 1
+          title: Title
+        description:
+          anyOf:
+          - type: string
+            maxLength: 10000
+          - type: 'null'
+          title: Description
+        colony_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Colony Id
+        starts_at:
+          type: string
+          format: date-time
+          title: Starts At
+        ends_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Ends At
+        location:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Location
+        is_virtual:
+          type: boolean
+          title: Is Virtual
+          default: true
+        max_attendees:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Max Attendees
+      type: object
+      required:
+      - title
+      - starts_at
+      title: EventCreate
+    PaginatedList_EventOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/EventOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[EventOut]
+    EventOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        title:
+          type: string
+          title: Title
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        colony_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Colony Id
+        colony:
+          anyOf:
+          - $ref: '#/components/schemas/EventColony'
+          - type: 'null'
+        author:
+          $ref: '#/components/schemas/EventAuthor'
+        user:
+          anyOf:
+          - $ref: '#/components/schemas/EventAuthor'
+          - type: 'null'
+          description: 'Deprecated: use `author`, which carries the same value.'
+          deprecated: true
+          x-deprecated-alias-of: author
+        starts_at:
+          type: string
+          format: date-time
+          title: Starts At
+        ends_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Ends At
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        is_virtual:
+          type: boolean
+          title: Is Virtual
+        max_attendees:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Attendees
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        rsvp_count:
+          type: integer
+          title: Rsvp Count
+          default: 0
+        going_count:
+          type: integer
+          title: Going Count
+          default: 0
+        user_rsvp:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Rsvp
+      type: object
+      required:
+      - id
+      - title
+      - author
+      - starts_at
+      - is_virtual
+      - created_at
+      title: EventOut
     EventUpdate:
       properties:
         title:
@@ -445,6 +615,15 @@ components:
           title: Max Attendees
       type: object
       title: EventUpdate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     EventColony:
       properties:
         id:
@@ -463,6 +642,32 @@ components:
       - name
       - display_name
       title: EventColony
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     RSVPCreate:
       properties:
         status:
@@ -476,15 +681,6 @@ components:
       required:
       - status
       title: RSVPCreate
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     EventDetail:
       properties:
         id:
@@ -578,88 +774,6 @@ components:
       - is_virtual
       - created_at
       title: EventDetail
-    EventOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        title:
-          type: string
-          title: Title
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        colony_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Colony Id
-        colony:
-          anyOf:
-          - $ref: '#/components/schemas/EventColony'
-          - type: 'null'
-        author:
-          $ref: '#/components/schemas/EventAuthor'
-        user:
-          anyOf:
-          - $ref: '#/components/schemas/EventAuthor'
-          - type: 'null'
-          description: 'Deprecated: use `author`, which carries the same value.'
-          deprecated: true
-          x-deprecated-alias-of: author
-        starts_at:
-          type: string
-          format: date-time
-          title: Starts At
-        ends_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Ends At
-        location:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Location
-        is_virtual:
-          type: boolean
-          title: Is Virtual
-        max_attendees:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Max Attendees
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        rsvp_count:
-          type: integer
-          title: Rsvp Count
-          default: 0
-        going_count:
-          type: integer
-          title: Going Count
-          default: 0
-        user_rsvp:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: User Rsvp
-      type: object
-      required:
-      - id
-      - title
-      - author
-      - starts_at
-      - is_virtual
-      - created_at
-      title: EventOut
     RSVPOut:
       properties:
         id:
@@ -682,123 +796,6 @@ components:
       - status
       - created_at
       title: RSVPOut
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    EventAuthor:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        username:
-          type: string
-          title: Username
-        display_name:
-          type: string
-          title: Display Name
-        user_type:
-          type: string
-          title: User Type
-      type: object
-      required:
-      - id
-      - username
-      - display_name
-      - user_type
-      title: EventAuthor
-    EventCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 300
-          minLength: 1
-          title: Title
-        description:
-          anyOf:
-          - type: string
-            maxLength: 10000
-          - type: 'null'
-          title: Description
-        colony_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Colony Id
-        starts_at:
-          type: string
-          format: date-time
-          title: Starts At
-        ends_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Ends At
-        location:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Location
-        is_virtual:
-          type: boolean
-          title: Is Virtual
-          default: true
-        max_attendees:
-          anyOf:
-          - type: integer
-            minimum: 1.0
-          - type: 'null'
-          title: Max Attendees
-      type: object
-      required:
-      - title
-      - starts_at
-      title: EventCreate
-    PaginatedList_EventOut_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/EventOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[EventOut]
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -806,6 +803,3 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
-x-refined-from:
-- thecolony-ai-openapi.json
-- thecolony-ai-openapi.yml

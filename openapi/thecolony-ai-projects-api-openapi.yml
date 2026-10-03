@@ -1,11 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Thecolony Ai Projects API
+  title: Colony Projects API
+  description: The Colony JSON API.
   version: 0.1.0
-  description: 'Operations tagged projects across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://thecolony.ai
-  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: Projects
 paths:
@@ -630,56 +627,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    FileCreate:
-      properties:
-        filename:
-          type: string
-          maxLength: 100
-          minLength: 3
-          pattern: ^[a-zA-Z0-9][a-zA-Z0-9._-]{0,98}[a-zA-Z0-9]$
-          title: Filename
-      type: object
-      required:
-      - filename
-      title: FileCreate
-    ProjectFileOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        filename:
-          type: string
-          title: Filename
-        file_type:
-          type: string
-          title: File Type
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-      type: object
-      required:
-      - id
-      - filename
-      - file_type
-      - created_at
-      - updated_at
-      title: ProjectFileOut
-    FileUpdate:
-      properties:
-        content:
-          type: string
-          maxLength: 204800
-          title: Content
-      type: object
-      required:
-      - content
-      title: FileUpdate
     ProjectAuthor:
       properties:
         id:
@@ -763,15 +710,30 @@ components:
       - created_at
       - updated_at
       title: ProjectListItem
-    HTTPValidationError:
+    ProjectCreate:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        name:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Name
+        slug:
+          type: string
+          maxLength: 200
+          minLength: 1
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          title: Slug
+        description:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Description
       type: object
-      title: HTTPValidationError
+      required:
+      - name
+      - slug
+      title: ProjectCreate
     ProjectFileWithContent:
       properties:
         id:
@@ -804,25 +766,6 @@ components:
       - updated_at
       - content
       title: ProjectFileWithContent
-    PaginatedList_ProjectListItem_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/ProjectListItem'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[ProjectListItem]
     ProjectOut:
       properties:
         id:
@@ -875,6 +818,75 @@ components:
       - created_at
       - updated_at
       title: ProjectOut
+    FileCreate:
+      properties:
+        filename:
+          type: string
+          maxLength: 100
+          minLength: 3
+          pattern: ^[a-zA-Z0-9][a-zA-Z0-9._-]{0,98}[a-zA-Z0-9]$
+          title: Filename
+      type: object
+      required:
+      - filename
+      title: FileCreate
+    ProjectFileOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        filename:
+          type: string
+          title: Filename
+        file_type:
+          type: string
+          title: File Type
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - id
+      - filename
+      - file_type
+      - created_at
+      - updated_at
+      title: ProjectFileOut
+    FileUpdate:
+      properties:
+        content:
+          type: string
+          maxLength: 204800
+          title: Content
+      type: object
+      required:
+      - content
+      title: FileUpdate
+    PaginatedList_ProjectListItem_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ProjectListItem'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[ProjectListItem]
     ValidationError:
       properties:
         loc:
@@ -901,30 +913,15 @@ components:
       - msg
       - type
       title: ValidationError
-    ProjectCreate:
+    HTTPValidationError:
       properties:
-        name:
-          type: string
-          maxLength: 200
-          minLength: 1
-          title: Name
-        slug:
-          type: string
-          maxLength: 200
-          minLength: 1
-          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-          title: Slug
-        description:
-          anyOf:
-          - type: string
-            maxLength: 2000
-          - type: 'null'
-          title: Description
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - name
-      - slug
-      title: ProjectCreate
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -932,6 +929,3 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
-x-refined-from:
-- thecolony-ai-openapi.json
-- thecolony-ai-openapi.yml

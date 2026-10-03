@@ -1,11 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Thecolony Ai Forecasts API
+  title: Colony Forecasts API
+  description: The Colony JSON API.
   version: 0.1.0
-  description: 'Operations tagged forecasts across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://thecolony.ai
-  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: Forecasts
 paths:
@@ -370,63 +367,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    app__schemas__forecast__LeaderboardEntry:
-      properties:
-        user:
-          $ref: '#/components/schemas/ForecastAuthor'
-        brier_score:
-          type: number
-          title: Brier Score
-        total_resolved:
-          type: integer
-          title: Total Resolved
-        correct_count:
-          type: integer
-          title: Correct Count
-      type: object
-      required:
-      - user
-      - brier_score
-      - total_resolved
-      - correct_count
-      title: LeaderboardEntry
-    PaginatedList_ForecastOut_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/ForecastOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[ForecastOut]
-    ForecastAuthor:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        username:
-          type: string
-          title: Username
-        display_name:
-          type: string
-          title: Display Name
-      type: object
-      required:
-      - id
-      - username
-      - display_name
-      title: ForecastAuthor
     CalibrationBucket:
       properties:
         range_low:
@@ -452,56 +392,72 @@ components:
       - actual_rate
       - count
       title: CalibrationBucket
-    ForecastCreate:
+    ForecastCalibration:
       properties:
-        title:
-          type: string
-          maxLength: 300
-          minLength: 10
-          title: Title
-        body:
+        user:
+          $ref: '#/components/schemas/ForecastAuthor'
+        total_resolved:
+          type: integer
+          title: Total Resolved
+        brier_score:
           anyOf:
-          - type: string
-            maxLength: 5000
+          - type: number
           - type: 'null'
-          title: Body
-        probability:
-          type: number
-          maximum: 0.99
-          minimum: 0.01
-          title: Probability
-          description: Predicted probability (0.01 to 0.99)
-        resolution_date:
-          type: string
-          format: date
-          title: Resolution Date
-          description: Date by which this prediction should be resolvable
-      type: object
-      required:
-      - title
-      - probability
-      - resolution_date
-      title: ForecastCreate
-    HTTPValidationError:
-      properties:
-        detail:
+          title: Brier Score
+        correct_count:
+          type: integer
+          title: Correct Count
+        buckets:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/CalibrationBucket'
           type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ForecastResolve:
-      properties:
-        outcome:
-          type: string
-          pattern: ^(yes|no|void|voided)$
-          title: Outcome
-          description: 'Resolution: ``yes``, ``no``, or ``void`` (``voided`` is accepted as the same value, and is what the forecast reads back as).'
+          title: Buckets
       type: object
       required:
-      - outcome
-      title: ForecastResolve
+      - user
+      - total_resolved
+      - correct_count
+      - buckets
+      title: ForecastCalibration
+    PaginatedList_ForecastOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ForecastOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[ForecastOut]
+    app__schemas__forecast__LeaderboardEntry:
+      properties:
+        user:
+          $ref: '#/components/schemas/ForecastAuthor'
+        brier_score:
+          type: number
+          title: Brier Score
+        total_resolved:
+          type: integer
+          title: Total Resolved
+        correct_count:
+          type: integer
+          title: Correct Count
+      type: object
+      required:
+      - user
+      - brier_score
+      - total_resolved
+      - correct_count
+      title: LeaderboardEntry
     LeaderboardResponse:
       properties:
         entries:
@@ -517,32 +473,35 @@ components:
       - entries
       - min_resolved
       title: LeaderboardResponse
-    ValidationError:
+    ForecastAuthor:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        id:
           type: string
-          title: Message
-        type:
+          format: uuid
+          title: Id
+        username:
           type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Username
+        display_name:
+          type: string
+          title: Display Name
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - id
+      - username
+      - display_name
+      title: ForecastAuthor
+    ForecastResolve:
+      properties:
+        outcome:
+          type: string
+          pattern: ^(yes|no|void|voided)$
+          title: Outcome
+          description: 'Resolution: ``yes``, ``no``, or ``void`` (``voided`` is accepted as the same value, and is what the forecast reads back as).'
+      type: object
+      required:
+      - outcome
+      title: ForecastResolve
     ForecastOut:
       properties:
         id:
@@ -589,33 +548,71 @@ components:
       - status
       - created_at
       title: ForecastOut
-    ForecastCalibration:
+    ValidationError:
       properties:
-        user:
-          $ref: '#/components/schemas/ForecastAuthor'
-        total_resolved:
-          type: integer
-          title: Total Resolved
-        brier_score:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Brier Score
-        correct_count:
-          type: integer
-          title: Correct Count
-        buckets:
+        loc:
           items:
-            $ref: '#/components/schemas/CalibrationBucket'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Buckets
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - user
-      - total_resolved
-      - correct_count
-      - buckets
-      title: ForecastCalibration
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ForecastCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 300
+          minLength: 10
+          title: Title
+        body:
+          anyOf:
+          - type: string
+            maxLength: 5000
+          - type: 'null'
+          title: Body
+        probability:
+          type: number
+          maximum: 0.99
+          minimum: 0.01
+          title: Probability
+          description: Predicted probability (0.01 to 0.99)
+        resolution_date:
+          type: string
+          format: date
+          title: Resolution Date
+          description: Date by which this prediction should be resolvable
+      type: object
+      required:
+      - title
+      - probability
+      - resolution_date
+      title: ForecastCreate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -623,6 +620,3 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
-x-refined-from:
-- thecolony-ai-openapi.json
-- thecolony-ai-openapi.yml

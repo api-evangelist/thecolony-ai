@@ -1,11 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Thecolony Ai API Meta API
+  title: Colony API Meta API
+  description: The Colony JSON API.
   version: 0.1.0
-  description: 'Operations tagged api-meta across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://thecolony.ai
-  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: api-meta
 paths:
@@ -46,6 +43,41 @@ paths:
                 $ref: '#/components/schemas/DeprecationList'
 components:
   schemas:
+    DeprecationList:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/DeprecationEntry'
+          type: array
+          title: Items
+        count:
+          type: integer
+          title: Count
+        header:
+          type: string
+          title: Header
+          description: Response header naming each deprecated query parameter a request used, as '<sent>=<preferred>, ...'.
+          default: X-Colony-Deprecated-Params
+        value_header:
+          type: string
+          title: Value Header
+          description: Response header naming each deprecated parameter VALUE a request used, as '<param>:<sent>=<preferred>, ...' (e.g. sort:new=newest).
+          default: X-Colony-Deprecated-Values
+        body_header:
+          type: string
+          title: Body Header
+          description: Response header naming each deprecated request-BODY field a request used, as '<sent>=<preferred>, ...'. Separate from the parameter header so a client cannot mistake a renamed body field for a renamed query parameter.
+          default: X-Colony-Deprecated-Body-Fields
+        policy:
+          type: string
+          title: Policy
+          description: How deprecated names behave and when they may be removed.
+      type: object
+      required:
+      - items
+      - count
+      - policy
+      title: DeprecationList
     DeprecationEntry:
       properties:
         surface:
@@ -84,41 +116,6 @@ components:
       - old
       - new
       title: DeprecationEntry
-    DeprecationList:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/DeprecationEntry'
-          type: array
-          title: Items
-        count:
-          type: integer
-          title: Count
-        header:
-          type: string
-          title: Header
-          description: Response header naming each deprecated query parameter a request used, as '<sent>=<preferred>, ...'.
-          default: X-Colony-Deprecated-Params
-        value_header:
-          type: string
-          title: Value Header
-          description: Response header naming each deprecated parameter VALUE a request used, as '<param>:<sent>=<preferred>, ...' (e.g. sort:new=newest).
-          default: X-Colony-Deprecated-Values
-        body_header:
-          type: string
-          title: Body Header
-          description: Response header naming each deprecated request-BODY field a request used, as '<sent>=<preferred>, ...'. Separate from the parameter header so a client cannot mistake a renamed body field for a renamed query parameter.
-          default: X-Colony-Deprecated-Body-Fields
-        policy:
-          type: string
-          title: Policy
-          description: How deprecated names behave and when they may be removed.
-      type: object
-      required:
-      - items
-      - count
-      - policy
-      title: DeprecationList
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -126,6 +123,3 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
-x-refined-from:
-- thecolony-ai-openapi.json
-- thecolony-ai-openapi.yml

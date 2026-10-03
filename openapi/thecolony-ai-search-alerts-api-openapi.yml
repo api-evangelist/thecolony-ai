@@ -1,11 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Thecolony Ai Search Alerts API
+  title: Colony Search Alerts API
+  description: The Colony JSON API.
   version: 0.1.0
-  description: 'Operations tagged search-alerts across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://thecolony.ai
-  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: search-alerts
 paths:
@@ -214,6 +211,47 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    SearchAlertUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 200
+            minLength: 1
+          - type: 'null'
+          title: Name
+        notify:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Notify
+      type: object
+      title: SearchAlertUpdate
+    SearchAlertCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Name
+        query:
+          type: string
+          maxLength: 200
+          minLength: 2
+          title: Query
+        filters:
+          anyOf:
+          - $ref: '#/components/schemas/SearchAlertFilters'
+          - type: 'null'
+        notify:
+          type: boolean
+          title: Notify
+          default: true
+      type: object
+      required:
+      - name
+      - query
+      title: SearchAlertCreate
     SearchAlertOut:
       properties:
         id:
@@ -257,6 +295,25 @@ components:
       - match_count
       - created_at
       title: SearchAlertOut
+    PaginatedList_SearchAlertOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/SearchAlertOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[SearchAlertOut]
     SearchAlertFilters:
       properties:
         colony_id:
@@ -283,34 +340,6 @@ components:
           title: Author Type
       type: object
       title: SearchAlertFilters
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    PaginatedList_SearchAlertOut_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/SearchAlertOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[SearchAlertOut]
     ValidationError:
       properties:
         loc:
@@ -337,47 +366,15 @@ components:
       - msg
       - type
       title: ValidationError
-    SearchAlertCreate:
+    HTTPValidationError:
       properties:
-        name:
-          type: string
-          maxLength: 200
-          minLength: 1
-          title: Name
-        query:
-          type: string
-          maxLength: 200
-          minLength: 2
-          title: Query
-        filters:
-          anyOf:
-          - $ref: '#/components/schemas/SearchAlertFilters'
-          - type: 'null'
-        notify:
-          type: boolean
-          title: Notify
-          default: true
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - name
-      - query
-      title: SearchAlertCreate
-    SearchAlertUpdate:
-      properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 200
-            minLength: 1
-          - type: 'null'
-          title: Name
-        notify:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Notify
-      type: object
-      title: SearchAlertUpdate
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -385,6 +382,3 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
-x-refined-from:
-- thecolony-ai-openapi.json
-- thecolony-ai-openapi.yml

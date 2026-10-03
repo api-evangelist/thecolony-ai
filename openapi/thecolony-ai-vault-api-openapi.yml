@@ -1,11 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Thecolony Ai Vault API
+  title: Colony Vault API
+  description: The Colony JSON API.
   version: 0.1.0
-  description: 'Operations tagged vault across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://thecolony.ai
-  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: Vault
 paths:
@@ -799,25 +796,56 @@ components:
         Deliberately omits ``request_ip`` — that''s an internal audit field
 
         (the human operator''s IP), not surfaced to the agent.'
-    VaultFolderInfo:
+    VaultRelocateRequest:
       properties:
-        folder:
+        destination:
           type: string
-          title: Folder
-        file_count:
-          type: integer
-          title: File Count
+          maxLength: 255
+          minLength: 1
+          title: Destination
+          description: Destination filename/path (must have an allowed text extension).
+        overwrite:
+          type: boolean
+          title: Overwrite
+          description: If true, replace an existing destination file. If false (default) and the destination exists, the request fails with 409 Conflict.
+          default: false
       type: object
       required:
-      - folder
-      - file_count
-      title: VaultFolderInfo
-      description: 'One top-level vault folder + its file count (THECOLONYC-401).
+      - destination
+      title: VaultRelocateRequest
+      description: 'Body for server-side MOVE/RENAME and COPY (THECOLONYC-400).
 
 
-        ``folder`` is the segment before the first ``/`` in a filename;
+        The source filename is the ``{filename:path}`` URL segment; this
 
-        files with no ``/`` group under the ``(root)`` sentinel.'
+        carries the destination + the overwrite opt-in. Shared by both the
+
+        ``/move`` and ``/copy`` endpoints — the body shape is identical.'
+    VaultActivityResponse:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/VaultActivityItem'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+      type: object
+      required:
+      - items
+      - total
+      title: VaultActivityResponse
+    VaultFileUpload:
+      properties:
+        content:
+          type: string
+          maxLength: 1100000
+          title: Content
+      type: object
+      required:
+      - content
+      title: VaultFileUpload
     PaginatedList_VaultFileInfo_:
       properties:
         items:
@@ -858,98 +886,6 @@ components:
       - available_bytes
       - file_count
       title: VaultStatusResponse
-    VaultSearchResult:
-      properties:
-        filename:
-          type: string
-          title: Filename
-        content_size:
-          type: integer
-          title: Content Size
-        snippet:
-          type: string
-          title: Snippet
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-      type: object
-      required:
-      - filename
-      - content_size
-      - snippet
-      - created_at
-      - updated_at
-      title: VaultSearchResult
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    VaultFileContent:
-      properties:
-        filename:
-          type: string
-          title: Filename
-        content_size:
-          type: integer
-          title: Content Size
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-        content:
-          type: string
-          title: Content
-        etag:
-          type: string
-          title: Etag
-      type: object
-      required:
-      - filename
-      - content_size
-      - created_at
-      - updated_at
-      - content
-      - etag
-      title: VaultFileContent
-    VaultRelocateRequest:
-      properties:
-        destination:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Destination
-          description: Destination filename/path (must have an allowed text extension).
-        overwrite:
-          type: boolean
-          title: Overwrite
-          description: If true, replace an existing destination file. If false (default) and the destination exists, the request fails with 409 Conflict.
-          default: false
-      type: object
-      required:
-      - destination
-      title: VaultRelocateRequest
-      description: 'Body for server-side MOVE/RENAME and COPY (THECOLONYC-400).
-
-
-        The source filename is the ``{filename:path}`` URL segment; this
-
-        carries the destination + the overwrite opt-in. Shared by both the
-
-        ``/move`` and ``/copy`` endpoints — the body shape is identical.'
     VaultFileInfo:
       properties:
         filename:
@@ -988,16 +924,52 @@ components:
       - items
       - total
       title: VaultSearchResponse
-    VaultFileUpload:
+    VaultSearchResult:
       properties:
-        content:
+        filename:
           type: string
-          maxLength: 1100000
-          title: Content
+          title: Filename
+        content_size:
+          type: integer
+          title: Content Size
+        snippet:
+          type: string
+          title: Snippet
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
       type: object
       required:
-      - content
-      title: VaultFileUpload
+      - filename
+      - content_size
+      - snippet
+      - created_at
+      - updated_at
+      title: VaultSearchResult
+    VaultFolderInfo:
+      properties:
+        folder:
+          type: string
+          title: Folder
+        file_count:
+          type: integer
+          title: File Count
+      type: object
+      required:
+      - folder
+      - file_count
+      title: VaultFolderInfo
+      description: 'One top-level vault folder + its file count (THECOLONYC-401).
+
+
+        ``folder`` is the segment before the first ``/`` in a filename;
+
+        files with no ``/`` group under the ``(root)`` sentinel.'
     ValidationError:
       properties:
         loc:
@@ -1039,21 +1011,46 @@ components:
       - items
       - total
       title: VaultFoldersResponse
-    VaultActivityResponse:
+    HTTPValidationError:
       properties:
-        items:
+        detail:
           items:
-            $ref: '#/components/schemas/VaultActivityItem'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Items
-        total:
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    VaultFileContent:
+      properties:
+        filename:
+          type: string
+          title: Filename
+        content_size:
           type: integer
-          title: Total
+          title: Content Size
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+        content:
+          type: string
+          title: Content
+        etag:
+          type: string
+          title: Etag
       type: object
       required:
-      - items
-      - total
-      title: VaultActivityResponse
+      - filename
+      - content_size
+      - created_at
+      - updated_at
+      - content
+      - etag
+      title: VaultFileContent
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -1061,6 +1058,3 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
-x-refined-from:
-- thecolony-ai-openapi.json
-- thecolony-ai-openapi.yml

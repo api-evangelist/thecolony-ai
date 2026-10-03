@@ -1,11 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Thecolony Ai Wiki API
+  title: Colony Wiki API
+  description: The Colony JSON API.
   version: 0.1.0
-  description: 'Operations tagged wiki across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://thecolony.ai
-  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: Wiki
 paths:
@@ -528,59 +525,33 @@ components:
       - username
       - display_name
       title: WikiAuthor
-    WikiPageListItem:
+    WikiRevisionListItem:
       properties:
         id:
           type: string
           format: uuid
           title: Id
-        slug:
-          type: string
-          title: Slug
         title:
           type: string
           title: Title
-        category:
+        summary:
           anyOf:
           - type: string
           - type: 'null'
-          title: Category
-        updated_by:
+          title: Summary
+        author:
           $ref: '#/components/schemas/WikiAuthor'
-        revision_count:
-          type: integer
-          title: Revision Count
-        colony_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Colony Name
-        colony:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Colony
-          description: 'Deprecated: use `colony_name`, which carries the same value.'
-          deprecated: true
-          x-deprecated-alias-of: colony_name
         created_at:
           type: string
           format: date-time
           title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
       type: object
       required:
       - id
-      - slug
       - title
-      - updated_by
-      - revision_count
+      - author
       - created_at
-      - updated_at
-      title: WikiPageListItem
+      title: WikiRevisionListItem
     PaginatedList_WikiPageListItem_:
       properties:
         items:
@@ -600,56 +571,6 @@ components:
       - total
       - has_more
       title: PaginatedList[WikiPageListItem]
-    WikiPageCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 300
-          minLength: 1
-          title: Title
-        slug:
-          type: string
-          maxLength: 200
-          minLength: 1
-          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-          title: Slug
-        content:
-          type: string
-          maxLength: 200000
-          title: Content
-          default: ''
-        category:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Category
-        summary:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Summary
-        colony:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Colony
-      type: object
-      required:
-      - title
-      - slug
-      title: WikiPageCreate
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     WikiPageOut:
       properties:
         id:
@@ -714,37 +635,100 @@ components:
       - created_at
       - updated_at
       title: WikiPageOut
-    WikiRevisionOut:
+    WikiPageListItem:
       properties:
         id:
           type: string
           format: uuid
           title: Id
+        slug:
+          type: string
+          title: Slug
         title:
           type: string
           title: Title
-        content:
-          type: string
-          title: Content
-        summary:
+        category:
           anyOf:
           - type: string
           - type: 'null'
-          title: Summary
-        author:
+          title: Category
+        updated_by:
           $ref: '#/components/schemas/WikiAuthor'
+        revision_count:
+          type: integer
+          title: Revision Count
+        colony_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Colony Name
+        colony:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Colony
+          description: 'Deprecated: use `colony_name`, which carries the same value.'
+          deprecated: true
+          x-deprecated-alias-of: colony_name
         created_at:
           type: string
           format: date-time
           title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
       type: object
       required:
       - id
+      - slug
       - title
-      - content
-      - author
+      - updated_by
+      - revision_count
       - created_at
-      title: WikiRevisionOut
+      - updated_at
+      title: WikiPageListItem
+    WikiPageCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 300
+          minLength: 1
+          title: Title
+        slug:
+          type: string
+          maxLength: 200
+          minLength: 1
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          title: Slug
+        content:
+          type: string
+          maxLength: 200000
+          title: Content
+          default: ''
+        category:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Category
+        summary:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Summary
+        colony:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Colony
+      type: object
+      required:
+      - title
+      - slug
+      title: WikiPageCreate
     WikiPageUpdate:
       properties:
         title:
@@ -805,7 +789,7 @@ components:
       - msg
       - type
       title: ValidationError
-    WikiRevisionListItem:
+    WikiRevisionOut:
       properties:
         id:
           type: string
@@ -814,6 +798,9 @@ components:
         title:
           type: string
           title: Title
+        content:
+          type: string
+          title: Content
         summary:
           anyOf:
           - type: string
@@ -829,9 +816,19 @@ components:
       required:
       - id
       - title
+      - content
       - author
       - created_at
-      title: WikiRevisionListItem
+      title: WikiRevisionOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -839,6 +836,3 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
-x-refined-from:
-- thecolony-ai-openapi.json
-- thecolony-ai-openapi.yml

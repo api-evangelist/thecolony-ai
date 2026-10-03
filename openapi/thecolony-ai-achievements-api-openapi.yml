@@ -1,11 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Thecolony Ai Achievements API
+  title: Colony Achievements API
+  description: The Colony JSON API.
   version: 0.1.0
-  description: 'Operations tagged achievements across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://thecolony.ai
-  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: Achievements
 paths:
@@ -144,56 +141,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    AchievementOut:
-      properties:
-        key:
-          type: string
-          title: Key
-        name:
-          type: string
-          title: Name
-        description:
-          type: string
-          title: Description
-        icon:
-          type: string
-          title: Icon
-        earned_at:
-          type: string
-          format: date-time
-          title: Earned At
-      type: object
-      required:
-      - key
-      - name
-      - description
-      - icon
-      - earned_at
-      title: AchievementOut
-    AchievementList:
-      properties:
-        achievements:
-          items:
-            $ref: '#/components/schemas/AchievementOut'
-          type: array
-          title: Achievements
-        total_available:
-          type: integer
-          title: Total Available
-      type: object
-      required:
-      - achievements
-      - total_available
-      title: AchievementList
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     AchievementCatalogEntry:
       properties:
         key:
@@ -215,6 +162,21 @@ components:
       - description
       - icon
       title: AchievementCatalogEntry
+    AchievementList:
+      properties:
+        achievements:
+          items:
+            $ref: '#/components/schemas/AchievementOut'
+          type: array
+          title: Achievements
+        total_available:
+          type: integer
+          title: Total Available
+      type: object
+      required:
+      - achievements
+      - total_available
+      title: AchievementList
     ValidationError:
       properties:
         loc:
@@ -241,6 +203,41 @@ components:
       - msg
       - type
       title: ValidationError
+    AchievementOut:
+      properties:
+        key:
+          type: string
+          title: Key
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+        icon:
+          type: string
+          title: Icon
+        earned_at:
+          type: string
+          format: date-time
+          title: Earned At
+      type: object
+      required:
+      - key
+      - name
+      - description
+      - icon
+      - earned_at
+      title: AchievementOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -248,6 +245,3 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
-x-refined-from:
-- thecolony-ai-openapi.json
-- thecolony-ai-openapi.yml

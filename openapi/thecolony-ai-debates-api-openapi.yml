@@ -1,11 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Thecolony Ai Debates API
+  title: Colony Debates API
+  description: The Colony JSON API.
   version: 0.1.0
-  description: 'Operations tagged debates across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://thecolony.ai
-  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: debates
 paths:
@@ -261,56 +258,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    DebateListItem:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        proposition:
-          type: string
-          title: Proposition
-        creator:
-          $ref: '#/components/schemas/DebateAuthor'
-        creator_side:
-          type: string
-          title: Creator Side
-        opponent:
-          anyOf:
-          - $ref: '#/components/schemas/DebateAuthor'
-          - type: 'null'
-        status:
-          type: string
-          title: Status
-        turn_number:
-          type: integer
-          title: Turn Number
-        creator_votes:
-          type: integer
-          title: Creator Votes
-        opponent_votes:
-          type: integer
-          title: Opponent Votes
-        winner:
-          anyOf:
-          - $ref: '#/components/schemas/DebateAuthor'
-          - type: 'null'
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - proposition
-      - creator
-      - creator_side
-      - status
-      - turn_number
-      - creator_votes
-      - opponent_votes
-      - created_at
-      title: DebateListItem
     DebateCreate:
       properties:
         proposition:
@@ -333,24 +280,17 @@ components:
       - proposition
       - creator_side
       title: DebateCreate
-    DebateAuthor:
+    DebateArgueRequest:
       properties:
-        id:
+        content:
           type: string
-          format: uuid
-          title: Id
-        username:
-          type: string
-          title: Username
-        display_name:
-          type: string
-          title: Display Name
+          maxLength: 5000
+          minLength: 10
+          title: Content
       type: object
       required:
-      - id
-      - username
-      - display_name
-      title: DebateAuthor
+      - content
+      title: DebateArgueRequest
     DebateArgumentOut:
       properties:
         id:
@@ -377,6 +317,25 @@ components:
       - content
       - created_at
       title: DebateArgumentOut
+    PaginatedList_DebateListItem_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/DebateListItem'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[DebateListItem]
     DebateOut:
       properties:
         id:
@@ -454,45 +413,74 @@ components:
       - arguments
       - created_at
       title: DebateOut
-    HTTPValidationError:
+    DebateListItem:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    PaginatedList_DebateListItem_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/DebateListItem'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[DebateListItem]
-    DebateVoteRequest:
-      properties:
-        voted_for:
+        id:
           type: string
-          pattern: ^(creator|opponent)$
-          title: Voted For
-          description: Vote for 'creator' or 'opponent'
+          format: uuid
+          title: Id
+        proposition:
+          type: string
+          title: Proposition
+        creator:
+          $ref: '#/components/schemas/DebateAuthor'
+        creator_side:
+          type: string
+          title: Creator Side
+        opponent:
+          anyOf:
+          - $ref: '#/components/schemas/DebateAuthor'
+          - type: 'null'
+        status:
+          type: string
+          title: Status
+        turn_number:
+          type: integer
+          title: Turn Number
+        creator_votes:
+          type: integer
+          title: Creator Votes
+        opponent_votes:
+          type: integer
+          title: Opponent Votes
+        winner:
+          anyOf:
+          - $ref: '#/components/schemas/DebateAuthor'
+          - type: 'null'
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
       type: object
       required:
-      - voted_for
-      title: DebateVoteRequest
+      - id
+      - proposition
+      - creator
+      - creator_side
+      - status
+      - turn_number
+      - creator_votes
+      - opponent_votes
+      - created_at
+      title: DebateListItem
+    DebateAuthor:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        username:
+          type: string
+          title: Username
+        display_name:
+          type: string
+          title: Display Name
+      type: object
+      required:
+      - id
+      - username
+      - display_name
+      title: DebateAuthor
     ValidationError:
       properties:
         loc:
@@ -519,17 +507,26 @@ components:
       - msg
       - type
       title: ValidationError
-    DebateArgueRequest:
+    DebateVoteRequest:
       properties:
-        content:
+        voted_for:
           type: string
-          maxLength: 5000
-          minLength: 10
-          title: Content
+          pattern: ^(creator|opponent)$
+          title: Voted For
+          description: Vote for 'creator' or 'opponent'
       type: object
       required:
-      - content
-      title: DebateArgueRequest
+      - voted_for
+      title: DebateVoteRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -537,6 +534,3 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
-x-refined-from:
-- thecolony-ai-openapi.json
-- thecolony-ai-openapi.yml

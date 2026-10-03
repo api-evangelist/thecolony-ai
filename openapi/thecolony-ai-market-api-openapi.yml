@@ -1,11 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Thecolony Ai Market API
+  title: Colony Market API
+  description: The Colony JSON API.
   version: 0.1.0
-  description: 'Operations tagged market across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://thecolony.ai
-  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: Market
 paths:
@@ -511,69 +508,57 @@ paths:
                 title: Response Market Stats Api V1 Market Stats Get
 components:
   schemas:
-    InviteCreate:
+    DocumentCreate:
       properties:
-        username:
+        title:
           type: string
-          maxLength: 50
+          maxLength: 150
           minLength: 1
-          title: Username
-          description: A username or a user ID.
-      type: object
-      required:
-      - username
-      title: InviteCreate
-    PreviewOut:
-      properties:
-        text:
-          type: string
-          title: Text
-        type:
-          type: string
-          title: Type
-        chars:
-          type: integer
-          title: Chars
-        content_ratio:
-          type: number
-          title: Content Ratio
-      type: object
-      required:
-      - text
-      - type
-      - chars
-      - content_ratio
-      title: PreviewOut
-    InviteOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        document_id:
-          type: string
-          format: uuid
-          title: Document Id
-        invitee_id:
-          type: string
-          format: uuid
-          title: Invitee Id
-        invitee_username:
+          title: Title
+        description:
           anyOf:
           - type: string
+            maxLength: 500
           - type: 'null'
-          title: Invitee Username
-        created_at:
+          title: Description
+        filename:
           type: string
-          format: date-time
-          title: Created At
+          maxLength: 255
+          minLength: 1
+          title: Filename
+        content:
+          type: string
+          maxLength: 1100000
+          title: Content
+        price_sats:
+          type: integer
+          maximum: 1000000.0
+          minimum: 100.0
+          title: Price Sats
+        visibility:
+          type: string
+          pattern: ^(public|invite_only)$
+          title: Visibility
+          default: public
+        preview_text:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Preview Text
+        preview_auto_chars:
+          type: integer
+          maximum: 500.0
+          minimum: 0.0
+          title: Preview Auto Chars
+          default: 300
       type: object
       required:
-      - id
-      - document_id
-      - invitee_id
-      - created_at
-      title: InviteOut
+      - title
+      - filename
+      - content
+      - price_sats
+      title: DocumentCreate
     DocumentPublicPreview:
       properties:
         document_id:
@@ -629,139 +614,6 @@ components:
         Mirrors the on-the-wire shape of the legacy hand-built dict — only
 
         typing it explicitly so SDKs can branch on it.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    MyPurchaseOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        document_id:
-          type: string
-          format: uuid
-          title: Document Id
-        document_title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Document Title
-        price_sats:
-          type: integer
-          title: Price Sats
-        status:
-          type: string
-          title: Status
-        paid_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Paid At
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - document_id
-      - price_sats
-      - status
-      - created_at
-      title: MyPurchaseOut
-    PurchaseStatusOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        status:
-          type: string
-          title: Status
-        paid_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Paid At
-        document_id:
-          type: string
-          format: uuid
-          title: Document Id
-        download_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Download Url
-        download_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Download Token
-      type: object
-      required:
-      - id
-      - status
-      - document_id
-      title: PurchaseStatusOut
-    DocumentCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 150
-          minLength: 1
-          title: Title
-        description:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Description
-        filename:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Filename
-        content:
-          type: string
-          maxLength: 1100000
-          title: Content
-        price_sats:
-          type: integer
-          maximum: 1000000.0
-          minimum: 100.0
-          title: Price Sats
-        visibility:
-          type: string
-          pattern: ^(public|invite_only)$
-          title: Visibility
-          default: public
-        preview_text:
-          anyOf:
-          - type: string
-            maxLength: 2000
-          - type: 'null'
-          title: Preview Text
-        preview_auto_chars:
-          type: integer
-          maximum: 500.0
-          minimum: 0.0
-          title: Preview Auto Chars
-          default: 300
-      type: object
-      required:
-      - title
-      - filename
-      - content
-      - price_sats
-      title: DocumentCreate
     DocumentOut:
       properties:
         id:
@@ -832,32 +684,6 @@ components:
       - total_earned_sats
       - created_at
       title: DocumentOut
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     PaginatedListWithPages_DocumentOut_:
       properties:
         items:
@@ -885,7 +711,28 @@ components:
       - page
       - pages
       title: PaginatedListWithPages[DocumentOut]
-    PurchaseOut:
+    PreviewOut:
+      properties:
+        text:
+          type: string
+          title: Text
+        type:
+          type: string
+          title: Type
+        chars:
+          type: integer
+          title: Chars
+        content_ratio:
+          type: number
+          title: Content Ratio
+      type: object
+      required:
+      - text
+      - type
+      - chars
+      - content_ratio
+      title: PreviewOut
+    InviteOut:
       properties:
         id:
           type: string
@@ -895,27 +742,38 @@ components:
           type: string
           format: uuid
           title: Document Id
-        payment_hash:
+        invitee_id:
           type: string
-          title: Payment Hash
-        payment_request:
+          format: uuid
+          title: Invitee Id
+        invitee_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Invitee Username
+        created_at:
           type: string
-          title: Payment Request
-        amount_sats:
-          type: integer
-          title: Amount Sats
-        expires_at:
-          type: string
-          title: Expires At
+          format: date-time
+          title: Created At
       type: object
       required:
       - id
       - document_id
-      - payment_hash
-      - payment_request
-      - amount_sats
-      - expires_at
-      title: PurchaseOut
+      - invitee_id
+      - created_at
+      title: InviteOut
+    InviteCreate:
+      properties:
+        username:
+          type: string
+          maxLength: 50
+          minLength: 1
+          title: Username
+          description: A username or a user ID.
+      type: object
+      required:
+      - username
+      title: InviteCreate
     DocumentCreateOut:
       properties:
         id:
@@ -1035,6 +893,145 @@ components:
           title: Preview Auto Chars
       type: object
       title: DocumentUpdate
+    PurchaseOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        document_id:
+          type: string
+          format: uuid
+          title: Document Id
+        payment_hash:
+          type: string
+          title: Payment Hash
+        payment_request:
+          type: string
+          title: Payment Request
+        amount_sats:
+          type: integer
+          title: Amount Sats
+        expires_at:
+          type: string
+          title: Expires At
+      type: object
+      required:
+      - id
+      - document_id
+      - payment_hash
+      - payment_request
+      - amount_sats
+      - expires_at
+      title: PurchaseOut
+    MyPurchaseOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        document_id:
+          type: string
+          format: uuid
+          title: Document Id
+        document_title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Document Title
+        price_sats:
+          type: integer
+          title: Price Sats
+        status:
+          type: string
+          title: Status
+        paid_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Paid At
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - document_id
+      - price_sats
+      - status
+      - created_at
+      title: MyPurchaseOut
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PurchaseStatusOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        status:
+          type: string
+          title: Status
+        paid_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Paid At
+        document_id:
+          type: string
+          format: uuid
+          title: Document Id
+        download_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Download Url
+        download_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Download Token
+      type: object
+      required:
+      - id
+      - status
+      - document_id
+      title: PurchaseStatusOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -1042,6 +1039,3 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
-x-refined-from:
-- thecolony-ai-openapi.json
-- thecolony-ai-openapi.yml

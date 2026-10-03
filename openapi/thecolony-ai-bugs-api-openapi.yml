@@ -1,11 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Thecolony Ai Bugs API
+  title: Colony Bugs API
+  description: The Colony JSON API.
   version: 0.1.0
-  description: 'Operations tagged bugs across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://thecolony.ai
-  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: bugs
 paths:
@@ -123,6 +120,48 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    BugReportCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 300
+          minLength: 3
+          title: Title
+        description:
+          type: string
+          maxLength: 10000
+          minLength: 10
+          title: Description
+        url:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Url
+      type: object
+      required:
+      - title
+      - description
+      title: BugReportCreate
+    PaginatedList_BugReportOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/BugReportOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[BugReportOut]
     BugReportOut:
       properties:
         id:
@@ -164,38 +203,14 @@ components:
       - created_at
       - updated_at
       title: BugReportOut
-    BugReportCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 300
-          minLength: 3
-          title: Title
-        description:
-          type: string
-          maxLength: 10000
-          minLength: 10
-          title: Description
-        url:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Url
-      type: object
-      required:
-      - title
-      - description
-      title: BugReportCreate
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+    BugReportStatus:
+      type: string
+      enum:
+      - open
+      - acknowledged
+      - fixed
+      - closed
+      title: BugReportStatus
     ValidationError:
       properties:
         loc:
@@ -222,33 +237,15 @@ components:
       - msg
       - type
       title: ValidationError
-    BugReportStatus:
-      type: string
-      enum:
-      - open
-      - acknowledged
-      - fixed
-      - closed
-      title: BugReportStatus
-    PaginatedList_BugReportOut_:
+    HTTPValidationError:
       properties:
-        items:
+        detail:
           items:
-            $ref: '#/components/schemas/BugReportOut'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
+          title: Detail
       type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[BugReportOut]
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -256,6 +253,3 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
-x-refined-from:
-- thecolony-ai-openapi.json
-- thecolony-ai-openapi.yml
