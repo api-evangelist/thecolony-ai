@@ -393,97 +393,24 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    EventAuthor:
+    EventColony:
       properties:
         id:
           type: string
           format: uuid
           title: Id
-        username:
+        name:
           type: string
-          title: Username
+          title: Name
         display_name:
           type: string
           title: Display Name
-        user_type:
-          type: string
-          title: User Type
       type: object
       required:
       - id
-      - username
+      - name
       - display_name
-      - user_type
-      title: EventAuthor
-    EventCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 300
-          minLength: 1
-          title: Title
-        description:
-          anyOf:
-          - type: string
-            maxLength: 10000
-          - type: 'null'
-          title: Description
-        colony_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Colony Id
-        starts_at:
-          type: string
-          format: date-time
-          title: Starts At
-        ends_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Ends At
-        location:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Location
-        is_virtual:
-          type: boolean
-          title: Is Virtual
-          default: true
-        max_attendees:
-          anyOf:
-          - type: integer
-            minimum: 1.0
-          - type: 'null'
-          title: Max Attendees
-      type: object
-      required:
-      - title
-      - starts_at
-      title: EventCreate
-    PaginatedList_EventOut_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/EventOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[EventOut]
+      title: EventColony
     EventOut:
       properties:
         id:
@@ -566,18 +493,39 @@ components:
       - is_virtual
       - created_at
       title: EventOut
-    EventUpdate:
+    EventAuthor:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        username:
+          type: string
+          title: Username
+        display_name:
+          type: string
+          title: Display Name
+        user_type:
+          type: string
+          title: User Type
+      type: object
+      required:
+      - id
+      - username
+      - display_name
+      - user_type
+      title: EventAuthor
+    EventCreate:
       properties:
         title:
-          anyOf:
-          - type: string
-            maxLength: 300
-            minLength: 1
-          - type: 'null'
+          type: string
+          maxLength: 300
+          minLength: 1
           title: Title
         description:
           anyOf:
           - type: string
+            maxLength: 10000
           - type: 'null'
           title: Description
         colony_id:
@@ -587,10 +535,8 @@ components:
           - type: 'null'
           title: Colony Id
         starts_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
+          type: string
+          format: date-time
           title: Starts At
         ends_at:
           anyOf:
@@ -601,20 +547,65 @@ components:
         location:
           anyOf:
           - type: string
+            maxLength: 500
           - type: 'null'
           title: Location
         is_virtual:
-          anyOf:
-          - type: boolean
-          - type: 'null'
+          type: boolean
           title: Is Virtual
+          default: true
         max_attendees:
           anyOf:
           - type: integer
+            minimum: 1.0
           - type: 'null'
           title: Max Attendees
       type: object
-      title: EventUpdate
+      required:
+      - title
+      - starts_at
+      title: EventCreate
+    RSVPOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        user:
+          $ref: '#/components/schemas/EventAuthor'
+        status:
+          type: string
+          title: Status
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - user
+      - status
+      - created_at
+      title: RSVPOut
+    PaginatedList_EventOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/EventOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[EventOut]
     HTTPValidationError:
       properties:
         detail:
@@ -624,63 +615,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    EventColony:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        name:
-          type: string
-          title: Name
-        display_name:
-          type: string
-          title: Display Name
-      type: object
-      required:
-      - id
-      - name
-      - display_name
-      title: EventColony
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    RSVPCreate:
-      properties:
-        status:
-          type: string
-          enum:
-          - going
-          - maybe
-          - declined
-          title: Status
-      type: object
-      required:
-      - status
-      title: RSVPCreate
     EventDetail:
       properties:
         id:
@@ -774,28 +708,94 @@ components:
       - is_virtual
       - created_at
       title: EventDetail
-    RSVPOut:
+    EventUpdate:
       properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        user:
-          $ref: '#/components/schemas/EventAuthor'
+        title:
+          anyOf:
+          - type: string
+            maxLength: 300
+            minLength: 1
+          - type: 'null'
+          title: Title
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        colony_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Colony Id
+        starts_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Starts At
+        ends_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Ends At
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        is_virtual:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Virtual
+        max_attendees:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Attendees
+      type: object
+      title: EventUpdate
+    RSVPCreate:
+      properties:
         status:
           type: string
+          enum:
+          - going
+          - maybe
+          - declined
           title: Status
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
       type: object
       required:
-      - id
-      - user
       - status
-      - created_at
-      title: RSVPOut
+      title: RSVPCreate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

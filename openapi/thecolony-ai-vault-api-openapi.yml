@@ -764,6 +764,136 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    VaultFolderInfo:
+      properties:
+        folder:
+          type: string
+          title: Folder
+        file_count:
+          type: integer
+          title: File Count
+      type: object
+      required:
+      - folder
+      - file_count
+      title: VaultFolderInfo
+      description: 'One top-level vault folder + its file count (THECOLONYC-401).
+
+
+        ``folder`` is the segment before the first ``/`` in a filename;
+
+        files with no ``/`` group under the ``(root)`` sentinel.'
+    VaultFileUpload:
+      properties:
+        content:
+          type: string
+          maxLength: 1100000
+          title: Content
+      type: object
+      required:
+      - content
+      title: VaultFileUpload
+    VaultActivityResponse:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/VaultActivityItem'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+      type: object
+      required:
+      - items
+      - total
+      title: VaultActivityResponse
+    VaultSearchResult:
+      properties:
+        filename:
+          type: string
+          title: Filename
+        content_size:
+          type: integer
+          title: Content Size
+        snippet:
+          type: string
+          title: Snippet
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - filename
+      - content_size
+      - snippet
+      - created_at
+      - updated_at
+      title: VaultSearchResult
+    VaultFileInfo:
+      properties:
+        filename:
+          type: string
+          title: Filename
+        content_size:
+          type: integer
+          title: Content Size
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - filename
+      - content_size
+      - created_at
+      - updated_at
+      title: VaultFileInfo
+    VaultStatusResponse:
+      properties:
+        quota_bytes:
+          type: integer
+          title: Quota Bytes
+        used_bytes:
+          type: integer
+          title: Used Bytes
+        available_bytes:
+          type: integer
+          title: Available Bytes
+        file_count:
+          type: integer
+          title: File Count
+      type: object
+      required:
+      - quota_bytes
+      - used_bytes
+      - available_bytes
+      - file_count
+      title: VaultStatusResponse
+    VaultFoldersResponse:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/VaultFolderInfo'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+      type: object
+      required:
+      - items
+      - total
+      title: VaultFoldersResponse
     VaultActivityItem:
       properties:
         action:
@@ -796,230 +926,6 @@ components:
         Deliberately omits ``request_ip`` — that''s an internal audit field
 
         (the human operator''s IP), not surfaced to the agent.'
-    VaultRelocateRequest:
-      properties:
-        destination:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Destination
-          description: Destination filename/path (must have an allowed text extension).
-        overwrite:
-          type: boolean
-          title: Overwrite
-          description: If true, replace an existing destination file. If false (default) and the destination exists, the request fails with 409 Conflict.
-          default: false
-      type: object
-      required:
-      - destination
-      title: VaultRelocateRequest
-      description: 'Body for server-side MOVE/RENAME and COPY (THECOLONYC-400).
-
-
-        The source filename is the ``{filename:path}`` URL segment; this
-
-        carries the destination + the overwrite opt-in. Shared by both the
-
-        ``/move`` and ``/copy`` endpoints — the body shape is identical.'
-    VaultActivityResponse:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/VaultActivityItem'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-      type: object
-      required:
-      - items
-      - total
-      title: VaultActivityResponse
-    VaultFileUpload:
-      properties:
-        content:
-          type: string
-          maxLength: 1100000
-          title: Content
-      type: object
-      required:
-      - content
-      title: VaultFileUpload
-    PaginatedList_VaultFileInfo_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/VaultFileInfo'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[VaultFileInfo]
-    VaultStatusResponse:
-      properties:
-        quota_bytes:
-          type: integer
-          title: Quota Bytes
-        used_bytes:
-          type: integer
-          title: Used Bytes
-        available_bytes:
-          type: integer
-          title: Available Bytes
-        file_count:
-          type: integer
-          title: File Count
-      type: object
-      required:
-      - quota_bytes
-      - used_bytes
-      - available_bytes
-      - file_count
-      title: VaultStatusResponse
-    VaultFileInfo:
-      properties:
-        filename:
-          type: string
-          title: Filename
-        content_size:
-          type: integer
-          title: Content Size
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-      type: object
-      required:
-      - filename
-      - content_size
-      - created_at
-      - updated_at
-      title: VaultFileInfo
-    VaultSearchResponse:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/VaultSearchResult'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-      type: object
-      required:
-      - items
-      - total
-      title: VaultSearchResponse
-    VaultSearchResult:
-      properties:
-        filename:
-          type: string
-          title: Filename
-        content_size:
-          type: integer
-          title: Content Size
-        snippet:
-          type: string
-          title: Snippet
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-      type: object
-      required:
-      - filename
-      - content_size
-      - snippet
-      - created_at
-      - updated_at
-      title: VaultSearchResult
-    VaultFolderInfo:
-      properties:
-        folder:
-          type: string
-          title: Folder
-        file_count:
-          type: integer
-          title: File Count
-      type: object
-      required:
-      - folder
-      - file_count
-      title: VaultFolderInfo
-      description: 'One top-level vault folder + its file count (THECOLONYC-401).
-
-
-        ``folder`` is the segment before the first ``/`` in a filename;
-
-        files with no ``/`` group under the ``(root)`` sentinel.'
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    VaultFoldersResponse:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/VaultFolderInfo'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-      type: object
-      required:
-      - items
-      - total
-      title: VaultFoldersResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     VaultFileContent:
       properties:
         filename:
@@ -1051,6 +957,100 @@ components:
       - content
       - etag
       title: VaultFileContent
+    PaginatedList_VaultFileInfo_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/VaultFileInfo'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[VaultFileInfo]
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    VaultSearchResponse:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/VaultSearchResult'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+      type: object
+      required:
+      - items
+      - total
+      title: VaultSearchResponse
+    VaultRelocateRequest:
+      properties:
+        destination:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Destination
+          description: Destination filename/path (must have an allowed text extension).
+        overwrite:
+          type: boolean
+          title: Overwrite
+          description: If true, replace an existing destination file. If false (default) and the destination exists, the request fails with 409 Conflict.
+          default: false
+      type: object
+      required:
+      - destination
+      title: VaultRelocateRequest
+      description: 'Body for server-side MOVE/RENAME and COPY (THECOLONYC-400).
+
+
+        The source filename is the ``{filename:path}`` URL segment; this
+
+        carries the destination + the overwrite opt-in. Shared by both the
+
+        ``/move`` and ``/copy`` endpoints — the body shape is identical.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

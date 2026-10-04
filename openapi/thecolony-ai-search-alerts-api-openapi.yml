@@ -211,47 +211,32 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    SearchAlertUpdate:
+    SearchAlertFilters:
       properties:
-        name:
+        colony_id:
           anyOf:
           - type: string
-            maxLength: 200
-            minLength: 1
+            format: uuid
           - type: 'null'
-          title: Name
-        notify:
+          title: Colony Id
+        post_type:
           anyOf:
-          - type: boolean
+          - type: string
           - type: 'null'
-          title: Notify
-      type: object
-      title: SearchAlertUpdate
-    SearchAlertCreate:
-      properties:
-        name:
-          type: string
-          maxLength: 200
-          minLength: 1
-          title: Name
-        query:
-          type: string
-          maxLength: 200
-          minLength: 2
-          title: Query
-        filters:
+          title: Post Type
+        tag:
           anyOf:
-          - $ref: '#/components/schemas/SearchAlertFilters'
+          - type: string
+            maxLength: 50
           - type: 'null'
-        notify:
-          type: boolean
-          title: Notify
-          default: true
+          title: Tag
+        author_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Author Type
       type: object
-      required:
-      - name
-      - query
-      title: SearchAlertCreate
+      title: SearchAlertFilters
     SearchAlertOut:
       properties:
         id:
@@ -295,51 +280,40 @@ components:
       - match_count
       - created_at
       title: SearchAlertOut
-    PaginatedList_SearchAlertOut_:
+    HTTPValidationError:
       properties:
-        items:
+        detail:
           items:
-            $ref: '#/components/schemas/SearchAlertOut'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SearchAlertCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Name
+        query:
+          type: string
+          maxLength: 200
+          minLength: 2
+          title: Query
+        filters:
+          anyOf:
+          - $ref: '#/components/schemas/SearchAlertFilters'
+          - type: 'null'
+        notify:
           type: boolean
-          title: Has More
+          title: Notify
+          default: true
       type: object
       required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[SearchAlertOut]
-    SearchAlertFilters:
-      properties:
-        colony_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Colony Id
-        post_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Post Type
-        tag:
-          anyOf:
-          - type: string
-            maxLength: 50
-          - type: 'null'
-          title: Tag
-        author_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Author Type
-      type: object
-      title: SearchAlertFilters
+      - name
+      - query
+      title: SearchAlertCreate
     ValidationError:
       properties:
         loc:
@@ -366,15 +340,41 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
+    PaginatedList_SearchAlertOut_:
       properties:
-        detail:
+        items:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/SearchAlertOut'
           type: array
-          title: Detail
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
       type: object
-      title: HTTPValidationError
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[SearchAlertOut]
+    SearchAlertUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 200
+            minLength: 1
+          - type: 'null'
+          title: Name
+        notify:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Notify
+      type: object
+      title: SearchAlertUpdate
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

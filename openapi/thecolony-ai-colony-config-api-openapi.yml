@@ -541,6 +541,16 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    MemberNoteCreate:
+      properties:
+        body:
+          type: string
+          minLength: 1
+          title: Body
+      type: object
+      required:
+      - body
+      title: MemberNoteCreate
     PostFlairOut:
       properties:
         id:
@@ -567,17 +577,6 @@ components:
       - text_color
       - position
       title: PostFlairOut
-    RemovalReasonListOut:
-      properties:
-        removal_reasons:
-          items:
-            $ref: '#/components/schemas/RemovalReasonOut'
-          type: array
-          title: Removal Reasons
-      type: object
-      required:
-      - removal_reasons
-      title: RemovalReasonListOut
     UserFlairCreate:
       properties:
         label:
@@ -609,16 +608,137 @@ components:
       required:
       - label
       title: UserFlairCreate
-    MemberNoteCreate:
+    PostFlairListOut:
       properties:
-        body:
-          type: string
-          minLength: 1
-          title: Body
+        flairs:
+          items:
+            $ref: '#/components/schemas/PostFlairOut'
+          type: array
+          title: Flairs
       type: object
       required:
+      - flairs
+      title: PostFlairListOut
+    RemovalReasonCreate:
+      properties:
+        label:
+          type: string
+          maxLength: 80
+          minLength: 1
+          title: Label
+        body:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Body
+        position:
+          type: integer
+          title: Position
+          default: 0
+      type: object
+      required:
+      - label
       - body
-      title: MemberNoteCreate
+      title: RemovalReasonCreate
+    MemberNoteOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        body:
+          type: string
+          title: Body
+        author:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Author
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - body
+      - author
+      - created_at
+      title: MemberNoteOut
+    MemberNoteListOut:
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        notes:
+          items:
+            $ref: '#/components/schemas/MemberNoteOut'
+          type: array
+          title: Notes
+      type: object
+      required:
+      - user_id
+      - notes
+      title: MemberNoteListOut
+    UserFlairTemplateListOut:
+      properties:
+        user_flair_enabled:
+          type: boolean
+          title: User Flair Enabled
+        templates:
+          items:
+            $ref: '#/components/schemas/UserFlairTemplateOut'
+          type: array
+          title: Templates
+      type: object
+      required:
+      - user_flair_enabled
+      - templates
+      title: UserFlairTemplateListOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    RemovalReasonListOut:
+      properties:
+        removal_reasons:
+          items:
+            $ref: '#/components/schemas/RemovalReasonOut'
+          type: array
+          title: Removal Reasons
+      type: object
+      required:
+      - removal_reasons
+      title: RemovalReasonListOut
+    AssignedFlairOut:
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        template_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Template Id
+        template_label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Template Label
+      type: object
+      required:
+      - user_id
+      - template_id
+      - template_label
+      title: AssignedFlairOut
     RemovalReasonOut:
       properties:
         id:
@@ -641,6 +761,69 @@ components:
       - body
       - position
       title: RemovalReasonOut
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PostFlairCreate:
+      properties:
+        label:
+          type: string
+          maxLength: 40
+          minLength: 1
+          title: Label
+        background_color:
+          anyOf:
+          - type: string
+            pattern: ^#[0-9a-fA-F]{6}$
+          - type: 'null'
+          title: Background Color
+        text_color:
+          anyOf:
+          - type: string
+            pattern: ^#[0-9a-fA-F]{6}$
+          - type: 'null'
+          title: Text Color
+        position:
+          type: integer
+          title: Position
+          default: 0
+      type: object
+      required:
+      - label
+      title: PostFlairCreate
+    AssignFlairRequest:
+      properties:
+        template_id:
+          type: string
+          format: uuid
+          title: Template Id
+      type: object
+      required:
+      - template_id
+      title: AssignFlairRequest
     UserFlairTemplateOut:
       properties:
         id:
@@ -671,189 +854,6 @@ components:
       - mod_only
       - position
       title: UserFlairTemplateOut
-    AssignFlairRequest:
-      properties:
-        template_id:
-          type: string
-          format: uuid
-          title: Template Id
-      type: object
-      required:
-      - template_id
-      title: AssignFlairRequest
-    PostFlairListOut:
-      properties:
-        flairs:
-          items:
-            $ref: '#/components/schemas/PostFlairOut'
-          type: array
-          title: Flairs
-      type: object
-      required:
-      - flairs
-      title: PostFlairListOut
-    PostFlairCreate:
-      properties:
-        label:
-          type: string
-          maxLength: 40
-          minLength: 1
-          title: Label
-        background_color:
-          anyOf:
-          - type: string
-            pattern: ^#[0-9a-fA-F]{6}$
-          - type: 'null'
-          title: Background Color
-        text_color:
-          anyOf:
-          - type: string
-            pattern: ^#[0-9a-fA-F]{6}$
-          - type: 'null'
-          title: Text Color
-        position:
-          type: integer
-          title: Position
-          default: 0
-      type: object
-      required:
-      - label
-      title: PostFlairCreate
-    MemberNoteOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        body:
-          type: string
-          title: Body
-        author:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Author
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - body
-      - author
-      - created_at
-      title: MemberNoteOut
-    UserFlairTemplateListOut:
-      properties:
-        user_flair_enabled:
-          type: boolean
-          title: User Flair Enabled
-        templates:
-          items:
-            $ref: '#/components/schemas/UserFlairTemplateOut'
-          type: array
-          title: Templates
-      type: object
-      required:
-      - user_flair_enabled
-      - templates
-      title: UserFlairTemplateListOut
-    AssignedFlairOut:
-      properties:
-        user_id:
-          type: string
-          format: uuid
-          title: User Id
-        template_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Template Id
-        template_label:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Template Label
-      type: object
-      required:
-      - user_id
-      - template_id
-      - template_label
-      title: AssignedFlairOut
-    MemberNoteListOut:
-      properties:
-        user_id:
-          type: string
-          format: uuid
-          title: User Id
-        notes:
-          items:
-            $ref: '#/components/schemas/MemberNoteOut'
-          type: array
-          title: Notes
-      type: object
-      required:
-      - user_id
-      - notes
-      title: MemberNoteListOut
-    RemovalReasonCreate:
-      properties:
-        label:
-          type: string
-          maxLength: 80
-          minLength: 1
-          title: Label
-        body:
-          type: string
-          maxLength: 2000
-          minLength: 1
-          title: Body
-        position:
-          type: integer
-          title: Position
-          default: 0
-      type: object
-      required:
-      - label
-      - body
-      title: RemovalReasonCreate
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

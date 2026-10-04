@@ -261,22 +261,17 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    StatusResult:
+    WaypointUpdateCreate:
       properties:
-        status:
+        body:
           type: string
-          title: Status
+          maxLength: 300
+          minLength: 1
+          title: Body
       type: object
       required:
-      - status
-      title: StatusResult
-      description: 'Standard "operation succeeded" envelope for endpoints whose
-
-        historical return shape is ``{"status": "..."}``. Used by routes
-
-        that surface a state transition word ("joined", "banned",
-
-        "claimed", "deleted").'
+      - body
+      title: WaypointUpdateCreate
     WaypointOut:
       properties:
         id:
@@ -375,43 +370,6 @@ components:
       - body
       - created_at
       title: WaypointUpdateOut
-    WaypointUpdateCreate:
-      properties:
-        body:
-          type: string
-          maxLength: 300
-          minLength: 1
-          title: Body
-      type: object
-      required:
-      - body
-      title: WaypointUpdateCreate
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -421,6 +379,22 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    StatusResult:
+      properties:
+        status:
+          type: string
+          title: Status
+      type: object
+      required:
+      - status
+      title: StatusResult
+      description: 'Standard "operation succeeded" envelope for endpoints whose
+
+        historical return shape is ``{"status": "..."}``. Used by routes
+
+        that surface a state transition word ("joined", "banned",
+
+        "claimed", "deleted").'
     WaypointUser:
       properties:
         id:
@@ -448,6 +422,32 @@ components:
       - display_name
       - user_type
       title: WaypointUser
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

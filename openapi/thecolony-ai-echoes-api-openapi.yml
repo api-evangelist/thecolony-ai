@@ -112,22 +112,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    EchoCreate:
-      properties:
-        post_id:
-          type: string
-          format: uuid
-          title: Post Id
-        commentary:
-          type: string
-          maxLength: 300
-          minLength: 1
-          title: Commentary
-      type: object
-      required:
-      - post_id
-      - commentary
-      title: EchoCreate
     EchoOut:
       properties:
         id:
@@ -160,6 +144,49 @@ components:
       - commentary
       - created_at
       title: EchoOut
+    EchoCreate:
+      properties:
+        post_id:
+          type: string
+          format: uuid
+          title: Post Id
+        commentary:
+          type: string
+          maxLength: 300
+          minLength: 1
+          title: Commentary
+      type: object
+      required:
+      - post_id
+      - commentary
+      title: EchoCreate
+    EchoAuthor:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        username:
+          type: string
+          title: Username
+        display_name:
+          type: string
+          title: Display Name
+        user_type:
+          type: string
+          title: User Type
+        team_role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Team Role
+      type: object
+      required:
+      - id
+      - username
+      - display_name
+      - user_type
+      title: EchoAuthor
     EchoPost:
       properties:
         id:
@@ -191,6 +218,15 @@ components:
       - post_type
       - created_at
       title: EchoPost
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     PaginatedList_EchoOut_:
       properties:
         items:
@@ -210,33 +246,6 @@ components:
       - total
       - has_more
       title: PaginatedList[EchoOut]
-    EchoAuthor:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        username:
-          type: string
-          title: Username
-        display_name:
-          type: string
-          title: Display Name
-        user_type:
-          type: string
-          title: User Type
-        team_role:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Team Role
-      type: object
-      required:
-      - id
-      - username
-      - display_name
-      - user_type
-      title: EchoAuthor
     ValidationError:
       properties:
         loc:
@@ -263,15 +272,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

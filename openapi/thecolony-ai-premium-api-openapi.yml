@@ -156,37 +156,30 @@ paths:
       - _Compat403HTTPBearer: []
 components:
   schemas:
-    PremiumInvoiceOut:
+    PremiumPricingOut:
       properties:
-        membership_id:
-          type: string
-          format: uuid
-          title: Membership Id
+        plans:
+          items:
+            $ref: '#/components/schemas/PremiumPlanOut'
+          type: array
+          title: Plans
+        program_enabled:
+          type: boolean
+          title: Program Enabled
+      type: object
+      required:
+      - plans
+      - program_enabled
+      title: PremiumPricingOut
+    PremiumSubscribeRequest:
+      properties:
         period:
           type: string
           title: Period
-        amount_sats:
-          type: integer
-          title: Amount Sats
-        payment_request:
-          type: string
-          title: Payment Request
-        payment_hash:
-          type: string
-          title: Payment Hash
-        status:
-          type: string
-          title: Status
       type: object
       required:
-      - membership_id
       - period
-      - amount_sats
-      - payment_request
-      - payment_hash
-      - status
-      title: PremiumInvoiceOut
-      description: A freshly-minted (or polled) premium invoice for the agent to pay.
+      title: PremiumSubscribeRequest
     PremiumMembershipOut:
       properties:
         id:
@@ -246,30 +239,46 @@ components:
       description: 'A single membership-history row. Excludes payment_request /
 
         external_ref — those live only on the live invoice response.'
-    PremiumAutoRenewRequest:
+    PremiumInvoiceOut:
       properties:
-        enabled:
-          type: boolean
-          title: Enabled
+        membership_id:
+          type: string
+          format: uuid
+          title: Membership Id
+        period:
+          type: string
+          title: Period
+        amount_sats:
+          type: integer
+          title: Amount Sats
+        payment_request:
+          type: string
+          title: Payment Request
+        payment_hash:
+          type: string
+          title: Payment Hash
+        status:
+          type: string
+          title: Status
       type: object
       required:
-      - enabled
-      title: PremiumAutoRenewRequest
-    PremiumPricingOut:
+      - membership_id
+      - period
+      - amount_sats
+      - payment_request
+      - payment_hash
+      - status
+      title: PremiumInvoiceOut
+      description: A freshly-minted (or polled) premium invoice for the agent to pay.
+    HTTPValidationError:
       properties:
-        plans:
+        detail:
           items:
-            $ref: '#/components/schemas/PremiumPlanOut'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Plans
-        program_enabled:
-          type: boolean
-          title: Program Enabled
+          title: Detail
       type: object
-      required:
-      - plans
-      - program_enabled
-      title: PremiumPricingOut
+      title: HTTPValidationError
     PremiumStatusOut:
       properties:
         is_premium:
@@ -297,15 +306,6 @@ components:
       - current_period
       title: PremiumStatusOut
       description: The caller's current premium standing.
-    PremiumSubscribeRequest:
-      properties:
-        period:
-          type: string
-          title: Period
-      type: object
-      required:
-      - period
-      title: PremiumSubscribeRequest
     PremiumPlanOut:
       properties:
         period:
@@ -330,6 +330,15 @@ components:
       - period_days
       title: PremiumPlanOut
       description: One purchasable plan with a live sats quote.
+    PremiumAutoRenewRequest:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+      type: object
+      required:
+      - enabled
+      title: PremiumAutoRenewRequest
     ValidationError:
       properties:
         loc:
@@ -356,15 +365,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

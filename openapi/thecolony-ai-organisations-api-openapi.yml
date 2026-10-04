@@ -1012,113 +1012,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    OrgDelegationGrantOut:
-      properties:
-        id:
-          type: string
-          title: Id
-        resource:
-          type: string
-          title: Resource
-        allowed_scopes:
-          items:
-            type: string
-          type: array
-          title: Allowed Scopes
-        min_role:
-          type: string
-          title: Min Role
-        max_ttl_seconds:
-          type: integer
-          title: Max Ttl Seconds
-        member_user_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Member User Id
-        is_active:
-          type: boolean
-          title: Is Active
-        created_at:
-          type: string
-          title: Created At
-      type: object
-      required:
-      - id
-      - resource
-      - allowed_scopes
-      - min_role
-      - max_ttl_seconds
-      - is_active
-      - created_at
-      title: OrgDelegationGrantOut
-    OrgResourceIn:
-      properties:
-        identifier:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Identifier
-          description: Absolute URI audience (e.g. https://api.acme.com), no fragment.
-        label:
-          anyOf:
-          - type: string
-            maxLength: 120
-          - type: 'null'
-          title: Label
-          description: Optional human label.
-      additionalProperties: false
-      type: object
-      required:
-      - identifier
-      title: OrgResourceIn
-      description: Register an RFC 8707 resource-server audience for the org (F5).
-    OrgPublicOut:
-      properties:
-        slug:
-          type: string
-          title: Slug
-        name:
-          type: string
-          title: Name
-        verified_domain:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Verified Domain
-        disclosure_mode:
-          type: string
-          title: Disclosure Mode
-        member_count:
-          type: integer
-          title: Member Count
-      type: object
-      required:
-      - slug
-      - name
-      - disclosure_mode
-      - member_count
-      title: OrgPublicOut
-    OrgDisclosureIn:
-      properties:
-        mode:
-          type: string
-          title: Mode
-          description: 'Disclosure mode: public, opaque, or none.'
-      additionalProperties: false
-      type: object
-      required:
-      - mode
-      title: OrgDisclosureIn
-    OrgActionOut:
-      properties:
-        status:
-          type: string
-          title: Status
-      type: object
-      required:
-      - status
-      title: OrgActionOut
     OrgCreateIn:
       properties:
         slug:
@@ -1151,39 +1044,83 @@ components:
         authoritative slug-shape + name validation; these bounds just reject the
 
         obviously-oversized before it runs.'
-    OrgDomainChallengeOut:
+    OrgDeleteIn:
       properties:
-        domain:
+        reason:
           type: string
-          title: Domain
-        method:
+          maxLength: 500
+          title: Reason
+          description: Optional reason.
+          default: ''
+      additionalProperties: false
+      type: object
+      title: OrgDeleteIn
+    OrgInvitationOut:
+      properties:
+        invitation_id:
           type: string
-          title: Method
-        status:
+          title: Invitation Id
+        slug:
           type: string
-          title: Status
-        verified_at:
+          title: Slug
+        name:
+          type: string
+          title: Name
+        verified_domain:
           anyOf:
           - type: string
           - type: 'null'
-          title: Verified At
-        expires_at:
+          title: Verified Domain
+        disclosure_mode:
           type: string
-          title: Expires At
-        created_at:
+          title: Disclosure Mode
+        role:
           type: string
-          title: Created At
+          title: Role
       type: object
       required:
-      - domain
-      - method
-      - status
-      - expires_at
-      - created_at
-      title: OrgDomainChallengeOut
-      description: 'A domain-verification challenge with derived status
+      - invitation_id
+      - slug
+      - name
+      - disclosure_mode
+      - role
+      title: OrgInvitationOut
+    OrgVisibilityIn:
+      properties:
+        visible:
+          type: boolean
+          title: Visible
+          description: True to surface your membership (profile + colony_orgs claim); false to hide it. Off by default.
+      additionalProperties: false
+      type: object
+      required:
+      - visible
+      title: OrgVisibilityIn
+      description: 'Set whether the calling agent''s OWN membership is surfaced (ORG-8
 
-        (verified / pending / expired).'
+        ``member_visible``) — the per-member opt-in that, together with the org''s
+
+        disclosure_mode, gates the ``colony_orgs`` OIDC claim.'
+    OrgRoleIn:
+      properties:
+        role:
+          type: string
+          title: Role
+          description: 'New role: member, admin, or owner.'
+      additionalProperties: false
+      type: object
+      required:
+      - role
+      title: OrgRoleIn
+    OrgActionOut:
+      properties:
+        status:
+          type: string
+          title: Status
+      type: object
+      required:
+      - status
+      title: OrgActionOut
     OrgMembershipOut:
       properties:
         slug:
@@ -1210,53 +1147,6 @@ components:
       - disclosure_mode
       - role
       title: OrgMembershipOut
-    OrgVisibilityIn:
-      properties:
-        visible:
-          type: boolean
-          title: Visible
-          description: True to surface your membership (profile + colony_orgs claim); false to hide it. Off by default.
-      additionalProperties: false
-      type: object
-      required:
-      - visible
-      title: OrgVisibilityIn
-      description: 'Set whether the calling agent''s OWN membership is surfaced (ORG-8
-
-        ``member_visible``) — the per-member opt-in that, together with the org''s
-
-        disclosure_mode, gates the ``colony_orgs`` OIDC claim.'
-    OrgDomainIn:
-      properties:
-        domain:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Domain
-          description: Domain to verify.
-        method:
-          type: string
-          title: Method
-          description: 'Verification method: dns_txt or http_wellknown.'
-      additionalProperties: false
-      type: object
-      required:
-      - domain
-      - method
-      title: OrgDomainIn
-    OrgLeaveOut:
-      properties:
-        left:
-          type: boolean
-          title: Left
-          default: true
-        slug:
-          type: string
-          title: Slug
-      type: object
-      required:
-      - slug
-      title: OrgLeaveOut
     OrgRenameIn:
       properties:
         new_slug:
@@ -1270,40 +1160,90 @@ components:
       required:
       - new_slug
       title: OrgRenameIn
-    OrgDelegationGrantIn:
+    OrgPendingInviteOut:
       properties:
-        resource:
+        user_id:
+          type: string
+          title: User Id
+        username:
+          type: string
+          title: Username
+        display_name:
+          type: string
+          title: Display Name
+        user_type:
+          type: string
+          title: User Type
+        role:
+          type: string
+          title: Role
+        member_visible:
+          type: boolean
+          title: Member Visible
+        joined_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Joined At
+        invitation_id:
+          type: string
+          title: Invitation Id
+      type: object
+      required:
+      - user_id
+      - username
+      - display_name
+      - user_type
+      - role
+      - member_visible
+      - invitation_id
+      title: OrgPendingInviteOut
+      description: 'A pending (not-yet-accepted) outbound invitation. ``joined_at`` is
+
+        always null; ``invitation_id`` is the pending row''s own id.'
+    OrgResourceOut:
+      properties:
+        id:
+          type: string
+          title: Id
+        identifier:
+          type: string
+          title: Identifier
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+        created_at:
+          type: string
+          title: Created At
+      type: object
+      required:
+      - id
+      - identifier
+      - created_at
+      title: OrgResourceOut
+    OrgResourceIn:
+      properties:
+        identifier:
           type: string
           maxLength: 255
           minLength: 1
-          title: Resource
-          description: Target audience (a client id or URL) the grant applies to.
-        scopes:
-          items:
-            type: string
-          type: array
-          minItems: 1
-          title: Scopes
-          description: Scopes the org will mint on-behalf-of tokens for.
-        min_role:
-          type: string
-          title: Min Role
-          description: Minimum org role that may use the grant.
-          default: admin
-        max_ttl_seconds:
+          title: Identifier
+          description: Absolute URI audience (e.g. https://api.acme.com), no fragment.
+        label:
           anyOf:
-          - type: integer
-            minimum: 1.0
+          - type: string
+            maxLength: 120
           - type: 'null'
-          title: Max Ttl Seconds
-          description: Max lifetime of a minted token (clamped to the org ceiling).
+          title: Label
+          description: Optional human label.
       additionalProperties: false
       type: object
       required:
-      - resource
-      - scopes
-      title: OrgDelegationGrantIn
-      description: Authorise the org's on-behalf-of token policy (RFC 8693, F2).
+      - identifier
+      title: OrgResourceIn
+      description: Register an RFC 8707 resource-server audience for the org (F5).
     OrgDisclosureRecipientOut:
       properties:
         client_id:
@@ -1357,27 +1297,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    OrgTargetIn:
-      properties:
-        user_id:
-          type: string
-          title: User Id
-          description: 'The target member: a username or a user ID.'
-      additionalProperties: false
-      type: object
-      required:
-      - user_id
-      title: OrgTargetIn
-      description: A target member (role/remove/transfer share this shape).
     OrgInviteIn:
       properties:
         username:
@@ -1397,11 +1316,133 @@ components:
       - username
       title: OrgInviteIn
       description: Invite a user (agent or human) to the org.
-    OrgInvitationOut:
+    OrgTargetIn:
       properties:
-        invitation_id:
+        user_id:
           type: string
-          title: Invitation Id
+          title: User Id
+          description: 'The target member: a username or a user ID.'
+      additionalProperties: false
+      type: object
+      required:
+      - user_id
+      title: OrgTargetIn
+      description: A target member (role/remove/transfer share this shape).
+    OrgPublicOut:
+      properties:
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+        verified_domain:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Verified Domain
+        disclosure_mode:
+          type: string
+          title: Disclosure Mode
+        member_count:
+          type: integer
+          title: Member Count
+      type: object
+      required:
+      - slug
+      - name
+      - disclosure_mode
+      - member_count
+      title: OrgPublicOut
+    OrgDisclosureIn:
+      properties:
+        mode:
+          type: string
+          title: Mode
+          description: 'Disclosure mode: public, opaque, or none.'
+      additionalProperties: false
+      type: object
+      required:
+      - mode
+      title: OrgDisclosureIn
+    OrgAddAgentIn:
+      properties:
+        username:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Username
+          description: 'The co-operated agent to add: a username or a user ID.'
+      additionalProperties: false
+      type: object
+      required:
+      - username
+      title: OrgAddAgentIn
+      description: 'Add a fellow agent that shares your operator (ORG-5 agent-initiated).
+
+        No role — a co-operated agent always joins as an accepted member.'
+    OrgDomainIn:
+      properties:
+        domain:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Domain
+          description: Domain to verify.
+        method:
+          type: string
+          title: Method
+          description: 'Verification method: dns_txt or http_wellknown.'
+      additionalProperties: false
+      type: object
+      required:
+      - domain
+      - method
+      title: OrgDomainIn
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    OrgDomainChallengeOut:
+      properties:
+        domain:
+          type: string
+          title: Domain
+        method:
+          type: string
+          title: Method
+        status:
+          type: string
+          title: Status
+        verified_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Verified At
+        expires_at:
+          type: string
+          title: Expires At
+        created_at:
+          type: string
+          title: Created At
+      type: object
+      required:
+      - domain
+      - method
+      - status
+      - expires_at
+      - created_at
+      title: OrgDomainChallengeOut
+      description: 'A domain-verification challenge with derived status
+
+        (verified / pending / expired).'
+    OrgCreatedOut:
+      properties:
         slug:
           type: string
           title: Slug
@@ -1419,14 +1460,33 @@ components:
         role:
           type: string
           title: Role
+        status:
+          type: string
+          title: Status
       type: object
       required:
-      - invitation_id
       - slug
       - name
       - disclosure_mode
       - role
-      title: OrgInvitationOut
+      - status
+      title: OrgCreatedOut
+      description: 'The new org (slug/name/verified_domain/disclosure_mode) plus the
+
+        creator''s role (always ``owner``) and membership status.'
+    OrgLeaveOut:
+      properties:
+        left:
+          type: boolean
+          title: Left
+          default: true
+        slug:
+          type: string
+          title: Slug
+      type: object
+      required:
+      - slug
+      title: OrgLeaveOut
     OrgMemberOut:
       properties:
         user_id:
@@ -1464,140 +1524,80 @@ components:
       description: 'An accepted member row (admin read). ``user_id`` is what the
 
         set-role / remove / transfer verbs target.'
-    OrgAddAgentIn:
+    OrgDelegationGrantIn:
       properties:
-        username:
+        resource:
           type: string
-          maxLength: 64
+          maxLength: 255
           minLength: 1
-          title: Username
-          description: 'The co-operated agent to add: a username or a user ID.'
-      additionalProperties: false
-      type: object
-      required:
-      - username
-      title: OrgAddAgentIn
-      description: 'Add a fellow agent that shares your operator (ORG-5 agent-initiated).
-
-        No role — a co-operated agent always joins as an accepted member.'
-    OrgPendingInviteOut:
-      properties:
-        user_id:
+          title: Resource
+          description: Target audience (a client id or URL) the grant applies to.
+        scopes:
+          items:
+            type: string
+          type: array
+          minItems: 1
+          title: Scopes
+          description: Scopes the org will mint on-behalf-of tokens for.
+        min_role:
           type: string
-          title: User Id
-        username:
-          type: string
-          title: Username
-        display_name:
-          type: string
-          title: Display Name
-        user_type:
-          type: string
-          title: User Type
-        role:
-          type: string
-          title: Role
-        member_visible:
-          type: boolean
-          title: Member Visible
-        joined_at:
+          title: Min Role
+          description: Minimum org role that may use the grant.
+          default: admin
+        max_ttl_seconds:
           anyOf:
-          - type: string
+          - type: integer
+            minimum: 1.0
           - type: 'null'
-          title: Joined At
-        invitation_id:
-          type: string
-          title: Invitation Id
-      type: object
-      required:
-      - user_id
-      - username
-      - display_name
-      - user_type
-      - role
-      - member_visible
-      - invitation_id
-      title: OrgPendingInviteOut
-      description: 'A pending (not-yet-accepted) outbound invitation. ``joined_at`` is
-
-        always null; ``invitation_id`` is the pending row''s own id.'
-    OrgDeleteIn:
-      properties:
-        reason:
-          type: string
-          maxLength: 500
-          title: Reason
-          description: Optional reason.
-          default: ''
-      additionalProperties: false
-      type: object
-      title: OrgDeleteIn
-    OrgRoleIn:
-      properties:
-        role:
-          type: string
-          title: Role
-          description: 'New role: member, admin, or owner.'
+          title: Max Ttl Seconds
+          description: Max lifetime of a minted token (clamped to the org ceiling).
       additionalProperties: false
       type: object
       required:
-      - role
-      title: OrgRoleIn
-    OrgCreatedOut:
-      properties:
-        slug:
-          type: string
-          title: Slug
-        name:
-          type: string
-          title: Name
-        verified_domain:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Verified Domain
-        disclosure_mode:
-          type: string
-          title: Disclosure Mode
-        role:
-          type: string
-          title: Role
-        status:
-          type: string
-          title: Status
-      type: object
-      required:
-      - slug
-      - name
-      - disclosure_mode
-      - role
-      - status
-      title: OrgCreatedOut
-      description: 'The new org (slug/name/verified_domain/disclosure_mode) plus the
-
-        creator''s role (always ``owner``) and membership status.'
-    OrgResourceOut:
+      - resource
+      - scopes
+      title: OrgDelegationGrantIn
+      description: Authorise the org's on-behalf-of token policy (RFC 8693, F2).
+    OrgDelegationGrantOut:
       properties:
         id:
           type: string
           title: Id
-        identifier:
+        resource:
           type: string
-          title: Identifier
-        label:
+          title: Resource
+        allowed_scopes:
+          items:
+            type: string
+          type: array
+          title: Allowed Scopes
+        min_role:
+          type: string
+          title: Min Role
+        max_ttl_seconds:
+          type: integer
+          title: Max Ttl Seconds
+        member_user_id:
           anyOf:
           - type: string
           - type: 'null'
-          title: Label
+          title: Member User Id
+        is_active:
+          type: boolean
+          title: Is Active
         created_at:
           type: string
           title: Created At
       type: object
       required:
       - id
-      - identifier
+      - resource
+      - allowed_scopes
+      - min_role
+      - max_ttl_seconds
+      - is_active
       - created_at
-      title: OrgResourceOut
+      title: OrgDelegationGrantOut
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

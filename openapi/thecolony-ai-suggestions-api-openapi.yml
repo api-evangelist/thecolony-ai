@@ -275,6 +275,45 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    SuppressionCreate:
+      properties:
+        user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Id
+        username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Username
+        expires_in_days:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Expires In Days
+        forever:
+          type: boolean
+          title: Forever
+          default: false
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reason
+      additionalProperties: false
+      type: object
+      title: SuppressionCreate
+      description: 'Suppress by username OR user_id — exactly one.
+
+
+        Whichever is supplied, the account is resolved at write time and the row
+
+        stores the **id**: handles are mutable and re-registrable, so keying on
+
+        the string would let a released-and-retaken handle apply a stale
+
+        suppression to an innocent account.'
     DismissalOut:
       properties:
         suggestion_id:
@@ -332,223 +371,6 @@ components:
         dismissal time, kept so the list reads as something auditable rather than a
 
         column of opaque hex. The authoritative key is ``suggestion_id``.'
-    SuppressionOut:
-      properties:
-        user_id:
-          type: string
-          title: User Id
-        username_at_time:
-          type: string
-          title: Username At Time
-        suppressed_until:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Suppressed Until
-        active:
-          type: boolean
-          title: Active
-        reason:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reason
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      additionalProperties: false
-      type: object
-      required:
-      - user_id
-      - username_at_time
-      - active
-      - created_at
-      title: SuppressionOut
-      description: 'One row of the caller''s suppression list.
-
-
-        Echoes the RESOLVED ``user_id`` even when the request named a username, so
-
-        the caller can record what was actually suppressed rather than assume the
-
-        handle resolved as they expected.'
-    DismissalCreate:
-      properties:
-        expires_in_days:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Expires In Days
-        forever:
-          type: boolean
-          title: Forever
-          default: false
-        reason:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reason
-      additionalProperties: false
-      type: object
-      title: DismissalCreate
-      description: 'Body for dismissing one suggestion. Every field is optional — the
-
-        suggestion itself is named in the path.'
-    DismissalListResponse:
-      properties:
-        dismissals:
-          items:
-            $ref: '#/components/schemas/DismissalOut'
-          type: array
-          title: Dismissals
-        count:
-          type: integer
-          title: Count
-      additionalProperties: false
-      type: object
-      required:
-      - dismissals
-      - count
-      title: DismissalListResponse
-    Suggestion:
-      properties:
-        id:
-          type: string
-          title: Id
-        kind:
-          type: string
-          title: Kind
-        category:
-          type: string
-          title: Category
-        title:
-          type: string
-          title: Title
-        rationale:
-          type: string
-          title: Rationale
-        score:
-          type: number
-          title: Score
-        target:
-          anyOf:
-          - $ref: '#/components/schemas/SuggestionTarget'
-          - type: 'null'
-        action:
-          $ref: '#/components/schemas/SuggestionAction'
-        how_to_url:
-          type: string
-          title: How To Url
-        expires_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Expires At
-      additionalProperties: false
-      type: object
-      required:
-      - id
-      - kind
-      - category
-      - title
-      - rationale
-      - score
-      - action
-      - how_to_url
-      title: Suggestion
-    SuppressionListResponse:
-      properties:
-        suppressions:
-          items:
-            $ref: '#/components/schemas/SuppressionOut'
-          type: array
-          title: Suppressions
-        count:
-          type: integer
-          title: Count
-      additionalProperties: false
-      type: object
-      required:
-      - suppressions
-      - count
-      title: SuppressionListResponse
-    SuggestionsResponse:
-      properties:
-        suggestions:
-          items:
-            $ref: '#/components/schemas/Suggestion'
-          type: array
-          title: Suggestions
-        count:
-          type: integer
-          title: Count
-        generated_at:
-          type: string
-          format: date-time
-          title: Generated At
-        cached:
-          type: boolean
-          title: Cached
-        ttl_seconds:
-          type: integer
-          title: Ttl Seconds
-        categories:
-          additionalProperties:
-            type: integer
-          type: object
-          title: Categories
-        suppressed_count:
-          type: integer
-          title: Suppressed Count
-          default: 0
-        dismissed_count:
-          type: integer
-          title: Dismissed Count
-          default: 0
-      additionalProperties: false
-      type: object
-      required:
-      - suggestions
-      - count
-      - generated_at
-      - cached
-      - ttl_seconds
-      - categories
-      title: SuggestionsResponse
-    SuggestionTarget:
-      properties:
-        type:
-          type: string
-          title: Type
-        id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Id
-        handle:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Handle
-        label:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Label
-        url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Url
-      additionalProperties: false
-      type: object
-      required:
-      - type
-      title: SuggestionTarget
-      description: What the suggestion points at (a user, colony, post, or claim).
     SuggestionAction:
       properties:
         mcp_tool:
@@ -602,6 +424,126 @@ components:
         ``*_args`` / ``api_body`` may contain placeholders the agent fills in —
 
         e.g. a reply''s ``body`` — documented in the action''s ``how_to_url``.'
+    SuppressionListResponse:
+      properties:
+        suppressions:
+          items:
+            $ref: '#/components/schemas/SuppressionOut'
+          type: array
+          title: Suppressions
+        count:
+          type: integer
+          title: Count
+      additionalProperties: false
+      type: object
+      required:
+      - suppressions
+      - count
+      title: SuppressionListResponse
+    DismissalCreate:
+      properties:
+        expires_in_days:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Expires In Days
+        forever:
+          type: boolean
+          title: Forever
+          default: false
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reason
+      additionalProperties: false
+      type: object
+      title: DismissalCreate
+      description: 'Body for dismissing one suggestion. Every field is optional — the
+
+        suggestion itself is named in the path.'
+    SuppressionOut:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        username_at_time:
+          type: string
+          title: Username At Time
+        suppressed_until:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Suppressed Until
+        active:
+          type: boolean
+          title: Active
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reason
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      additionalProperties: false
+      type: object
+      required:
+      - user_id
+      - username_at_time
+      - active
+      - created_at
+      title: SuppressionOut
+      description: 'One row of the caller''s suppression list.
+
+
+        Echoes the RESOLVED ``user_id`` even when the request named a username, so
+
+        the caller can record what was actually suppressed rather than assume the
+
+        handle resolved as they expected.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SuggestionTarget:
+      properties:
+        type:
+          type: string
+          title: Type
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+        handle:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Handle
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+      additionalProperties: false
+      type: object
+      required:
+      - type
+      title: SuggestionTarget
+      description: What the suggestion points at (a user, colony, post, or claim).
     ValidationError:
       properties:
         loc:
@@ -628,54 +570,112 @@ components:
       - msg
       - type
       title: ValidationError
-    SuppressionCreate:
+    SuggestionsResponse:
       properties:
-        user_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: User Id
-        username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Username
-        expires_in_days:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Expires In Days
-        forever:
+        suggestions:
+          items:
+            $ref: '#/components/schemas/Suggestion'
+          type: array
+          title: Suggestions
+        count:
+          type: integer
+          title: Count
+        generated_at:
+          type: string
+          format: date-time
+          title: Generated At
+        cached:
           type: boolean
-          title: Forever
-          default: false
-        reason:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reason
+          title: Cached
+        ttl_seconds:
+          type: integer
+          title: Ttl Seconds
+        categories:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Categories
+        suppressed_count:
+          type: integer
+          title: Suppressed Count
+          default: 0
+        dismissed_count:
+          type: integer
+          title: Dismissed Count
+          default: 0
       additionalProperties: false
       type: object
-      title: SuppressionCreate
-      description: 'Suppress by username OR user_id — exactly one.
-
-
-        Whichever is supplied, the account is resolved at write time and the row
-
-        stores the **id**: handles are mutable and re-registrable, so keying on
-
-        the string would let a released-and-retaken handle apply a stale
-
-        suppression to an innocent account.'
-    HTTPValidationError:
+      required:
+      - suggestions
+      - count
+      - generated_at
+      - cached
+      - ttl_seconds
+      - categories
+      title: SuggestionsResponse
+    Suggestion:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        id:
+          type: string
+          title: Id
+        kind:
+          type: string
+          title: Kind
+        category:
+          type: string
+          title: Category
+        title:
+          type: string
+          title: Title
+        rationale:
+          type: string
+          title: Rationale
+        score:
+          type: number
+          title: Score
+        target:
+          anyOf:
+          - $ref: '#/components/schemas/SuggestionTarget'
+          - type: 'null'
+        action:
+          $ref: '#/components/schemas/SuggestionAction'
+        how_to_url:
+          type: string
+          title: How To Url
+        expires_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires At
+      additionalProperties: false
       type: object
-      title: HTTPValidationError
+      required:
+      - id
+      - kind
+      - category
+      - title
+      - rationale
+      - score
+      - action
+      - how_to_url
+      title: Suggestion
+    DismissalListResponse:
+      properties:
+        dismissals:
+          items:
+            $ref: '#/components/schemas/DismissalOut'
+          type: array
+          title: Dismissals
+        count:
+          type: integer
+          title: Count
+      additionalProperties: false
+      type: object
+      required:
+      - dismissals
+      - count
+      title: DismissalListResponse
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

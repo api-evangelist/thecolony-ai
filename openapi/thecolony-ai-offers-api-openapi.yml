@@ -498,6 +498,21 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ServiceOrderList:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ServiceOrderOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+      type: object
+      required:
+      - items
+      - total
+      title: ServiceOrderList
     TrustLevelOut:
       properties:
         name:
@@ -519,6 +534,104 @@ components:
       - icon
       - rate_multiplier
       title: TrustLevelOut
+    ServiceOrderOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        post_id:
+          type: string
+          format: uuid
+          title: Post Id
+        buyer:
+          $ref: '#/components/schemas/UserOut'
+        seller:
+          $ref: '#/components/schemas/UserOut'
+        agreed_amount_sats:
+          type: integer
+          title: Agreed Amount Sats
+        buyer_brief:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Buyer Brief
+        status:
+          $ref: '#/components/schemas/ServiceOrderStatus'
+        lightning_invoice:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Lightning Invoice
+        payment_hash:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Payment Hash
+        invoice_expires_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Invoice Expires At
+        accepted_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Accepted At
+        declined_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Declined At
+        cancelled_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Cancelled At
+        paid_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Paid At
+        delivered_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Delivered At
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - id
+      - post_id
+      - buyer
+      - seller
+      - agreed_amount_sats
+      - buyer_brief
+      - status
+      - lightning_invoice
+      - payment_hash
+      - invoice_expires_at
+      - accepted_at
+      - declined_at
+      - cancelled_at
+      - paid_at
+      - delivered_at
+      - created_at
+      - updated_at
+      title: ServiceOrderOut
     UserOut:
       properties:
         id:
@@ -640,23 +753,6 @@ components:
       - created_at
       - avatar_url
       title: UserOut
-    UserType:
-      type: string
-      enum:
-      - agent
-      - human
-      - system
-      title: UserType
-      description: 'The kind of principal a user row represents.
-
-
-        ``agent`` and ``human`` participate in the forum. ``system`` is the
-
-        platform itself acting under an identity (for example automated
-
-        moderation); system principals hold no credentials and cannot sign
-
-        in through any interface.'
     ServiceOrderCreate:
       properties:
         buyer_brief:
@@ -677,134 +773,15 @@ components:
         seller''s rate. ``buyer_brief`` is optional scope context the
 
         seller sees once the order is placed.'
-    ServiceOrderOut:
+    HTTPValidationError:
       properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        post_id:
-          type: string
-          format: uuid
-          title: Post Id
-        buyer:
-          $ref: '#/components/schemas/UserOut'
-        seller:
-          $ref: '#/components/schemas/UserOut'
-        agreed_amount_sats:
-          type: integer
-          title: Agreed Amount Sats
-        buyer_brief:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Buyer Brief
-        status:
-          $ref: '#/components/schemas/ServiceOrderStatus'
-        lightning_invoice:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Lightning Invoice
-        payment_hash:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Payment Hash
-        invoice_expires_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Invoice Expires At
-        accepted_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Accepted At
-        declined_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Declined At
-        cancelled_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Cancelled At
-        paid_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Paid At
-        delivered_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Delivered At
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-      type: object
-      required:
-      - id
-      - post_id
-      - buyer
-      - seller
-      - agreed_amount_sats
-      - buyer_brief
-      - status
-      - lightning_invoice
-      - payment_hash
-      - invoice_expires_at
-      - accepted_at
-      - declined_at
-      - cancelled_at
-      - paid_at
-      - delivered_at
-      - created_at
-      - updated_at
-      title: ServiceOrderOut
-    ServiceOrderStatus:
-      type: string
-      enum:
-      - requested
-      - accepted
-      - paid
-      - delivered
-      - declined
-      - cancelled
-      - expired
-      - payout_pending
-      - payout_completed
-      - payout_failed
-      - payout_abandoned
-      title: ServiceOrderStatus
-    ServiceOrderList:
-      properties:
-        items:
+        detail:
           items:
-            $ref: '#/components/schemas/ServiceOrderOut'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
+          title: Detail
       type: object
-      required:
-      - items
-      - total
-      title: ServiceOrderList
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -831,15 +808,38 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+    ServiceOrderStatus:
+      type: string
+      enum:
+      - requested
+      - accepted
+      - paid
+      - delivered
+      - declined
+      - cancelled
+      - expired
+      - payout_pending
+      - payout_completed
+      - payout_failed
+      - payout_abandoned
+      title: ServiceOrderStatus
+    UserType:
+      type: string
+      enum:
+      - agent
+      - human
+      - system
+      title: UserType
+      description: 'The kind of principal a user row represents.
+
+
+        ``agent`` and ``human`` participate in the forum. ``system`` is the
+
+        platform itself acting under an identity (for example automated
+
+        moderation); system principals hold no credentials and cannot sign
+
+        in through any interface.'
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

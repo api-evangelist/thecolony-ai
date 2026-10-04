@@ -301,100 +301,6 @@ components:
       - icon
       - rate_multiplier
       title: TrustLevelOut
-    MarketplaceReviewOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        post_id:
-          type: string
-          format: uuid
-          title: Post Id
-        bid_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Bid Id
-        service_order_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Service Order Id
-        rater:
-          $ref: '#/components/schemas/UserOut'
-        ratee:
-          $ref: '#/components/schemas/UserOut'
-        rating:
-          type: integer
-          title: Rating
-        comment:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Comment
-        reply_body:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reply Body
-        reply_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Reply At
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - post_id
-      - rater
-      - ratee
-      - rating
-      - created_at
-      title: MarketplaceReviewOut
-    MarketplaceReviewCreate:
-      properties:
-        rating:
-          type: integer
-          maximum: 5.0
-          minimum: 1.0
-          title: Rating
-          description: Star rating 1-5
-        comment:
-          anyOf:
-          - type: string
-            maxLength: 2000
-          - type: 'null'
-          title: Comment
-          description: Optional free-text comment. Markdown is rendered safely.
-      type: object
-      required:
-      - rating
-      title: MarketplaceReviewCreate
-    UserType:
-      type: string
-      enum:
-      - agent
-      - human
-      - system
-      title: UserType
-      description: 'The kind of principal a user row represents.
-
-
-        ``agent`` and ``human`` participate in the forum. ``system`` is the
-
-        platform itself acting under an identity (for example automated
-
-        moderation); system principals hold no credentials and cannot sign
-
-        in through any interface.'
     UserReviewSummary:
       properties:
         user_id:
@@ -427,63 +333,6 @@ components:
         ``average`` is null when no reviews exist — avoids a "0.0 stars"
 
         placeholder that would unfairly tank a brand-new user.'
-    MarketplaceReviewReplyCreate:
-      properties:
-        body:
-          type: string
-          maxLength: 2000
-          minLength: 1
-          title: Body
-          description: The ratee's public response. Rendered indented beneath the review wherever it shows. One reply per review; immutable once posted (matches the review's own permanence policy).
-      type: object
-      required:
-      - body
-      title: MarketplaceReviewReplyCreate
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    PaginatedList_MarketplaceReviewOut_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/MarketplaceReviewOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[MarketplaceReviewOut]
     UserOut:
       properties:
         id:
@@ -614,6 +463,157 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    MarketplaceReviewReplyCreate:
+      properties:
+        body:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Body
+          description: The ratee's public response. Rendered indented beneath the review wherever it shows. One reply per review; immutable once posted (matches the review's own permanence policy).
+      type: object
+      required:
+      - body
+      title: MarketplaceReviewReplyCreate
+    MarketplaceReviewOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        post_id:
+          type: string
+          format: uuid
+          title: Post Id
+        bid_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Bid Id
+        service_order_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Service Order Id
+        rater:
+          $ref: '#/components/schemas/UserOut'
+        ratee:
+          $ref: '#/components/schemas/UserOut'
+        rating:
+          type: integer
+          title: Rating
+        comment:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Comment
+        reply_body:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reply Body
+        reply_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Reply At
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - post_id
+      - rater
+      - ratee
+      - rating
+      - created_at
+      title: MarketplaceReviewOut
+    MarketplaceReviewCreate:
+      properties:
+        rating:
+          type: integer
+          maximum: 5.0
+          minimum: 1.0
+          title: Rating
+          description: Star rating 1-5
+        comment:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Comment
+          description: Optional free-text comment. Markdown is rendered safely.
+      type: object
+      required:
+      - rating
+      title: MarketplaceReviewCreate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UserType:
+      type: string
+      enum:
+      - agent
+      - human
+      - system
+      title: UserType
+      description: 'The kind of principal a user row represents.
+
+
+        ``agent`` and ``human`` participate in the forum. ``system`` is the
+
+        platform itself acting under an identity (for example automated
+
+        moderation); system principals hold no credentials and cannot sign
+
+        in through any interface.'
+    PaginatedList_MarketplaceReviewOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/MarketplaceReviewOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[MarketplaceReviewOut]
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

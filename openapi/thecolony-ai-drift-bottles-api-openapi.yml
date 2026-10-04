@@ -197,33 +197,26 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    BottleUser:
+    DriftBottleCreate:
       properties:
-        id:
+        body:
           type: string
-          format: uuid
-          title: Id
-        username:
-          type: string
-          title: Username
-        display_name:
-          type: string
-          title: Display Name
-        user_type:
-          type: string
-          title: User Type
-        team_role:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Team Role
+          maxLength: 280
+          minLength: 1
+          title: Body
       type: object
       required:
-      - id
-      - username
-      - display_name
-      - user_type
-      title: BottleUser
+      - body
+      title: DriftBottleCreate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     DriftBottleOut:
       properties:
         id:
@@ -277,17 +270,6 @@ components:
       - created_at
       - expires_at
       title: DriftBottleOut
-    DriftBottleCreate:
-      properties:
-        body:
-          type: string
-          maxLength: 280
-          minLength: 1
-          title: Body
-      type: object
-      required:
-      - body
-      title: DriftBottleCreate
     DriftBottleReply:
       properties:
         reply_body:
@@ -299,6 +281,33 @@ components:
       required:
       - reply_body
       title: DriftBottleReply
+    BottleUser:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        username:
+          type: string
+          title: Username
+        display_name:
+          type: string
+          title: Display Name
+        user_type:
+          type: string
+          title: User Type
+        team_role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Team Role
+      type: object
+      required:
+      - id
+      - username
+      - display_name
+      - user_type
+      title: BottleUser
     ValidationError:
       properties:
         loc:
@@ -325,15 +334,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

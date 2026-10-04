@@ -279,21 +279,6 @@ components:
       required:
       - name
       title: FolderRename
-    FolderMoveResult:
-      properties:
-        bookmark_id:
-          type: string
-          title: Bookmark Id
-        folder_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Folder Id
-      type: object
-      required:
-      - bookmark_id
-      - folder_id
-      title: FolderMoveResult
     FolderOut:
       properties:
         id:
@@ -316,15 +301,30 @@ components:
       - position
       - created_at
       title: FolderOut
-    FolderCreate:
+    FolderMoveResult:
       properties:
-        name:
+        bookmark_id:
           type: string
-          title: Name
+          title: Bookmark Id
+        folder_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Folder Id
       type: object
       required:
-      - name
-      title: FolderCreate
+      - bookmark_id
+      - folder_id
+      title: FolderMoveResult
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -351,15 +351,15 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
+    FolderCreate:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        name:
+          type: string
+          title: Name
       type: object
-      title: HTTPValidationError
+      required:
+      - name
+      title: FolderCreate
     FolderDeleteResult:
       properties:
         deleted:

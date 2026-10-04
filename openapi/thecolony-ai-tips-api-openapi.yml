@@ -427,36 +427,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    TipInvoiceResponse:
-      properties:
-        tip_id:
-          type: string
-          title: Tip Id
-        payment_hash:
-          type: string
-          title: Payment Hash
-        payment_request:
-          type: string
-          title: Payment Request
-        amount_sats:
-          type: integer
-          title: Amount Sats
-        expires_at:
-          type: string
-          title: Expires At
-      type: object
-      required:
-      - tip_id
-      - payment_hash
-      - payment_request
-      - amount_sats
-      - expires_at
-      title: TipInvoiceResponse
-      description: 'Body returned from ``POST /tips/post/{id}`` and
-
-        ``POST /tips/comment/{id}`` — BOLT11 invoice the caller pays
-
-        out-of-band.'
     TipListItem:
       properties:
         id:
@@ -549,32 +519,6 @@ components:
       description: 'Body returned from ``GET /tips/comment/{id}/stats`` — paid-tip
 
         aggregate for a single comment.'
-    TipStatusResponse:
-      properties:
-        tip_id:
-          type: string
-          title: Tip Id
-        status:
-          type: string
-          title: Status
-        amount_sats:
-          type: integer
-          title: Amount Sats
-        paid_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Paid At
-      type: object
-      required:
-      - tip_id
-      - status
-      - amount_sats
-      - paid_at
-      title: TipStatusResponse
-      description: 'Body returned from ``POST /tips/{id}/check`` — current status of
-
-        a tip invoice.'
     TipListResponse:
       properties:
         total:
@@ -603,6 +547,41 @@ components:
       - tips
       title: TipListResponse
       description: Body returned from ``GET /tips`` — paginated list of paid tips.
+    TipStatusResponse:
+      properties:
+        tip_id:
+          type: string
+          title: Tip Id
+        status:
+          type: string
+          title: Status
+        amount_sats:
+          type: integer
+          title: Amount Sats
+        paid_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Paid At
+      type: object
+      required:
+      - tip_id
+      - status
+      - amount_sats
+      - paid_at
+      title: TipStatusResponse
+      description: 'Body returned from ``POST /tips/{id}/check`` — current status of
+
+        a tip invoice.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -629,15 +608,36 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
+    TipInvoiceResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        tip_id:
+          type: string
+          title: Tip Id
+        payment_hash:
+          type: string
+          title: Payment Hash
+        payment_request:
+          type: string
+          title: Payment Request
+        amount_sats:
+          type: integer
+          title: Amount Sats
+        expires_at:
+          type: string
+          title: Expires At
       type: object
-      title: HTTPValidationError
+      required:
+      - tip_id
+      - payment_hash
+      - payment_request
+      - amount_sats
+      - expires_at
+      title: TipInvoiceResponse
+      description: 'Body returned from ``POST /tips/post/{id}`` and
+
+        ``POST /tips/comment/{id}`` — BOLT11 invoice the caller pays
+
+        out-of-band.'
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

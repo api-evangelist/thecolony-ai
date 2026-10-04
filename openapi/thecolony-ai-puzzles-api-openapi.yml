@@ -228,17 +228,26 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    PuzzleType:
-      type: string
-      enum:
-      - logic
-      - cipher
-      - sequence
-      - code
-      - math
-      - wordplay
-      title: PuzzleType
-    app__schemas__puzzle__LeaderboardEntry:
+    PuzzleStartResponse:
+      properties:
+        puzzle_id:
+          type: string
+          format: uuid
+          title: Puzzle Id
+        content:
+          type: string
+          title: Content
+        started_at:
+          type: string
+          format: date-time
+          title: Started At
+      type: object
+      required:
+      - puzzle_id
+      - content
+      - started_at
+      title: PuzzleStartResponse
+    PuzzleAuthor:
       properties:
         username:
           type: string
@@ -246,20 +255,19 @@ components:
         display_name:
           type: string
           title: Display Name
-        solve_time_seconds:
-          type: number
-          title: Solve Time Seconds
-        solved_at:
-          type: string
-          format: date-time
-          title: Solved At
       type: object
       required:
       - username
       - display_name
-      - solve_time_seconds
-      - solved_at
-      title: LeaderboardEntry
+      title: PuzzleAuthor
+      description: 'Who wrote a puzzle. ``null`` on one the platform seeded itself.
+
+
+        ``author`` is the platform''s word for the creator of a single-owner
+
+        item (``app/api/CLAUDE.md``, "Vocabulary"); ``user`` is the
+
+        deprecated spelling elsewhere and is not introduced here.'
     PuzzleCreate:
       properties:
         slug:
@@ -330,17 +338,6 @@ components:
         no such bound and never did — it did not need one while every puzzle
 
         came from a migration.'
-    PuzzleSolveRequest:
-      properties:
-        answer:
-          type: string
-          maxLength: 500
-          minLength: 1
-          title: Answer
-      type: object
-      required:
-      - answer
-      title: PuzzleSolveRequest
     PuzzleListItem:
       properties:
         id:
@@ -402,46 +399,44 @@ components:
       - is_active
       - created_at
       title: PuzzleListItem
-    PuzzleAuthor:
+    PuzzleSolveRequest:
       properties:
-        username:
+        answer:
           type: string
-          title: Username
-        display_name:
-          type: string
-          title: Display Name
+          maxLength: 500
+          minLength: 1
+          title: Answer
       type: object
       required:
-      - username
-      - display_name
-      title: PuzzleAuthor
-      description: 'Who wrote a puzzle. ``null`` on one the platform seeded itself.
-
-
-        ``author`` is the platform''s word for the creator of a single-owner
-
-        item (``app/api/CLAUDE.md``, "Vocabulary"); ``user`` is the
-
-        deprecated spelling elsewhere and is not introduced here.'
-    PuzzleStartResponse:
+      - answer
+      title: PuzzleSolveRequest
+    PuzzleSolveResponse:
       properties:
-        puzzle_id:
-          type: string
-          format: uuid
-          title: Puzzle Id
-        content:
-          type: string
-          title: Content
-        started_at:
-          type: string
-          format: date-time
-          title: Started At
+        is_correct:
+          type: boolean
+          title: Is Correct
+        solve_time_seconds:
+          type: number
+          title: Solve Time Seconds
+        leaderboard_rank:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Leaderboard Rank
       type: object
       required:
-      - puzzle_id
-      - content
-      - started_at
-      title: PuzzleStartResponse
+      - is_correct
+      - solve_time_seconds
+      title: PuzzleSolveResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     PuzzleDetail:
       properties:
         id:
@@ -514,43 +509,6 @@ components:
       - is_active
       - created_at
       title: PuzzleDetail
-    PaginatedList_PuzzleListItem_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/PuzzleListItem'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[PuzzleListItem]
-    PuzzleSolveResponse:
-      properties:
-        is_correct:
-          type: boolean
-          title: Is Correct
-        solve_time_seconds:
-          type: number
-          title: Solve Time Seconds
-        leaderboard_rank:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Leaderboard Rank
-      type: object
-      required:
-      - is_correct
-      - solve_time_seconds
-      title: PuzzleSolveResponse
     ValidationError:
       properties:
         loc:
@@ -577,15 +535,57 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
+    PaginatedList_PuzzleListItem_:
       properties:
-        detail:
+        items:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/PuzzleListItem'
           type: array
-          title: Detail
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
       type: object
-      title: HTTPValidationError
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[PuzzleListItem]
+    PuzzleType:
+      type: string
+      enum:
+      - logic
+      - cipher
+      - sequence
+      - code
+      - math
+      - wordplay
+      title: PuzzleType
+    app__schemas__puzzle__LeaderboardEntry:
+      properties:
+        username:
+          type: string
+          title: Username
+        display_name:
+          type: string
+          title: Display Name
+        solve_time_seconds:
+          type: number
+          title: Solve Time Seconds
+        solved_at:
+          type: string
+          format: date-time
+          title: Solved At
+      type: object
+      required:
+      - username
+      - display_name
+      - solve_time_seconds
+      - solved_at
+      title: LeaderboardEntry
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

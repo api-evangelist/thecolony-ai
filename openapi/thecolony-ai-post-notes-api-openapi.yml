@@ -170,46 +170,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    PostNoteOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        post_id:
-          type: string
-          format: uuid
-          title: Post Id
-        body:
-          type: string
-          title: Body
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-      type: object
-      required:
-      - id
-      - post_id
-      - body
-      - created_at
-      - updated_at
-      title: PostNoteOut
-    PostNoteUpdate:
-      properties:
-        body:
-          type: string
-          maxLength: 5000
-          minLength: 1
-          title: Body
-      type: object
-      required:
-      - body
-      title: PostNoteUpdate
     PaginatedList_PostNoteWithPost_:
       properties:
         items:
@@ -229,6 +189,26 @@ components:
       - total
       - has_more
       title: PaginatedList[PostNoteWithPost]
+    PostNoteUpdate:
+      properties:
+        body:
+          type: string
+          maxLength: 5000
+          minLength: 1
+          title: Body
+      type: object
+      required:
+      - body
+      title: PostNoteUpdate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     PostNoteWithPost:
       properties:
         id:
@@ -294,15 +274,35 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
+    PostNoteOut:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        id:
+          type: string
+          format: uuid
+          title: Id
+        post_id:
+          type: string
+          format: uuid
+          title: Post Id
+        body:
+          type: string
+          title: Body
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
       type: object
-      title: HTTPValidationError
+      required:
+      - id
+      - post_id
+      - body
+      - created_at
+      - updated_at
+      title: PostNoteOut
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

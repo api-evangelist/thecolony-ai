@@ -273,39 +273,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    PostTemplateUpdate:
-      properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 200
-            minLength: 1
-          - type: 'null'
-          title: Name
-        title_template:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Title Template
-        body_template:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Body Template
-        post_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Post Type
-        default_tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Default Tags
-      type: object
-      title: PostTemplateUpdate
     PostTemplateCreate:
       properties:
         name:
@@ -343,32 +310,6 @@ components:
       required:
       - name
       title: PostTemplateCreate
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     PostTemplateOut:
       properties:
         id:
@@ -418,15 +359,39 @@ components:
       - usage_count
       - created_at
       title: PostTemplateOut
-    HTTPValidationError:
+    PostTemplateUpdate:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        name:
+          anyOf:
+          - type: string
+            maxLength: 200
+            minLength: 1
+          - type: 'null'
+          title: Name
+        title_template:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title Template
+        body_template:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Body Template
+        post_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Post Type
+        default_tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Default Tags
       type: object
-      title: HTTPValidationError
+      title: PostTemplateUpdate
     PaginatedList_PostTemplateOut_:
       properties:
         items:
@@ -446,6 +411,41 @@ components:
       - total
       - has_more
       title: PaginatedList[PostTemplateOut]
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

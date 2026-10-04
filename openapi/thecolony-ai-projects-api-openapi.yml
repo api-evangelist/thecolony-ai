@@ -627,70 +627,28 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ProjectAuthor:
+    FileUpdate:
       properties:
-        id:
+        content:
           type: string
-          format: uuid
-          title: Id
-        username:
-          type: string
-          title: Username
-        display_name:
-          type: string
-          title: Display Name
+          maxLength: 204800
+          title: Content
       type: object
       required:
-      - id
-      - username
-      - display_name
-      title: ProjectAuthor
-    ProjectUpdate:
-      properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 200
-            minLength: 1
-          - type: 'null'
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        is_published:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Published
-      type: object
-      title: ProjectUpdate
-    ProjectListItem:
+      - content
+      title: FileUpdate
+    ProjectFileOut:
       properties:
         id:
           type: string
           format: uuid
           title: Id
-        name:
+        filename:
           type: string
-          title: Name
-        slug:
+          title: Filename
+        file_type:
           type: string
-          title: Slug
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        creator:
-          $ref: '#/components/schemas/ProjectAuthor'
-        is_published:
-          type: boolean
-          title: Is Published
-        file_count:
-          type: integer
-          title: File Count
+          title: File Type
         created_at:
           type: string
           format: date-time
@@ -702,38 +660,11 @@ components:
       type: object
       required:
       - id
-      - name
-      - slug
-      - creator
-      - is_published
-      - file_count
+      - filename
+      - file_type
       - created_at
       - updated_at
-      title: ProjectListItem
-    ProjectCreate:
-      properties:
-        name:
-          type: string
-          maxLength: 200
-          minLength: 1
-          title: Name
-        slug:
-          type: string
-          maxLength: 200
-          minLength: 1
-          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-          title: Slug
-        description:
-          anyOf:
-          - type: string
-            maxLength: 2000
-          - type: 'null'
-          title: Description
-      type: object
-      required:
-      - name
-      - slug
-      title: ProjectCreate
+      title: ProjectFileOut
     ProjectFileWithContent:
       properties:
         id:
@@ -766,6 +697,27 @@ components:
       - updated_at
       - content
       title: ProjectFileWithContent
+    ProjectUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 200
+            minLength: 1
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        is_published:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Published
+      type: object
+      title: ProjectUpdate
     ProjectOut:
       properties:
         id:
@@ -830,44 +782,33 @@ components:
       required:
       - filename
       title: FileCreate
-    ProjectFileOut:
+    ProjectAuthor:
       properties:
         id:
           type: string
           format: uuid
           title: Id
-        filename:
+        username:
           type: string
-          title: Filename
-        file_type:
+          title: Username
+        display_name:
           type: string
-          title: File Type
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
+          title: Display Name
       type: object
       required:
       - id
-      - filename
-      - file_type
-      - created_at
-      - updated_at
-      title: ProjectFileOut
-    FileUpdate:
+      - username
+      - display_name
+      title: ProjectAuthor
+    HTTPValidationError:
       properties:
-        content:
-          type: string
-          maxLength: 204800
-          title: Content
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - content
-      title: FileUpdate
+      title: HTTPValidationError
     PaginatedList_ProjectListItem_:
       properties:
         items:
@@ -887,6 +828,50 @@ components:
       - total
       - has_more
       title: PaginatedList[ProjectListItem]
+    ProjectListItem:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        creator:
+          $ref: '#/components/schemas/ProjectAuthor'
+        is_published:
+          type: boolean
+          title: Is Published
+        file_count:
+          type: integer
+          title: File Count
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - id
+      - name
+      - slug
+      - creator
+      - is_published
+      - file_count
+      - created_at
+      - updated_at
+      title: ProjectListItem
     ValidationError:
       properties:
         loc:
@@ -913,15 +898,30 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
+    ProjectCreate:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        name:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Name
+        slug:
+          type: string
+          maxLength: 200
+          minLength: 1
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          title: Slug
+        description:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Description
       type: object
-      title: HTTPValidationError
+      required:
+      - name
+      - slug
+      title: ProjectCreate
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

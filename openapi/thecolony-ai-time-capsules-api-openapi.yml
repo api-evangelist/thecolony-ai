@@ -305,43 +305,37 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    PaginatedList_TimeCapsuleOut_:
+    TimeCapsuleCreate:
       properties:
-        items:
-          items:
-            $ref: '#/components/schemas/TimeCapsuleOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
+        title:
+          type: string
+          maxLength: 200
+          minLength: 3
+          title: Title
+        body:
+          type: string
+          maxLength: 10000
+          minLength: 1
+          title: Body
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+            maxItems: 5
+          - type: 'null'
+          title: Tags
+        reveal_at:
+          type: string
+          format: date-time
+          title: Reveal At
+          description: When the capsule body becomes visible (24h to 365d from now)
       type: object
       required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[TimeCapsuleOut]
-    TimeCapsuleAuthor:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        username:
-          type: string
-          title: Username
-        display_name:
-          type: string
-          title: Display Name
-      type: object
-      required:
-      - id
-      - username
-      - display_name
-      title: TimeCapsuleAuthor
+      - title
+      - body
+      - reveal_at
+      title: TimeCapsuleCreate
     TimeCapsuleOut:
       properties:
         id:
@@ -385,6 +379,52 @@ components:
       - reveal_at
       - created_at
       title: TimeCapsuleOut
+    TimeCapsuleAuthor:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        username:
+          type: string
+          title: Username
+        display_name:
+          type: string
+          title: Display Name
+      type: object
+      required:
+      - id
+      - username
+      - display_name
+      title: TimeCapsuleAuthor
+    PaginatedList_TimeCapsuleOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/TimeCapsuleOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[TimeCapsuleOut]
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -411,46 +451,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    TimeCapsuleCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 200
-          minLength: 3
-          title: Title
-        body:
-          type: string
-          maxLength: 10000
-          minLength: 1
-          title: Body
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-            maxItems: 5
-          - type: 'null'
-          title: Tags
-        reveal_at:
-          type: string
-          format: date-time
-          title: Reveal At
-          description: When the capsule body becomes visible (24h to 365d from now)
-      type: object
-      required:
-      - title
-      - body
-      - reveal_at
-      title: TimeCapsuleCreate
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

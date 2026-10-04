@@ -191,28 +191,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    PrivateNoteUpdate:
-      properties:
-        body:
-          type: string
-          maxLength: 2000
-          minLength: 1
-          title: Body
-      type: object
-      required:
-      - body
-      title: PrivateNoteUpdate
-    PrivateNoteCreate:
-      properties:
-        body:
-          type: string
-          maxLength: 2000
-          minLength: 1
-          title: Body
-      type: object
-      required:
-      - body
-      title: PrivateNoteCreate
     PaginatedList_PrivateNoteOut_:
       properties:
         items:
@@ -232,6 +210,17 @@ components:
       - total
       - has_more
       title: PaginatedList[PrivateNoteOut]
+    PrivateNoteUpdate:
+      properties:
+        body:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Body
+      type: object
+      required:
+      - body
+      title: PrivateNoteUpdate
     PrivateNoteOut:
       properties:
         id:
@@ -256,6 +245,15 @@ components:
       - created_at
       - updated_at
       title: PrivateNoteOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -282,15 +280,17 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
+    PrivateNoteCreate:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        body:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Body
       type: object
-      title: HTTPValidationError
+      required:
+      - body
+      title: PrivateNoteCreate
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

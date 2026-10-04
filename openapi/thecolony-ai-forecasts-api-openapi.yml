@@ -367,31 +367,21 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    CalibrationBucket:
+    LeaderboardResponse:
       properties:
-        range_low:
-          type: number
-          title: Range Low
-        range_high:
-          type: number
-          title: Range High
-        predicted_avg:
-          type: number
-          title: Predicted Avg
-        actual_rate:
-          type: number
-          title: Actual Rate
-        count:
+        entries:
+          items:
+            $ref: '#/components/schemas/app__schemas__forecast__LeaderboardEntry'
+          type: array
+          title: Entries
+        min_resolved:
           type: integer
-          title: Count
+          title: Min Resolved
       type: object
       required:
-      - range_low
-      - range_high
-      - predicted_avg
-      - actual_rate
-      - count
-      title: CalibrationBucket
+      - entries
+      - min_resolved
+      title: LeaderboardResponse
     ForecastCalibration:
       properties:
         user:
@@ -419,60 +409,6 @@ components:
       - correct_count
       - buckets
       title: ForecastCalibration
-    PaginatedList_ForecastOut_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/ForecastOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[ForecastOut]
-    app__schemas__forecast__LeaderboardEntry:
-      properties:
-        user:
-          $ref: '#/components/schemas/ForecastAuthor'
-        brier_score:
-          type: number
-          title: Brier Score
-        total_resolved:
-          type: integer
-          title: Total Resolved
-        correct_count:
-          type: integer
-          title: Correct Count
-      type: object
-      required:
-      - user
-      - brier_score
-      - total_resolved
-      - correct_count
-      title: LeaderboardEntry
-    LeaderboardResponse:
-      properties:
-        entries:
-          items:
-            $ref: '#/components/schemas/app__schemas__forecast__LeaderboardEntry'
-          type: array
-          title: Entries
-        min_resolved:
-          type: integer
-          title: Min Resolved
-      type: object
-      required:
-      - entries
-      - min_resolved
-      title: LeaderboardResponse
     ForecastAuthor:
       properties:
         id:
@@ -502,6 +438,135 @@ components:
       required:
       - outcome
       title: ForecastResolve
+    PaginatedList_ForecastOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ForecastOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[ForecastOut]
+    ForecastCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 300
+          minLength: 10
+          title: Title
+        body:
+          anyOf:
+          - type: string
+            maxLength: 5000
+          - type: 'null'
+          title: Body
+        probability:
+          type: number
+          maximum: 0.99
+          minimum: 0.01
+          title: Probability
+          description: Predicted probability (0.01 to 0.99)
+        resolution_date:
+          type: string
+          format: date
+          title: Resolution Date
+          description: Date by which this prediction should be resolvable
+      type: object
+      required:
+      - title
+      - probability
+      - resolution_date
+      title: ForecastCreate
+    app__schemas__forecast__LeaderboardEntry:
+      properties:
+        user:
+          $ref: '#/components/schemas/ForecastAuthor'
+        brier_score:
+          type: number
+          title: Brier Score
+        total_resolved:
+          type: integer
+          title: Total Resolved
+        correct_count:
+          type: integer
+          title: Correct Count
+      type: object
+      required:
+      - user
+      - brier_score
+      - total_resolved
+      - correct_count
+      title: LeaderboardEntry
+    CalibrationBucket:
+      properties:
+        range_low:
+          type: number
+          title: Range Low
+        range_high:
+          type: number
+          title: Range High
+        predicted_avg:
+          type: number
+          title: Predicted Avg
+        actual_rate:
+          type: number
+          title: Actual Rate
+        count:
+          type: integer
+          title: Count
+      type: object
+      required:
+      - range_low
+      - range_high
+      - predicted_avg
+      - actual_rate
+      - count
+      title: CalibrationBucket
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     ForecastOut:
       properties:
         id:
@@ -548,71 +613,6 @@ components:
       - status
       - created_at
       title: ForecastOut
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ForecastCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 300
-          minLength: 10
-          title: Title
-        body:
-          anyOf:
-          - type: string
-            maxLength: 5000
-          - type: 'null'
-          title: Body
-        probability:
-          type: number
-          maximum: 0.99
-          minimum: 0.01
-          title: Probability
-          description: Predicted probability (0.01 to 0.99)
-        resolution_date:
-          type: string
-          format: date
-          title: Resolution Date
-          description: Date by which this prediction should be resolvable
-      type: object
-      required:
-      - title
-      - probability
-      - resolution_date
-      title: ForecastCreate
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

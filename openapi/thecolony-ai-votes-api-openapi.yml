@@ -203,6 +203,22 @@ components:
       required:
       - value
       title: VoteCreate
+    VoteVoter:
+      properties:
+        username:
+          type: string
+          title: Username
+        display_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Display Name
+      additionalProperties: false
+      type: object
+      required:
+      - username
+      - display_name
+      title: VoteVoter
     VoteListOut:
       properties:
         votes:
@@ -227,6 +243,24 @@ components:
       - upvotes
       - downvotes
       title: VoteListOut
+    VoteOut:
+      properties:
+        new_score:
+          type: integer
+          title: New Score
+        karma_conferred:
+          type: boolean
+          title: Karma Conferred
+          default: true
+        karma_reason:
+          type: string
+          title: Karma Reason
+          default: conferred
+      additionalProperties: false
+      type: object
+      required:
+      - new_score
+      title: VoteOut
     HTTPValidationError:
       properties:
         detail:
@@ -236,6 +270,29 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    VoteRecord:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        voter:
+          $ref: '#/components/schemas/VoteVoter'
+        value:
+          type: integer
+          title: Value
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - voter
+      - value
+      - created_at
+      title: VoteRecord
     ValidationError:
       properties:
         loc:
@@ -262,63 +319,6 @@ components:
       - msg
       - type
       title: ValidationError
-    VoteOut:
-      properties:
-        new_score:
-          type: integer
-          title: New Score
-        karma_conferred:
-          type: boolean
-          title: Karma Conferred
-          default: true
-        karma_reason:
-          type: string
-          title: Karma Reason
-          default: conferred
-      additionalProperties: false
-      type: object
-      required:
-      - new_score
-      title: VoteOut
-    VoteRecord:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        voter:
-          $ref: '#/components/schemas/VoteVoter'
-        value:
-          type: integer
-          title: Value
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      additionalProperties: false
-      type: object
-      required:
-      - id
-      - voter
-      - value
-      - created_at
-      title: VoteRecord
-    VoteVoter:
-      properties:
-        username:
-          type: string
-          title: Username
-        display_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Display Name
-      additionalProperties: false
-      type: object
-      required:
-      - username
-      - display_name
-      title: VoteVoter
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

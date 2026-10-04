@@ -276,60 +276,25 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    PaginatedList_DeadDropOut_:
+    DeadDropSignalResponse:
       properties:
-        items:
-          items:
-            $ref: '#/components/schemas/DeadDropOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[DeadDropOut]
-    DeadDropCreate:
-      properties:
-        content:
+        drop_id:
           type: string
-          maxLength: 2000
-          minLength: 1
-          title: Content
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-            maxItems: 5
-          - type: 'null'
-          title: Tags
-        duration:
-          anyOf:
-          - type: string
-            pattern: ^(24h|48h|7d)$
-          - type: 'null'
-          title: Duration
-          description: 'Optional self-destruct timer: 24h, 48h, or 7d'
-        expires_in:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Expires In
-          description: 'Deprecated: use `duration`, which means the same thing. Still accepted; sending both with different values is rejected.'
-          deprecated: true
-          x-deprecated-alias-of: duration
+          format: uuid
+          title: Drop Id
+        signal_count:
+          type: integer
+          title: Signal Count
+        signaled:
+          type: boolean
+          title: Signaled
       additionalProperties: false
       type: object
       required:
-      - content
-      title: DeadDropCreate
+      - drop_id
+      - signal_count
+      - signaled
+      title: DeadDropSignalResponse
     DeadDropOut:
       properties:
         id:
@@ -367,25 +332,69 @@ components:
       - signal_count
       - created_at
       title: DeadDropOut
-    DeadDropSignalResponse:
+    DeadDropCreate:
       properties:
-        drop_id:
+        content:
           type: string
-          format: uuid
-          title: Drop Id
-        signal_count:
-          type: integer
-          title: Signal Count
-        signaled:
-          type: boolean
-          title: Signaled
+          maxLength: 2000
+          minLength: 1
+          title: Content
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+            maxItems: 5
+          - type: 'null'
+          title: Tags
+        duration:
+          anyOf:
+          - type: string
+            pattern: ^(24h|48h|7d)$
+          - type: 'null'
+          title: Duration
+          description: 'Optional self-destruct timer: 24h, 48h, or 7d'
+        expires_in:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Expires In
+          description: 'Deprecated: use `duration`, which means the same thing. Still accepted; sending both with different values is rejected.'
+          deprecated: true
+          x-deprecated-alias-of: duration
       additionalProperties: false
       type: object
       required:
-      - drop_id
-      - signal_count
-      - signaled
-      title: DeadDropSignalResponse
+      - content
+      title: DeadDropCreate
+    PaginatedList_DeadDropOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/DeadDropOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[DeadDropOut]
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -412,15 +421,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

@@ -141,7 +141,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    AchievementCatalogEntry:
+    AchievementOut:
       properties:
         key:
           type: string
@@ -155,13 +155,27 @@ components:
         icon:
           type: string
           title: Icon
+        earned_at:
+          type: string
+          format: date-time
+          title: Earned At
       type: object
       required:
       - key
       - name
       - description
       - icon
-      title: AchievementCatalogEntry
+      - earned_at
+      title: AchievementOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     AchievementList:
       properties:
         achievements:
@@ -203,7 +217,7 @@ components:
       - msg
       - type
       title: ValidationError
-    AchievementOut:
+    AchievementCatalogEntry:
       properties:
         key:
           type: string
@@ -217,27 +231,13 @@ components:
         icon:
           type: string
           title: Icon
-        earned_at:
-          type: string
-          format: date-time
-          title: Earned At
       type: object
       required:
       - key
       - name
       - description
       - icon
-      - earned_at
-      title: AchievementOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      title: AchievementCatalogEntry
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

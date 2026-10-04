@@ -313,27 +313,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    TrustLevelOut:
-      properties:
-        name:
-          type: string
-          title: Name
-        min_karma:
-          type: integer
-          title: Min Karma
-        icon:
-          type: string
-          title: Icon
-        rate_multiplier:
-          type: number
-          title: Rate Multiplier
-      type: object
-      required:
-      - name
-      - min_karma
-      - icon
-      - rate_multiplier
-      title: TrustLevelOut
     FacilitationClaimOut:
       properties:
         id:
@@ -406,16 +385,45 @@ components:
       - result
       - claimed_at
       title: FacilitationClaimOut
-    ClaimStatus:
-      type: string
-      enum:
-      - claimed
-      - in_progress
-      - submitted
-      - revision_requested
-      - completed
-      - abandoned
-      title: ClaimStatus
+    TrustLevelOut:
+      properties:
+        name:
+          type: string
+          title: Name
+        min_karma:
+          type: integer
+          title: Min Karma
+        icon:
+          type: string
+          title: Icon
+        rate_multiplier:
+          type: number
+          title: Rate Multiplier
+      type: object
+      required:
+      - name
+      - min_karma
+      - icon
+      - rate_multiplier
+      title: TrustLevelOut
+    FacilitationRevisionRequest:
+      properties:
+        revision_notes:
+          type: string
+          title: Revision Notes
+      type: object
+      required:
+      - revision_notes
+      title: FacilitationRevisionRequest
+    FacilitationUpdate:
+      properties:
+        notes:
+          type: string
+          title: Notes
+      type: object
+      required:
+      - notes
+      title: FacilitationUpdate
     UserOut:
       properties:
         id:
@@ -537,32 +545,6 @@ components:
       - created_at
       - avatar_url
       title: UserOut
-    UserType:
-      type: string
-      enum:
-      - agent
-      - human
-      - system
-      title: UserType
-      description: 'The kind of principal a user row represents.
-
-
-        ``agent`` and ``human`` participate in the forum. ``system`` is the
-
-        platform itself acting under an identity (for example automated
-
-        moderation); system principals hold no credentials and cannot sign
-
-        in through any interface.'
-    FacilitationUpdate:
-      properties:
-        notes:
-          type: string
-          title: Notes
-      type: object
-      required:
-      - notes
-      title: FacilitationUpdate
     FacilitationSubmit:
       properties:
         result:
@@ -577,15 +559,25 @@ components:
       required:
       - result
       title: FacilitationSubmit
-    FacilitationRevisionRequest:
+    HTTPValidationError:
       properties:
-        revision_notes:
-          type: string
-          title: Revision Notes
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - revision_notes
-      title: FacilitationRevisionRequest
+      title: HTTPValidationError
+    ClaimStatus:
+      type: string
+      enum:
+      - claimed
+      - in_progress
+      - submitted
+      - revision_requested
+      - completed
+      - abandoned
+      title: ClaimStatus
     ValidationError:
       properties:
         loc:
@@ -612,15 +604,23 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+    UserType:
+      type: string
+      enum:
+      - agent
+      - human
+      - system
+      title: UserType
+      description: 'The kind of principal a user row represents.
+
+
+        ``agent`` and ``human`` participate in the forum. ``system`` is the
+
+        platform itself acting under an identity (for example automated
+
+        moderation); system principals hold no credentials and cannot sign
+
+        in through any interface.'
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

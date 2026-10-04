@@ -328,54 +328,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    PaginatedList_SignalOut_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/SignalOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[SignalOut]
-    SignalCreate:
-      properties:
-        content:
-          type: string
-          maxLength: 300
-          minLength: 1
-          title: Content
-        signal_type:
-          type: string
-          pattern: ^(alert|observation|rumor|discovery|update)$
-          title: Signal Type
-        confidence:
-          type: string
-          pattern: ^(high|medium|low|unverified)$
-          title: Confidence
-          default: medium
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-            maxItems: 3
-          - type: 'null'
-          title: Tags
-      type: object
-      required:
-      - content
-      - signal_type
-      title: SignalCreate
     ReactionOut:
       properties:
         signal_id:
@@ -398,6 +350,29 @@ components:
       - corroborate_count
       - dispute_count
       title: ReactionOut
+    SignalAuthorOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        username:
+          type: string
+          title: Username
+        display_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Display Name
+        user_type:
+          type: string
+          title: User Type
+      type: object
+      required:
+      - id
+      - username
+      - user_type
+      title: SignalAuthorOut
     SignalOut:
       properties:
         id:
@@ -453,29 +428,63 @@ components:
       - expires_at
       - created_at
       title: SignalOut
-    SignalAuthorOut:
+    SignalCreate:
       properties:
-        id:
+        content:
           type: string
-          format: uuid
-          title: Id
-        username:
+          maxLength: 300
+          minLength: 1
+          title: Content
+        signal_type:
           type: string
-          title: Username
-        display_name:
+          pattern: ^(alert|observation|rumor|discovery|update)$
+          title: Signal Type
+        confidence:
+          type: string
+          pattern: ^(high|medium|low|unverified)$
+          title: Confidence
+          default: medium
+        tags:
           anyOf:
-          - type: string
+          - items:
+              type: string
+            type: array
+            maxItems: 3
           - type: 'null'
-          title: Display Name
-        user_type:
-          type: string
-          title: User Type
+          title: Tags
       type: object
       required:
-      - id
-      - username
-      - user_type
-      title: SignalAuthorOut
+      - content
+      - signal_type
+      title: SignalCreate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    PaginatedList_SignalOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/SignalOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[SignalOut]
     ValidationError:
       properties:
         loc:
@@ -502,15 +511,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

@@ -467,33 +467,17 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ModInviteCreate:
+    ModInviteListOut:
       properties:
-        invitee_username:
-          type: string
-          maxLength: 100
-          minLength: 1
-          title: Invitee Username
-          description: A username or a user ID.
-        role_offered:
-          type: string
-          enum:
-          - moderator
-          - admin
-          title: Role Offered
-          default: moderator
-        permissions:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Permissions
-          description: Granular MOD_PERMISSIONS keys to grant on accept. Omit for the offered role's defaults.
+        invites:
+          items:
+            $ref: '#/components/schemas/ModInviteOut'
+          type: array
+          title: Invites
       type: object
       required:
-      - invitee_username
-      title: ModInviteCreate
+      - invites
+      title: ModInviteListOut
     OwnershipTransferOut:
       properties:
         transfer_id:
@@ -621,6 +605,27 @@ components:
       - created_at
       - deletion_scheduled_at
       title: DeletionRequestOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TransferProposal:
+      properties:
+        recipient_username:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Recipient Username
+          description: A username or a user ID.
+      type: object
+      required:
+      - recipient_username
+      title: TransferProposal
     PendingTransferOut:
       properties:
         pending:
@@ -634,38 +639,33 @@ components:
       description: '``pending`` is null unless the caller is the transfer''s
 
         initiator or recipient (it''s a two-party negotiation).'
-    DeletionRequestBody:
+    ModInviteCreate:
       properties:
-        reason:
+        invitee_username:
           type: string
-          maxLength: 2000
+          maxLength: 100
           minLength: 1
-          title: Reason
-      type: object
-      required:
-      - reason
-      title: DeletionRequestBody
-    OpenDeletionRequestOut:
-      properties:
-        open_request:
+          title: Invitee Username
+          description: A username or a user ID.
+        role_offered:
+          type: string
+          enum:
+          - moderator
+          - admin
+          title: Role Offered
+          default: moderator
+        permissions:
           anyOf:
-          - $ref: '#/components/schemas/DeletionRequestOut'
+          - items:
+              type: string
+            type: array
           - type: 'null'
+          title: Permissions
+          description: Granular MOD_PERMISSIONS keys to grant on accept. Omit for the offered role's defaults.
       type: object
       required:
-      - open_request
-      title: OpenDeletionRequestOut
-    ModInviteListOut:
-      properties:
-        invites:
-          items:
-            $ref: '#/components/schemas/ModInviteOut'
-          type: array
-          title: Invites
-      type: object
-      required:
-      - invites
-      title: ModInviteListOut
+      - invitee_username
+      title: ModInviteCreate
     ValidationError:
       properties:
         loc:
@@ -692,27 +692,27 @@ components:
       - msg
       - type
       title: ValidationError
-    TransferProposal:
+    DeletionRequestBody:
       properties:
-        recipient_username:
+        reason:
           type: string
-          maxLength: 100
+          maxLength: 2000
           minLength: 1
-          title: Recipient Username
-          description: A username or a user ID.
+          title: Reason
       type: object
       required:
-      - recipient_username
-      title: TransferProposal
-    HTTPValidationError:
+      - reason
+      title: DeletionRequestBody
+    OpenDeletionRequestOut:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        open_request:
+          anyOf:
+          - $ref: '#/components/schemas/DeletionRequestOut'
+          - type: 'null'
       type: object
-      title: HTTPValidationError
+      required:
+      - open_request
+      title: OpenDeletionRequestOut
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

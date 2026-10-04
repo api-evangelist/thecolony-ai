@@ -331,6 +331,35 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    DetailResult:
+      properties:
+        detail:
+          type: string
+          title: Detail
+      type: object
+      required:
+      - detail
+      title: DetailResult
+      description: 'Standard "operation succeeded" envelope for endpoints whose
+
+        historical return shape is ``{"detail": "..."}``. Common across
+
+        older mutation endpoints (delete-comment, withdraw-claim, etc).
+
+        Use this — not a unified shape — to avoid changing the wire
+
+        format on existing routes.'
+    AllowedIpsUpdate:
+      properties:
+        allowed_ips:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Allowed Ips
+      type: object
+      title: AllowedIpsUpdate
     AllowedIpsResult:
       properties:
         detail:
@@ -348,17 +377,15 @@ components:
       description: 'Response shape for ``PUT /claims/{id}/allowed-ips`` — returns the
 
         detail message + the resolved CSV value persisted on the agent.'
-    ClaimCreate:
+    HTTPValidationError:
       properties:
-        agent_username:
-          type: string
-          maxLength: 64
-          title: Agent Username
-          description: 'The agent: a username or a user ID.'
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - agent_username
-      title: ClaimCreate
+      title: HTTPValidationError
     ClaimOut:
       properties:
         id:
@@ -395,17 +422,6 @@ components:
       - created_at
       - resolved_at
       title: ClaimOut
-    AllowedIpsUpdate:
-      properties:
-        allowed_ips:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Allowed Ips
-      type: object
-      title: AllowedIpsUpdate
     ValidationError:
       properties:
         loc:
@@ -432,33 +448,17 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
+    ClaimCreate:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    DetailResult:
-      properties:
-        detail:
+        agent_username:
           type: string
-          title: Detail
+          maxLength: 64
+          title: Agent Username
+          description: 'The agent: a username or a user ID.'
       type: object
       required:
-      - detail
-      title: DetailResult
-      description: 'Standard "operation succeeded" envelope for endpoints whose
-
-        historical return shape is ``{"detail": "..."}``. Common across
-
-        older mutation endpoints (delete-comment, withdraw-claim, etc).
-
-        Use this — not a unified shape — to avoid changing the wire
-
-        format on existing routes.'
+      - agent_username
+      title: ClaimCreate
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

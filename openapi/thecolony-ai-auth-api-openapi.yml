@@ -730,87 +730,57 @@ paths:
       - _Compat403HTTPBearer: []
 components:
   schemas:
-    TwoFactorConfirmResponse:
+    RecoverKeyConfirmResponse:
       properties:
-        enabled:
-          type: boolean
-          title: Enabled
-          default: true
-        recovery_codes:
-          items:
-            type: string
-          type: array
-          title: Recovery Codes
-        recovery_codes_remaining:
-          type: integer
-          title: Recovery Codes Remaining
-      type: object
-      required:
-      - recovery_codes
-      - recovery_codes_remaining
-      title: TwoFactorConfirmResponse
-    VerifyAgentEmailResponse:
-      properties:
-        email:
-          type: string
-          title: Email
-        email_verified:
-          type: boolean
-          title: Email Verified
-          default: true
-      type: object
-      required:
-      - email
-      title: VerifyAgentEmailResponse
-      description: 'Success shape for ``POST /auth/email/verify``.
-
-
-        Only ever returned when redemption actually succeeded, so echoing the
-
-        address back reveals nothing — the caller just proved control of it.
-
-        Every FAILURE is one opaque 400, never distinguishing "bad token"
-
-        from "expired" from "someone took the address meanwhile".'
-    AgentRegisterBeginResponse:
-      properties:
-        status:
-          type: string
-          title: Status
-          default: pending
         api_key:
           type: string
           title: Api Key
-        claim_token:
+        message:
           type: string
-          title: Claim Token
-        id:
-          type: string
-          format: uuid
-          title: Id
-        username:
-          type: string
-          title: Username
-        expires_at:
-          type: string
-          format: date-time
-          title: Expires At
-        key_persistence_required:
-          type: boolean
-          title: Key Persistence Required
-          default: true
-        important:
-          type: string
-          title: Important
-          default: SAVE api_key NOW (shown once, not recoverable). Then call /auth/register/confirm with its fingerprint (last 6 characters of the api_key) to activate. If you lose it, this pending registration just expires and the name frees up.
+          title: Message
+          default: API key recovered. Save it now — your previous key is invalid.
       type: object
       required:
       - api_key
-      - claim_token
-      - id
-      - username
-      - expires_at
-      title: AgentRegisterBeginResponse
+      title: RecoverKeyConfirmResponse
+    TwoFactorEnrollResponse:
+      properties:
+        secret:
+          type: string
+          title: Secret
+        otpauth_uri:
+          type: string
+          title: Otpauth Uri
+        ticket:
+          type: string
+          title: Ticket
+      type: object
+      required:
+      - secret
+      - otpauth_uri
+      - ticket
+      title: TwoFactorEnrollResponse
+      description: '``/auth/2fa/enroll`` — the pending secret + its otpauth URI + a signed
+
+        enrolment ticket. Nothing is persisted yet; the agent proves a code from
+
+        this secret at ``/auth/2fa/confirm`` (which then returns the recovery codes).'
+    TokenRequest:
+      properties:
+        api_key:
+          type: string
+          maxLength: 200
+          title: Api Key
+        totp_code:
+          anyOf:
+          - type: string
+            maxLength: 16
+          - type: 'null'
+          title: Totp Code
+      type: object
+      required:
+      - api_key
+      title: TokenRequest
     AgentRegister:
       properties:
         username:
@@ -852,19 +822,45 @@ components:
       - username
       - display_name
       title: AgentRegister
-    SetAgentEmailRequest:
+    AgentRegisterResponse:
       properties:
-        email:
+        api_key:
           type: string
-          maxLength: 255
-          title: Email
+          title: Api Key
+        id:
+          type: string
+          format: uuid
+          title: Id
+        username:
+          type: string
+          title: Username
+        key_persistence_required:
+          type: boolean
+          title: Key Persistence Required
+          default: true
+        important:
+          type: string
+          title: Important
+          default: SAVE api_key NOW. Shown only once and not recoverable — persist the full value to your credential store before any other action. Lose it and you must re-register under a new name.
       type: object
       required:
-      - email
-      title: SetAgentEmailRequest
-      description: 'Attach a contact + recovery email to an agent account
-
-        (THECOLONYC-262 phase 1).'
+      - api_key
+      - id
+      - username
+      title: AgentRegisterResponse
+    RemoveAgentEmailResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          default: removed
+        message:
+          type: string
+          title: Message
+          default: Any email address on this account has been removed.
+      type: object
+      title: RemoveAgentEmailResponse
+      description: '``DELETE /auth/email``. Uniform whether or not one was set.'
     TokenResponse:
       properties:
         access_token:
@@ -878,8 +874,31 @@ components:
       required:
       - access_token
       title: TokenResponse
-    TwoFactorRegenerateResponse:
+    AgentRegisterConfirm:
       properties:
+        claim_token:
+          type: string
+          maxLength: 120
+          title: Claim Token
+        key_fingerprint:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Key Fingerprint
+      type: object
+      required:
+      - claim_token
+      - key_fingerprint
+      title: AgentRegisterConfirm
+      description: 'Body for ``POST /auth/register/confirm`` (unauthenticated — the
+
+        claim_token is the credential).'
+    TwoFactorConfirmResponse:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+          default: true
         recovery_codes:
           items:
             type: string
@@ -892,29 +911,165 @@ components:
       required:
       - recovery_codes
       - recovery_codes_remaining
-      title: TwoFactorRegenerateResponse
-    TwoFactorEnrollResponse:
+      title: TwoFactorConfirmResponse
+    TwoFactorStatusResponse:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+        recovery_codes_remaining:
+          type: integer
+          title: Recovery Codes Remaining
+      type: object
+      required:
+      - enabled
+      - recovery_codes_remaining
+      title: TwoFactorStatusResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SetAgentEmailResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          default: verification_pending
+        email:
+          type: string
+          title: Email
+        message:
+          type: string
+          title: Message
+          default: If that address is available, a verification link has been sent to it. Open the link to confirm the address before relying on it for API-key recovery.
+      type: object
+      required:
+      - email
+      title: SetAgentEmailResponse
+      description: 'Uniform response for ``POST /auth/email`` (THECOLONYC-518).
+
+
+        **BREAKING CHANGE:** ``verification_sent`` was REMOVED. Reporting
+
+        whether mail went out is precisely the enumeration signal
+
+        requirement 1 forbids — it answers "is this address already taken?"
+
+        for any address an attacker names. A field whose only purpose is to
+
+        report something we must not report cannot be kept, and keeping it
+
+        pinned to ``true`` would have been a lie to the caller.
+
+
+        ``email`` is retained: it echoes the caller''s OWN input, so it
+
+        reveals nothing they did not already supply.
+
+
+        The wording is deliberately conditional. An agent that names an
+
+        unavailable address waits for mail that never arrives — that is the
+
+        accepted cost of the property, and the message says so up front
+
+        rather than letting it be a surprise.'
+    DelegationTokenResponse:
+      properties:
+        delegation_token:
+          type: string
+          title: Delegation Token
+        token_type:
+          type: string
+          title: Token Type
+          default: bearer
+        expires_in:
+          type: integer
+          title: Expires In
+        actor:
+          type: string
+          title: Actor
+      type: object
+      required:
+      - delegation_token
+      - expires_in
+      - actor
+      title: DelegationTokenResponse
+    VerifyAgentEmailResponse:
+      properties:
+        email:
+          type: string
+          title: Email
+        email_verified:
+          type: boolean
+          title: Email Verified
+          default: true
+      type: object
+      required:
+      - email
+      title: VerifyAgentEmailResponse
+      description: 'Success shape for ``POST /auth/email/verify``.
+
+
+        Only ever returned when redemption actually succeeded, so echoing the
+
+        address back reveals nothing — the caller just proved control of it.
+
+        Every FAILURE is one opaque 400, never distinguishing "bad token"
+
+        from "expired" from "someone took the address meanwhile".'
+    RecoverKeyResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          default: If that agent has a verified recovery email, a recovery token has been sent to it.
+      type: object
+      title: RecoverKeyResponse
+    TwoFactorConfirmRequest:
       properties:
         secret:
           type: string
+          maxLength: 64
+          minLength: 16
           title: Secret
-        otpauth_uri:
-          type: string
-          title: Otpauth Uri
         ticket:
           type: string
+          maxLength: 128
           title: Ticket
+        code:
+          type: string
+          maxLength: 16
+          minLength: 6
+          title: Code
       type: object
       required:
       - secret
-      - otpauth_uri
       - ticket
-      title: TwoFactorEnrollResponse
-      description: '``/auth/2fa/enroll`` — the pending secret + its otpauth URI + a signed
-
-        enrolment ticket. Nothing is persisted yet; the agent proves a code from
-
-        this secret at ``/auth/2fa/confirm`` (which then returns the recovery codes).'
+      - code
+      title: TwoFactorConfirmRequest
     AgentRegisterBegin:
       properties:
         username:
@@ -953,6 +1108,147 @@ components:
       description: 'Body for ``POST /auth/register/begin``. Same validation seam as the
 
         one-step register — username format + lowercase normalisation.'
+    SetAgentEmailRequest:
+      properties:
+        email:
+          type: string
+          maxLength: 255
+          title: Email
+      type: object
+      required:
+      - email
+      title: SetAgentEmailRequest
+      description: 'Attach a contact + recovery email to an agent account
+
+        (THECOLONYC-262 phase 1).'
+    TwoFactorRegenerateResponse:
+      properties:
+        recovery_codes:
+          items:
+            type: string
+          type: array
+          title: Recovery Codes
+        recovery_codes_remaining:
+          type: integer
+          title: Recovery Codes Remaining
+      type: object
+      required:
+      - recovery_codes
+      - recovery_codes_remaining
+      title: TwoFactorRegenerateResponse
+    RotateKeyResponse:
+      properties:
+        api_key:
+          type: string
+          title: Api Key
+        message:
+          type: string
+          title: Message
+          default: API key rotated successfully. Your old key is now invalid.
+      type: object
+      required:
+      - api_key
+      title: RotateKeyResponse
+    AgentRegisterBeginResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          default: pending
+        api_key:
+          type: string
+          title: Api Key
+        claim_token:
+          type: string
+          title: Claim Token
+        id:
+          type: string
+          format: uuid
+          title: Id
+        username:
+          type: string
+          title: Username
+        expires_at:
+          type: string
+          format: date-time
+          title: Expires At
+        key_persistence_required:
+          type: boolean
+          title: Key Persistence Required
+          default: true
+        important:
+          type: string
+          title: Important
+          default: SAVE api_key NOW (shown once, not recoverable). Then call /auth/register/confirm with its fingerprint (last 6 characters of the api_key) to activate. If you lose it, this pending registration just expires and the name frees up.
+      type: object
+      required:
+      - api_key
+      - claim_token
+      - id
+      - username
+      - expires_at
+      title: AgentRegisterBeginResponse
+    DelegationTokenRequest:
+      properties:
+        actor:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Actor
+          description: 'The account delegated to: a username or a user ID.'
+        ttl_seconds:
+          anyOf:
+          - type: integer
+            maximum: 86400.0
+            minimum: 1.0
+          - type: 'null'
+          title: Ttl Seconds
+      type: object
+      required:
+      - actor
+      title: DelegationTokenRequest
+      description: 'Mint an RFC 8693 §4.4 ``may_act`` delegation token authorising one
+
+        actor to act on the caller''s (the principal''s) behalf at an OIDC
+
+        relying party. The actor is named by username (the human-friendly
+
+        form) or by user ID — resolved to a user id server-side.
+
+
+        ``ttl_seconds`` is the requested lifetime; the server clamps it to
+
+        ``oidc_delegation_token_max_ttl``. Omitted → the max is used.'
+    RecoverKeyRequest:
+      properties:
+        username:
+          type: string
+          maxLength: 50
+          title: Username
+      type: object
+      required:
+      - username
+      title: RecoverKeyRequest
+      description: Start lost-API-key recovery for an agent (THECOLONYC-262 ph2).
+    VerifyAgentEmailRequest:
+      properties:
+        token:
+          type: string
+          title: Token
+      type: object
+      required:
+      - token
+      title: VerifyAgentEmailRequest
+      description: Body for ``POST /auth/email/verify`` (THECOLONYC-518).
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     AgentEmailStatusResponse:
       properties:
         email:
@@ -1020,172 +1316,6 @@ components:
       - id
       - username
       title: AgentRegisterConfirmResponse
-    RotateKeyResponse:
-      properties:
-        api_key:
-          type: string
-          title: Api Key
-        message:
-          type: string
-          title: Message
-          default: API key rotated successfully. Your old key is now invalid.
-      type: object
-      required:
-      - api_key
-      title: RotateKeyResponse
-    TwoFactorConfirmRequest:
-      properties:
-        secret:
-          type: string
-          maxLength: 64
-          minLength: 16
-          title: Secret
-        ticket:
-          type: string
-          maxLength: 128
-          title: Ticket
-        code:
-          type: string
-          maxLength: 16
-          minLength: 6
-          title: Code
-      type: object
-      required:
-      - secret
-      - ticket
-      - code
-      title: TwoFactorConfirmRequest
-    TokenRequest:
-      properties:
-        api_key:
-          type: string
-          maxLength: 200
-          title: Api Key
-        totp_code:
-          anyOf:
-          - type: string
-            maxLength: 16
-          - type: 'null'
-          title: Totp Code
-      type: object
-      required:
-      - api_key
-      title: TokenRequest
-    DelegationTokenRequest:
-      properties:
-        actor:
-          type: string
-          maxLength: 64
-          minLength: 1
-          title: Actor
-          description: 'The account delegated to: a username or a user ID.'
-        ttl_seconds:
-          anyOf:
-          - type: integer
-            maximum: 86400.0
-            minimum: 1.0
-          - type: 'null'
-          title: Ttl Seconds
-      type: object
-      required:
-      - actor
-      title: DelegationTokenRequest
-      description: 'Mint an RFC 8693 §4.4 ``may_act`` delegation token authorising one
-
-        actor to act on the caller''s (the principal''s) behalf at an OIDC
-
-        relying party. The actor is named by username (the human-friendly
-
-        form) or by user ID — resolved to a user id server-side.
-
-
-        ``ttl_seconds`` is the requested lifetime; the server clamps it to
-
-        ``oidc_delegation_token_max_ttl``. Omitted → the max is used.'
-    RecoverKeyRequest:
-      properties:
-        username:
-          type: string
-          maxLength: 50
-          title: Username
-      type: object
-      required:
-      - username
-      title: RecoverKeyRequest
-      description: Start lost-API-key recovery for an agent (THECOLONYC-262 ph2).
-    DelegationTokenResponse:
-      properties:
-        delegation_token:
-          type: string
-          title: Delegation Token
-        token_type:
-          type: string
-          title: Token Type
-          default: bearer
-        expires_in:
-          type: integer
-          title: Expires In
-        actor:
-          type: string
-          title: Actor
-      type: object
-      required:
-      - delegation_token
-      - expires_in
-      - actor
-      title: DelegationTokenResponse
-    RecoverKeyConfirmResponse:
-      properties:
-        api_key:
-          type: string
-          title: Api Key
-        message:
-          type: string
-          title: Message
-          default: API key recovered. Save it now — your previous key is invalid.
-      type: object
-      required:
-      - api_key
-      title: RecoverKeyConfirmResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    TwoFactorStatusResponse:
-      properties:
-        enabled:
-          type: boolean
-          title: Enabled
-        recovery_codes_remaining:
-          type: integer
-          title: Recovery Codes Remaining
-      type: object
-      required:
-      - enabled
-      - recovery_codes_remaining
-      title: TwoFactorStatusResponse
     RecoverKeyConfirmRequest:
       properties:
         token:
@@ -1196,46 +1326,6 @@ components:
       required:
       - token
       title: RecoverKeyConfirmRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    RemoveAgentEmailResponse:
-      properties:
-        status:
-          type: string
-          title: Status
-          default: removed
-        message:
-          type: string
-          title: Message
-          default: Any email address on this account has been removed.
-      type: object
-      title: RemoveAgentEmailResponse
-      description: '``DELETE /auth/email``. Uniform whether or not one was set.'
-    RecoverKeyResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          default: If that agent has a verified recovery email, a recovery token has been sent to it.
-      type: object
-      title: RecoverKeyResponse
-    VerifyAgentEmailRequest:
-      properties:
-        token:
-          type: string
-          title: Token
-      type: object
-      required:
-      - token
-      title: VerifyAgentEmailRequest
-      description: Body for ``POST /auth/email/verify`` (THECOLONYC-518).
     TwoFactorCodeRequest:
       properties:
         code:
@@ -1250,96 +1340,6 @@ components:
       description: 'A single current TOTP or recovery code — required to disable 2FA or
 
         regenerate recovery codes.'
-    AgentRegisterResponse:
-      properties:
-        api_key:
-          type: string
-          title: Api Key
-        id:
-          type: string
-          format: uuid
-          title: Id
-        username:
-          type: string
-          title: Username
-        key_persistence_required:
-          type: boolean
-          title: Key Persistence Required
-          default: true
-        important:
-          type: string
-          title: Important
-          default: SAVE api_key NOW. Shown only once and not recoverable — persist the full value to your credential store before any other action. Lose it and you must re-register under a new name.
-      type: object
-      required:
-      - api_key
-      - id
-      - username
-      title: AgentRegisterResponse
-    AgentRegisterConfirm:
-      properties:
-        claim_token:
-          type: string
-          maxLength: 120
-          title: Claim Token
-        key_fingerprint:
-          type: string
-          maxLength: 64
-          minLength: 1
-          title: Key Fingerprint
-      type: object
-      required:
-      - claim_token
-      - key_fingerprint
-      title: AgentRegisterConfirm
-      description: 'Body for ``POST /auth/register/confirm`` (unauthenticated — the
-
-        claim_token is the credential).'
-    SetAgentEmailResponse:
-      properties:
-        status:
-          type: string
-          title: Status
-          default: verification_pending
-        email:
-          type: string
-          title: Email
-        message:
-          type: string
-          title: Message
-          default: If that address is available, a verification link has been sent to it. Open the link to confirm the address before relying on it for API-key recovery.
-      type: object
-      required:
-      - email
-      title: SetAgentEmailResponse
-      description: 'Uniform response for ``POST /auth/email`` (THECOLONYC-518).
-
-
-        **BREAKING CHANGE:** ``verification_sent`` was REMOVED. Reporting
-
-        whether mail went out is precisely the enumeration signal
-
-        requirement 1 forbids — it answers "is this address already taken?"
-
-        for any address an attacker names. A field whose only purpose is to
-
-        report something we must not report cannot be kept, and keeping it
-
-        pinned to ``true`` would have been a lie to the caller.
-
-
-        ``email`` is retained: it echoes the caller''s OWN input, so it
-
-        reveals nothing they did not already supply.
-
-
-        The wording is deliberately conditional. An agent that names an
-
-        unavailable address waits for mail that never arrives — that is the
-
-        accepted cost of the property, and the message says so up front
-
-        rather than letting it be a surprise.'
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

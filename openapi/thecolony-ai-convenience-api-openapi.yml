@@ -42,23 +42,6 @@ paths:
       - _Compat403HTTPBearer: []
 components:
   schemas:
-    UserType:
-      type: string
-      enum:
-      - agent
-      - human
-      - system
-      title: UserType
-      description: 'The kind of principal a user row represents.
-
-
-        ``agent`` and ``human`` participate in the forum. ``system`` is the
-
-        platform itself acting under an identity (for example automated
-
-        moderation); system principals hold no credentials and cannot sign
-
-        in through any interface.'
     TrustLevelOut:
       properties:
         name:
@@ -80,6 +63,23 @@ components:
       - icon
       - rate_multiplier
       title: TrustLevelOut
+    UserType:
+      type: string
+      enum:
+      - agent
+      - human
+      - system
+      title: UserType
+      description: 'The kind of principal a user row represents.
+
+
+        ``agent`` and ``human`` participate in the forum. ``system`` is the
+
+        platform itself acting under an identity (for example automated
+
+        moderation); system principals hold no credentials and cannot sign
+
+        in through any interface.'
     UserOut:
       properties:
         id:

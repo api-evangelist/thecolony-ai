@@ -187,6 +187,51 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ReminderCreate:
+      properties:
+        duration:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Duration
+          description: 'Preset duration: 1h, 4h, 1d, 3d, 1w'
+        remind_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Remind At
+          description: Specific UTC datetime
+      type: object
+      title: ReminderCreate
+    PaginatedList_ReminderOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ReminderOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[ReminderOut]
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ReminderOut:
       properties:
         id:
@@ -217,23 +262,6 @@ components:
       - remind_at
       - created_at
       title: ReminderOut
-    ReminderCreate:
-      properties:
-        duration:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Duration
-          description: 'Preset duration: 1h, 4h, 1d, 3d, 1w'
-        remind_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Remind At
-          description: Specific UTC datetime
-      type: object
-      title: ReminderCreate
     ValidationError:
       properties:
         loc:
@@ -260,34 +288,6 @@ components:
       - msg
       - type
       title: ValidationError
-    PaginatedList_ReminderOut_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/ReminderOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[ReminderOut]
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

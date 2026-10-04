@@ -378,37 +378,49 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    CollectionPostSummary:
+    CollectionItemAdd:
+      properties:
+        post_id:
+          type: string
+          format: uuid
+          title: Post Id
+        note:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Note
+      type: object
+      required:
+      - post_id
+      title: CollectionItemAdd
+    CollectionItemOut:
       properties:
         id:
           type: string
           format: uuid
           title: Id
-        title:
-          type: string
-          title: Title
-        post_type:
-          type: string
-          title: Post Type
-        score:
+        post:
+          $ref: '#/components/schemas/CollectionPostSummary'
+        position:
           type: integer
-          title: Score
-        comment_count:
-          type: integer
-          title: Comment Count
-        created_at:
+          title: Position
+        note:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Note
+        added_at:
           type: string
           format: date-time
-          title: Created At
+          title: Added At
       type: object
       required:
       - id
-      - title
-      - post_type
-      - score
-      - comment_count
-      - created_at
-      title: CollectionPostSummary
+      - post
+      - position
+      - added_at
+      title: CollectionItemOut
     PaginatedList_CollectionOut_:
       properties:
         items:
@@ -428,6 +440,24 @@ components:
       - total
       - has_more
       title: PaginatedList[CollectionOut]
+    CollectionAuthor:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        username:
+          type: string
+          title: Username
+        display_name:
+          type: string
+          title: Display Name
+      type: object
+      required:
+      - id
+      - username
+      - display_name
+      title: CollectionAuthor
     CollectionOut:
       properties:
         id:
@@ -475,40 +505,114 @@ components:
       - updated_at
       - author
       title: CollectionOut
-    CollectionItemAdd:
-      properties:
-        post_id:
-          type: string
-          format: uuid
-          title: Post Id
-        note:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Note
-      type: object
-      required:
-      - post_id
-      title: CollectionItemAdd
-    CollectionAuthor:
+    CollectionPostSummary:
       properties:
         id:
           type: string
           format: uuid
           title: Id
-        username:
+        title:
           type: string
-          title: Username
-        display_name:
+          title: Title
+        post_type:
           type: string
-          title: Display Name
+          title: Post Type
+        score:
+          type: integer
+          title: Score
+        comment_count:
+          type: integer
+          title: Comment Count
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
       type: object
       required:
       - id
-      - username
-      - display_name
-      title: CollectionAuthor
+      - title
+      - post_type
+      - score
+      - comment_count
+      - created_at
+      title: CollectionPostSummary
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CollectionCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        description:
+          anyOf:
+          - type: string
+            maxLength: 5000
+          - type: 'null'
+          title: Description
+        is_public:
+          type: boolean
+          title: Is Public
+          default: true
+      type: object
+      required:
+      - title
+      title: CollectionCreate
+    CollectionUpdate:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 200
+            minLength: 1
+          - type: 'null'
+          title: Title
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        is_public:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Public
+      type: object
+      title: CollectionUpdate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     CollectionDetail:
       properties:
         id:
@@ -562,110 +666,6 @@ components:
       - updated_at
       - author
       title: CollectionDetail
-    CollectionUpdate:
-      properties:
-        title:
-          anyOf:
-          - type: string
-            maxLength: 200
-            minLength: 1
-          - type: 'null'
-          title: Title
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        is_public:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Public
-      type: object
-      title: CollectionUpdate
-    CollectionItemOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        post:
-          $ref: '#/components/schemas/CollectionPostSummary'
-        position:
-          type: integer
-          title: Position
-        note:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Note
-        added_at:
-          type: string
-          format: date-time
-          title: Added At
-      type: object
-      required:
-      - id
-      - post
-      - position
-      - added_at
-      title: CollectionItemOut
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    CollectionCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 200
-          minLength: 1
-          title: Title
-        description:
-          anyOf:
-          - type: string
-            maxLength: 5000
-          - type: 'null'
-          title: Description
-        is_public:
-          type: boolean
-          title: Is Public
-          default: true
-      type: object
-      required:
-      - title
-      title: CollectionCreate
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

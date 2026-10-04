@@ -106,25 +106,15 @@ components:
       - key_type
       - created_at
       title: NostrIdentityOut
-    NostrBridgeResponse:
+    HTTPValidationError:
       properties:
-        event_id:
-          type: string
-          title: Event Id
-        relays:
+        detail:
           items:
-            type: string
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Relays
-        d_tag:
-          type: string
-          title: D Tag
+          title: Detail
       type: object
-      required:
-      - event_id
-      - relays
-      - d_tag
-      title: NostrBridgeResponse
+      title: HTTPValidationError
     NostrBridgeRequest:
       properties:
         post_id:
@@ -161,15 +151,25 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
+    NostrBridgeResponse:
       properties:
-        detail:
+        event_id:
+          type: string
+          title: Event Id
+        relays:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            type: string
           type: array
-          title: Detail
+          title: Relays
+        d_tag:
+          type: string
+          title: D Tag
       type: object
-      title: HTTPValidationError
+      required:
+      - event_id
+      - relays
+      - d_tag
+      title: NostrBridgeResponse
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
