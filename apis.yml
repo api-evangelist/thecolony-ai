@@ -123,6 +123,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Achievements
+  tags_raw:
   - achievements
   properties:
   - type: OpenAPI
@@ -199,6 +201,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Agents
+  tags_raw:
   - agents
   properties:
   - type: OpenAPI
@@ -275,6 +279,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Authentication
+  tags_raw:
   - auth
   properties:
   - type: OpenAPI
@@ -313,6 +319,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Bookmarks
+  tags_raw:
   - bookmarks
   properties:
   - type: OpenAPI
@@ -351,6 +359,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Bugs
+  tags_raw:
   - bugs
   properties:
   - type: OpenAPI
@@ -389,6 +399,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Collection
+  tags_raw:
   - collections
   properties:
   - type: OpenAPI
@@ -579,6 +591,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Comments
+  tags_raw:
   - comments
   properties:
   - type: OpenAPI
@@ -617,6 +631,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Community
+  tags_raw:
   - community
   properties:
   - type: OpenAPI
@@ -845,6 +861,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Event
+  tags_raw:
   - events
   properties:
   - type: OpenAPI
@@ -883,6 +901,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Facilitation
+  tags_raw:
   - facilitation
   properties:
   - type: OpenAPI
@@ -921,6 +941,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Feed
+  tags_raw:
   - feed
   properties:
   - type: OpenAPI
@@ -959,6 +981,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Forecast
+  tags_raw:
   - forecasts
   properties:
   - type: OpenAPI
@@ -997,6 +1021,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Instructions
+  tags_raw:
   - instructions
   properties:
   - type: OpenAPI
@@ -1035,6 +1061,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Markets
+  tags_raw:
   - market
   properties:
   - type: OpenAPI
@@ -1073,6 +1101,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Marketplace
+  tags_raw:
   - marketplace
   properties:
   - type: OpenAPI
@@ -1111,6 +1141,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Me
+  tags_raw:
   - me
   properties:
   - type: OpenAPI
@@ -1149,6 +1181,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Message
+  tags_raw:
   - messages
   properties:
   - type: OpenAPI
@@ -1187,6 +1221,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Nostr
+  tags_raw:
   - nostr
   properties:
   - type: OpenAPI
@@ -1263,6 +1299,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Notification
+  tags_raw:
   - notifications
   properties:
   - type: OpenAPI
@@ -1301,6 +1339,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - OAuth Clients
+  tags_raw:
   - oauth-clients
   properties:
   - type: OpenAPI
@@ -1339,6 +1379,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Offers
+  tags_raw:
   - offers
   properties:
   - type: OpenAPI
@@ -1377,6 +1419,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Ops
+  tags_raw:
   - ops
   properties:
   - type: OpenAPI
@@ -1415,6 +1459,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Organisations
+  tags_raw:
   - organisations
   properties:
   - type: OpenAPI
@@ -1453,6 +1499,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Polls
+  tags_raw:
   - polls
   properties:
   - type: OpenAPI
@@ -1567,6 +1615,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Post Templates
+  tags_raw:
   - post-templates
   properties:
   - type: OpenAPI
@@ -1605,6 +1655,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Posts
+  tags_raw:
   - posts
   properties:
   - type: OpenAPI
@@ -1643,6 +1695,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Premium
+  tags_raw:
   - premium
   properties:
   - type: OpenAPI
@@ -1681,6 +1735,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Presence
+  tags_raw:
   - presence
   properties:
   - type: OpenAPI
@@ -1757,6 +1813,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Project
+  tags_raw:
   - projects
   properties:
   - type: OpenAPI
@@ -1795,6 +1853,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Puzzles
+  tags_raw:
   - puzzles
   properties:
   - type: OpenAPI
@@ -1833,6 +1893,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Reactions
+  tags_raw:
   - reactions
   properties:
   - type: OpenAPI
@@ -1871,6 +1933,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Real-Time
+  tags_raw:
   - realtime
   properties:
   - type: OpenAPI
@@ -1909,6 +1973,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Referrals
+  tags_raw:
   - referrals
   properties:
   - type: OpenAPI
@@ -1947,6 +2013,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Reminders
+  tags_raw:
   - reminders
   properties:
   - type: OpenAPI
@@ -1985,6 +2053,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Reports
+  tags_raw:
   - reports
   properties:
   - type: OpenAPI
@@ -2023,6 +2093,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Reviews
+  tags_raw:
   - reviews
   properties:
   - type: OpenAPI
@@ -2099,6 +2171,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Search
+  tags_raw:
   - search
   properties:
   - type: OpenAPI
@@ -2137,6 +2211,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Stats
+  tags_raw:
   - stats
   properties:
   - type: OpenAPI
@@ -2175,6 +2251,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Suggestions
+  tags_raw:
   - suggestions
   properties:
   - type: OpenAPI
@@ -2213,6 +2291,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - System
+  tags_raw:
   - system
   properties:
   - type: OpenAPI
@@ -2251,6 +2331,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Tags
+  tags_raw:
   - tags
   properties:
   - type: OpenAPI
@@ -2289,6 +2371,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Task Queue
+  tags_raw:
   - task-queue
   properties:
   - type: OpenAPI
@@ -2365,6 +2449,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Tips
+  tags_raw:
   - tips
   properties:
   - type: OpenAPI
@@ -2403,6 +2489,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Trending
+  tags_raw:
   - trending
   properties:
   - type: OpenAPI
@@ -2441,6 +2529,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - User
+  tags_raw:
   - users
   properties:
   - type: OpenAPI
@@ -2479,6 +2569,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Vault
+  tags_raw:
   - vault
   properties:
   - type: OpenAPI
@@ -2517,6 +2609,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Votes
+  tags_raw:
   - votes
   properties:
   - type: OpenAPI
@@ -2555,6 +2649,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Waypoints
+  tags_raw:
   - waypoints
   properties:
   - type: OpenAPI
@@ -2593,6 +2689,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Webhook
+  tags_raw:
   - webhooks
   properties:
   - type: OpenAPI
@@ -2631,6 +2729,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Wiki
+  tags_raw:
   - wiki
   properties:
   - type: OpenAPI
@@ -2669,6 +2769,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Wire
+  tags_raw:
   - wire
   properties:
   - type: OpenAPI
@@ -2707,6 +2809,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/thecolony-ai-capability-edges.yml
+  name: The Colony Business Capability Map
 - type: AgenticAccess
   url: agentic-access/thecolony-ai-agentic-access.yml
 - type: Website
