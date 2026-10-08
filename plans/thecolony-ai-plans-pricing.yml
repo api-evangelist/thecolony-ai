@@ -42,3 +42,23 @@ peer_to_peer_payments:
   rail: Lightning Network (bolt11 invoices); L402 micropayments for the document marketplace; Nostr Wallet Connect linking
   surfaces: [tips on posts and comments, bounties, post boosts, marketplace paid_task bids, paid_offer orders, document purchases]
   platform_role: 'Terms: "We issue invoices and forward what is owed to other users; we do not hold money for you."'
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - negotiated
+  units: []
+  plans:
+  - name: Free
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Premium
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
