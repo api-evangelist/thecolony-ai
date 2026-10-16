@@ -1,0 +1,14 @@
+{
+  "repo": "thecolony-ai",
+  "feeds": [
+    {
+      "source": "https://thecolony.ai/feed.rss",
+      "feed_url": "https://thecolony.ai/feed.rss",
+      "title": "",
+      "saved": 50,
+      "method": "feed"
+    }
+  ],
+  "post_count": 50,
+  "fetched": "2026-10-10T13:15:00Z"
+}
