@@ -508,7 +508,41 @@ paths:
                 title: Response Market Stats Api V1 Market Stats Get
 components:
   schemas:
-    MyPurchaseOut:
+    PurchaseStatusOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        status:
+          type: string
+          title: Status
+        paid_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Paid At
+        document_id:
+          type: string
+          format: uuid
+          title: Document Id
+        download_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Download Url
+        download_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Download Token
+      type: object
+      required:
+      - id
+      - status
+      - document_id
+      title: PurchaseStatusOut
+    PurchaseOut:
       properties:
         id:
           type: string
@@ -518,74 +552,74 @@ components:
           type: string
           format: uuid
           title: Document Id
-        document_title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Document Title
-        price_sats:
+        payment_hash:
+          type: string
+          title: Payment Hash
+        payment_request:
+          type: string
+          title: Payment Request
+        amount_sats:
           type: integer
-          title: Price Sats
-        status:
+          title: Amount Sats
+        expires_at:
           type: string
-          title: Status
-        paid_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Paid At
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
+          title: Expires At
       type: object
       required:
       - id
       - document_id
-      - price_sats
-      - status
-      - created_at
-      title: MyPurchaseOut
-    InviteCreate:
+      - payment_hash
+      - payment_request
+      - amount_sats
+      - expires_at
+      title: PurchaseOut
+    ValidationError:
       properties:
-        username:
-          type: string
-          maxLength: 50
-          minLength: 1
-          title: Username
-          description: A username or a user ID.
-      type: object
-      required:
-      - username
-      title: InviteCreate
-    PaginatedListWithPages_DocumentOut_:
-      properties:
-        items:
+        loc:
           items:
-            $ref: '#/components/schemas/DocumentOut'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-        page:
-          type: integer
-          title: Page
-        pages:
-          type: integer
-          title: Pages
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - items
-      - total
-      - has_more
-      - page
-      - pages
-      title: PaginatedListWithPages[DocumentOut]
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PreviewOut:
+      properties:
+        text:
+          type: string
+          title: Text
+        type:
+          type: string
+          title: Type
+        chars:
+          type: integer
+          title: Chars
+        content_ratio:
+          type: number
+          title: Content Ratio
+      type: object
+      required:
+      - text
+      - type
+      - chars
+      - content_ratio
+      title: PreviewOut
     DocumentUpdate:
       properties:
         title:
@@ -629,6 +663,184 @@ components:
           title: Preview Auto Chars
       type: object
       title: DocumentUpdate
+    InviteOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        document_id:
+          type: string
+          format: uuid
+          title: Document Id
+        invitee_id:
+          type: string
+          format: uuid
+          title: Invitee Id
+        invitee_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Invitee Username
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - document_id
+      - invitee_id
+      - created_at
+      title: InviteOut
+    MyPurchaseOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        document_id:
+          type: string
+          format: uuid
+          title: Document Id
+        document_title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Document Title
+        price_sats:
+          type: integer
+          title: Price Sats
+        status:
+          type: string
+          title: Status
+        paid_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Paid At
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - document_id
+      - price_sats
+      - status
+      - created_at
+      title: MyPurchaseOut
+    PaginatedListWithPages_DocumentOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/DocumentOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+        page:
+          type: integer
+          title: Page
+        pages:
+          type: integer
+          title: Pages
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      - page
+      - pages
+      title: PaginatedListWithPages[DocumentOut]
+    InviteCreate:
+      properties:
+        username:
+          type: string
+          maxLength: 50
+          minLength: 1
+          title: Username
+          description: A username or a user ID.
+      type: object
+      required:
+      - username
+      title: InviteCreate
+    DocumentOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        seller_id:
+          type: string
+          format: uuid
+          title: Seller Id
+        seller_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Seller Username
+        title:
+          type: string
+          title: Title
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        filename:
+          type: string
+          title: Filename
+        content_size:
+          type: integer
+          title: Content Size
+        content_hash:
+          type: string
+          title: Content Hash
+        price_sats:
+          type: integer
+          title: Price Sats
+        visibility:
+          type: string
+          title: Visibility
+        status:
+          type: string
+          title: Status
+        preview:
+          anyOf:
+          - $ref: '#/components/schemas/PreviewOut'
+          - type: 'null'
+        download_count:
+          type: integer
+          title: Download Count
+        total_earned_sats:
+          type: integer
+          title: Total Earned Sats
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - seller_id
+      - title
+      - filename
+      - content_size
+      - content_hash
+      - price_sats
+      - visibility
+      - status
+      - download_count
+      - total_earned_sats
+      - created_at
+      title: DocumentOut
     DocumentCreateOut:
       properties:
         id:
@@ -705,178 +917,6 @@ components:
       - total_earned_sats
       - created_at
       title: DocumentCreateOut
-    PurchaseOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        document_id:
-          type: string
-          format: uuid
-          title: Document Id
-        payment_hash:
-          type: string
-          title: Payment Hash
-        payment_request:
-          type: string
-          title: Payment Request
-        amount_sats:
-          type: integer
-          title: Amount Sats
-        expires_at:
-          type: string
-          title: Expires At
-      type: object
-      required:
-      - id
-      - document_id
-      - payment_hash
-      - payment_request
-      - amount_sats
-      - expires_at
-      title: PurchaseOut
-    PreviewOut:
-      properties:
-        text:
-          type: string
-          title: Text
-        type:
-          type: string
-          title: Type
-        chars:
-          type: integer
-          title: Chars
-        content_ratio:
-          type: number
-          title: Content Ratio
-      type: object
-      required:
-      - text
-      - type
-      - chars
-      - content_ratio
-      title: PreviewOut
-    DocumentCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 150
-          minLength: 1
-          title: Title
-        description:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Description
-        filename:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Filename
-        content:
-          type: string
-          maxLength: 1100000
-          title: Content
-        price_sats:
-          type: integer
-          maximum: 1000000.0
-          minimum: 100.0
-          title: Price Sats
-        visibility:
-          type: string
-          pattern: ^(public|invite_only)$
-          title: Visibility
-          default: public
-        preview_text:
-          anyOf:
-          - type: string
-            maxLength: 2000
-          - type: 'null'
-          title: Preview Text
-        preview_auto_chars:
-          type: integer
-          maximum: 500.0
-          minimum: 0.0
-          title: Preview Auto Chars
-          default: 300
-      type: object
-      required:
-      - title
-      - filename
-      - content
-      - price_sats
-      title: DocumentCreate
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    PurchaseStatusOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        status:
-          type: string
-          title: Status
-        paid_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Paid At
-        document_id:
-          type: string
-          format: uuid
-          title: Document Id
-        download_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Download Url
-        download_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Download Token
-      type: object
-      required:
-      - id
-      - status
-      - document_id
-      title: PurchaseStatusOut
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     DocumentPublicPreview:
       properties:
         document_id:
@@ -932,106 +972,66 @@ components:
         Mirrors the on-the-wire shape of the legacy hand-built dict — only
 
         typing it explicitly so SDKs can branch on it.'
-    DocumentOut:
+    HTTPValidationError:
       properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        seller_id:
-          type: string
-          format: uuid
-          title: Seller Id
-        seller_username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Seller Username
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DocumentCreate:
+      properties:
         title:
           type: string
+          maxLength: 150
+          minLength: 1
           title: Title
         description:
           anyOf:
           - type: string
+            maxLength: 500
           - type: 'null'
           title: Description
         filename:
           type: string
+          maxLength: 255
+          minLength: 1
           title: Filename
-        content_size:
-          type: integer
-          title: Content Size
-        content_hash:
+        content:
           type: string
-          title: Content Hash
+          maxLength: 1100000
+          title: Content
         price_sats:
           type: integer
+          maximum: 1000000.0
+          minimum: 100.0
           title: Price Sats
         visibility:
           type: string
+          pattern: ^(public|invite_only)$
           title: Visibility
-        status:
-          type: string
-          title: Status
-        preview:
-          anyOf:
-          - $ref: '#/components/schemas/PreviewOut'
-          - type: 'null'
-        download_count:
-          type: integer
-          title: Download Count
-        total_earned_sats:
-          type: integer
-          title: Total Earned Sats
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - seller_id
-      - title
-      - filename
-      - content_size
-      - content_hash
-      - price_sats
-      - visibility
-      - status
-      - download_count
-      - total_earned_sats
-      - created_at
-      title: DocumentOut
-    InviteOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        document_id:
-          type: string
-          format: uuid
-          title: Document Id
-        invitee_id:
-          type: string
-          format: uuid
-          title: Invitee Id
-        invitee_username:
+          default: public
+        preview_text:
           anyOf:
           - type: string
+            maxLength: 2000
           - type: 'null'
-          title: Invitee Username
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
+          title: Preview Text
+        preview_auto_chars:
+          type: integer
+          maximum: 500.0
+          minimum: 0.0
+          title: Preview Auto Chars
+          default: 300
       type: object
       required:
-      - id
-      - document_id
-      - invitee_id
-      - created_at
-      title: InviteOut
+      - title
+      - filename
+      - content
+      - price_sats
+      title: DocumentCreate
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

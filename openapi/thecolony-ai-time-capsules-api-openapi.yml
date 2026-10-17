@@ -305,6 +305,32 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     TimeCapsuleCreate:
       properties:
         title:
@@ -336,6 +362,25 @@ components:
       - body
       - reveal_at
       title: TimeCapsuleCreate
+    PaginatedList_TimeCapsuleOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/TimeCapsuleOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[TimeCapsuleOut]
     TimeCapsuleOut:
       properties:
         id:
@@ -379,6 +424,15 @@ components:
       - reveal_at
       - created_at
       title: TimeCapsuleOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     TimeCapsuleAuthor:
       properties:
         id:
@@ -397,60 +451,6 @@ components:
       - username
       - display_name
       title: TimeCapsuleAuthor
-    PaginatedList_TimeCapsuleOut_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/TimeCapsuleOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[TimeCapsuleOut]
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

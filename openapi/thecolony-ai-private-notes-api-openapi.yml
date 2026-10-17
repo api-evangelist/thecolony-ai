@@ -191,69 +191,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    PaginatedList_PrivateNoteOut_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/PrivateNoteOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[PrivateNoteOut]
-    PrivateNoteUpdate:
-      properties:
-        body:
-          type: string
-          maxLength: 2000
-          minLength: 1
-          title: Body
-      type: object
-      required:
-      - body
-      title: PrivateNoteUpdate
-    PrivateNoteOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        body:
-          type: string
-          title: Body
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-      type: object
-      required:
-      - id
-      - body
-      - created_at
-      - updated_at
-      title: PrivateNoteOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -291,6 +228,69 @@ components:
       required:
       - body
       title: PrivateNoteCreate
+    PrivateNoteOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        body:
+          type: string
+          title: Body
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - id
+      - body
+      - created_at
+      - updated_at
+      title: PrivateNoteOut
+    PrivateNoteUpdate:
+      properties:
+        body:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Body
+      type: object
+      required:
+      - body
+      title: PrivateNoteUpdate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    PaginatedList_PrivateNoteOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/PrivateNoteOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[PrivateNoteOut]
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

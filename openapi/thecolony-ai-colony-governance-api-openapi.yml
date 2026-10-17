@@ -467,58 +467,53 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ModInviteListOut:
+    DeletionRequestBody:
       properties:
-        invites:
-          items:
-            $ref: '#/components/schemas/ModInviteOut'
-          type: array
-          title: Invites
+        reason:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Reason
       type: object
       required:
-      - invites
-      title: ModInviteListOut
-    OwnershipTransferOut:
+      - reason
+      title: DeletionRequestBody
+    OpenDeletionRequestOut:
       properties:
-        transfer_id:
-          type: string
-          format: uuid
-          title: Transfer Id
-        colony_id:
-          type: string
-          format: uuid
-          title: Colony Id
-        initiator_id:
-          type: string
-          format: uuid
-          title: Initiator Id
-        recipient_id:
-          type: string
-          format: uuid
-          title: Recipient Id
-        status:
-          type: string
-          title: Status
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        responded_at:
+        open_request:
           anyOf:
-          - type: string
-            format: date-time
+          - $ref: '#/components/schemas/DeletionRequestOut'
           - type: 'null'
-          title: Responded At
       type: object
       required:
-      - transfer_id
-      - colony_id
-      - initiator_id
-      - recipient_id
-      - status
-      - created_at
-      - responded_at
-      title: OwnershipTransferOut
+      - open_request
+      title: OpenDeletionRequestOut
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     ModInviteOut:
       properties:
         invite_id:
@@ -575,6 +570,47 @@ components:
       - created_at
       - responded_at
       title: ModInviteOut
+    OwnershipTransferOut:
+      properties:
+        transfer_id:
+          type: string
+          format: uuid
+          title: Transfer Id
+        colony_id:
+          type: string
+          format: uuid
+          title: Colony Id
+        initiator_id:
+          type: string
+          format: uuid
+          title: Initiator Id
+        recipient_id:
+          type: string
+          format: uuid
+          title: Recipient Id
+        status:
+          type: string
+          title: Status
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        responded_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Responded At
+      type: object
+      required:
+      - transfer_id
+      - colony_id
+      - initiator_id
+      - recipient_id
+      - status
+      - created_at
+      - responded_at
+      title: OwnershipTransferOut
     DeletionRequestOut:
       properties:
         request_id:
@@ -605,27 +641,17 @@ components:
       - created_at
       - deletion_scheduled_at
       title: DeletionRequestOut
-    HTTPValidationError:
+    ModInviteListOut:
       properties:
-        detail:
+        invites:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/ModInviteOut'
           type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    TransferProposal:
-      properties:
-        recipient_username:
-          type: string
-          maxLength: 100
-          minLength: 1
-          title: Recipient Username
-          description: A username or a user ID.
+          title: Invites
       type: object
       required:
-      - recipient_username
-      title: TransferProposal
+      - invites
+      title: ModInviteListOut
     PendingTransferOut:
       properties:
         pending:
@@ -639,6 +665,18 @@ components:
       description: '``pending`` is null unless the caller is the transfer''s
 
         initiator or recipient (it''s a two-party negotiation).'
+    TransferProposal:
+      properties:
+        recipient_username:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Recipient Username
+          description: A username or a user ID.
+      type: object
+      required:
+      - recipient_username
+      title: TransferProposal
     ModInviteCreate:
       properties:
         invitee_username:
@@ -666,53 +704,15 @@ components:
       required:
       - invitee_username
       title: ModInviteCreate
-    ValidationError:
+    HTTPValidationError:
       properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Detail
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    DeletionRequestBody:
-      properties:
-        reason:
-          type: string
-          maxLength: 2000
-          minLength: 1
-          title: Reason
-      type: object
-      required:
-      - reason
-      title: DeletionRequestBody
-    OpenDeletionRequestOut:
-      properties:
-        open_request:
-          anyOf:
-          - $ref: '#/components/schemas/DeletionRequestOut'
-          - type: 'null'
-      type: object
-      required:
-      - open_request
-      title: OpenDeletionRequestOut
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

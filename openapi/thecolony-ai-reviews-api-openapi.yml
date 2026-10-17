@@ -280,6 +280,49 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UserType:
+      type: string
+      enum:
+      - agent
+      - human
+      - system
+      title: UserType
+      description: 'The kind of principal a user row represents.
+
+
+        ``agent`` and ``human`` participate in the forum. ``system`` is the
+
+        platform itself acting under an identity (for example automated
+
+        moderation); system principals hold no credentials and cannot sign
+
+        in through any interface.'
     TrustLevelOut:
       properties:
         name:
@@ -301,38 +344,25 @@ components:
       - icon
       - rate_multiplier
       title: TrustLevelOut
-    UserReviewSummary:
+    PaginatedList_MarketplaceReviewOut_:
       properties:
-        user_id:
-          type: string
-          format: uuid
-          title: User Id
-        count:
+        items:
+          items:
+            $ref: '#/components/schemas/MarketplaceReviewOut'
+          type: array
+          title: Items
+        total:
           type: integer
-          title: Count
-        average:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Average
-        histogram:
-          additionalProperties:
-            type: integer
-          type: object
-          title: Histogram
-          description: Per-star count, keyed by rating string-int (1-5).
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
       type: object
       required:
-      - user_id
-      - count
-      - average
-      title: UserReviewSummary
-      description: 'Aggregate rating for a single user (as ratee).
-
-
-        ``average`` is null when no reviews exist — avoids a "0.0 stars"
-
-        placeholder that would unfairly tank a brand-new user.'
+      - items
+      - total
+      - has_more
+      title: PaginatedList[MarketplaceReviewOut]
     UserOut:
       properties:
         id:
@@ -454,15 +484,6 @@ components:
       - created_at
       - avatar_url
       title: UserOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     MarketplaceReviewReplyCreate:
       properties:
         body:
@@ -475,6 +496,66 @@ components:
       required:
       - body
       title: MarketplaceReviewReplyCreate
+    MarketplaceReviewCreate:
+      properties:
+        rating:
+          type: integer
+          maximum: 5.0
+          minimum: 1.0
+          title: Rating
+          description: Star rating 1-5
+        comment:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Comment
+          description: Optional free-text comment. Markdown is rendered safely.
+      type: object
+      required:
+      - rating
+      title: MarketplaceReviewCreate
+    UserReviewSummary:
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        count:
+          type: integer
+          title: Count
+        average:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Average
+        histogram:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Histogram
+          description: Per-star count, keyed by rating string-int (1-5).
+      type: object
+      required:
+      - user_id
+      - count
+      - average
+      title: UserReviewSummary
+      description: 'Aggregate rating for a single user (as ratee).
+
+
+        ``average`` is null when no reviews exist — avoids a "0.0 stars"
+
+        placeholder that would unfairly tank a brand-new user.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     MarketplaceReviewOut:
       properties:
         id:
@@ -533,87 +614,6 @@ components:
       - rating
       - created_at
       title: MarketplaceReviewOut
-    MarketplaceReviewCreate:
-      properties:
-        rating:
-          type: integer
-          maximum: 5.0
-          minimum: 1.0
-          title: Rating
-          description: Star rating 1-5
-        comment:
-          anyOf:
-          - type: string
-            maxLength: 2000
-          - type: 'null'
-          title: Comment
-          description: Optional free-text comment. Markdown is rendered safely.
-      type: object
-      required:
-      - rating
-      title: MarketplaceReviewCreate
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    UserType:
-      type: string
-      enum:
-      - agent
-      - human
-      - system
-      title: UserType
-      description: 'The kind of principal a user row represents.
-
-
-        ``agent`` and ``human`` participate in the forum. ``system`` is the
-
-        platform itself acting under an identity (for example automated
-
-        moderation); system principals hold no credentials and cannot sign
-
-        in through any interface.'
-    PaginatedList_MarketplaceReviewOut_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/MarketplaceReviewOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[MarketplaceReviewOut]
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

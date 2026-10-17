@@ -783,31 +783,55 @@ components:
         ``folder`` is the segment before the first ``/`` in a filename;
 
         files with no ``/`` group under the ``(root)`` sentinel.'
-    VaultFileUpload:
+    ValidationError:
       properties:
-        content:
-          type: string
-          maxLength: 1100000
-          title: Content
-      type: object
-      required:
-      - content
-      title: VaultFileUpload
-    VaultActivityResponse:
-      properties:
-        items:
+        loc:
           items:
-            $ref: '#/components/schemas/VaultActivityItem'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - items
-      - total
-      title: VaultActivityResponse
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    VaultFileInfo:
+      properties:
+        filename:
+          type: string
+          title: Filename
+        content_size:
+          type: integer
+          title: Content Size
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - filename
+      - content_size
+      - created_at
+      - updated_at
+      title: VaultFileInfo
     VaultSearchResult:
       properties:
         filename:
@@ -835,50 +859,21 @@ components:
       - created_at
       - updated_at
       title: VaultSearchResult
-    VaultFileInfo:
+    VaultActivityResponse:
       properties:
-        filename:
-          type: string
-          title: Filename
-        content_size:
+        items:
+          items:
+            $ref: '#/components/schemas/VaultActivityItem'
+          type: array
+          title: Items
+        total:
           type: integer
-          title: Content Size
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
+          title: Total
       type: object
       required:
-      - filename
-      - content_size
-      - created_at
-      - updated_at
-      title: VaultFileInfo
-    VaultStatusResponse:
-      properties:
-        quota_bytes:
-          type: integer
-          title: Quota Bytes
-        used_bytes:
-          type: integer
-          title: Used Bytes
-        available_bytes:
-          type: integer
-          title: Available Bytes
-        file_count:
-          type: integer
-          title: File Count
-      type: object
-      required:
-      - quota_bytes
-      - used_bytes
-      - available_bytes
-      - file_count
-      title: VaultStatusResponse
+      - items
+      - total
+      title: VaultActivityResponse
     VaultFoldersResponse:
       properties:
         items:
@@ -894,6 +889,37 @@ components:
       - items
       - total
       title: VaultFoldersResponse
+    VaultFileContent:
+      properties:
+        filename:
+          type: string
+          title: Filename
+        content_size:
+          type: integer
+          title: Content Size
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+        content:
+          type: string
+          title: Content
+        etag:
+          type: string
+          title: Etag
+      type: object
+      required:
+      - filename
+      - content_size
+      - created_at
+      - updated_at
+      - content
+      - etag
+      title: VaultFileContent
     VaultActivityItem:
       properties:
         action:
@@ -926,37 +952,52 @@ components:
         Deliberately omits ``request_ip`` — that''s an internal audit field
 
         (the human operator''s IP), not surfaced to the agent.'
-    VaultFileContent:
+    VaultStatusResponse:
       properties:
-        filename:
-          type: string
-          title: Filename
-        content_size:
+        quota_bytes:
           type: integer
-          title: Content Size
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-        content:
-          type: string
-          title: Content
-        etag:
-          type: string
-          title: Etag
+          title: Quota Bytes
+        used_bytes:
+          type: integer
+          title: Used Bytes
+        available_bytes:
+          type: integer
+          title: Available Bytes
+        file_count:
+          type: integer
+          title: File Count
       type: object
       required:
-      - filename
-      - content_size
-      - created_at
-      - updated_at
+      - quota_bytes
+      - used_bytes
+      - available_bytes
+      - file_count
+      title: VaultStatusResponse
+    VaultFileUpload:
+      properties:
+        content:
+          type: string
+          maxLength: 1100000
+          title: Content
+      type: object
+      required:
       - content
-      - etag
-      title: VaultFileContent
+      title: VaultFileUpload
+    VaultSearchResponse:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/VaultSearchResult'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+      type: object
+      required:
+      - items
+      - total
+      title: VaultSearchResponse
     PaginatedList_VaultFileInfo_:
       properties:
         items:
@@ -985,21 +1026,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    VaultSearchResponse:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/VaultSearchResult'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-      type: object
-      required:
-      - items
-      - total
-      title: VaultSearchResponse
     VaultRelocateRequest:
       properties:
         destination:
@@ -1025,32 +1051,6 @@ components:
         carries the destination + the overwrite opt-in. Shared by both the
 
         ``/move`` and ``/copy`` endpoints — the body shape is identical.'
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

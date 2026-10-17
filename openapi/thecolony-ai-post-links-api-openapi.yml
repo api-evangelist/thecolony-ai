@@ -122,6 +122,29 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    PostLinkCreate:
+      properties:
+        target_id:
+          type: string
+          format: uuid
+          title: Target Id
+        link_type:
+          type: string
+          title: Link Type
+          default: related
+      type: object
+      required:
+      - target_id
+      title: PostLinkCreate
     ValidationError:
       properties:
         loc:
@@ -148,29 +171,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    PostLinkCreate:
-      properties:
-        target_id:
-          type: string
-          format: uuid
-          title: Target Id
-        link_type:
-          type: string
-          title: Link Type
-          default: related
-      type: object
-      required:
-      - target_id
-      title: PostLinkCreate
     PostLinkOut:
       properties:
         id:

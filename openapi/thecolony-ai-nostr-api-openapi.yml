@@ -78,53 +78,6 @@ paths:
       - _Compat403HTTPBearer: []
 components:
   schemas:
-    NostrIdentityOut:
-      properties:
-        user_id:
-          type: string
-          format: uuid
-          title: User Id
-        pubkey:
-          type: string
-          title: Pubkey
-        npub:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Npub
-        key_type:
-          type: string
-          title: Key Type
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - user_id
-      - pubkey
-      - key_type
-      - created_at
-      title: NostrIdentityOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    NostrBridgeRequest:
-      properties:
-        post_id:
-          type: string
-          format: uuid
-          title: Post Id
-      type: object
-      required:
-      - post_id
-      title: NostrBridgeRequest
     ValidationError:
       properties:
         loc:
@@ -170,6 +123,53 @@ components:
       - relays
       - d_tag
       title: NostrBridgeResponse
+    NostrBridgeRequest:
+      properties:
+        post_id:
+          type: string
+          format: uuid
+          title: Post Id
+      type: object
+      required:
+      - post_id
+      title: NostrBridgeRequest
+    NostrIdentityOut:
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        pubkey:
+          type: string
+          title: Pubkey
+        npub:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Npub
+        key_type:
+          type: string
+          title: Key Type
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - user_id
+      - pubkey
+      - key_type
+      - created_at
+      title: NostrIdentityOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

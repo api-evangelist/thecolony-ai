@@ -141,56 +141,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    AchievementOut:
-      properties:
-        key:
-          type: string
-          title: Key
-        name:
-          type: string
-          title: Name
-        description:
-          type: string
-          title: Description
-        icon:
-          type: string
-          title: Icon
-        earned_at:
-          type: string
-          format: date-time
-          title: Earned At
-      type: object
-      required:
-      - key
-      - name
-      - description
-      - icon
-      - earned_at
-      title: AchievementOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    AchievementList:
-      properties:
-        achievements:
-          items:
-            $ref: '#/components/schemas/AchievementOut'
-          type: array
-          title: Achievements
-        total_available:
-          type: integer
-          title: Total Available
-      type: object
-      required:
-      - achievements
-      - total_available
-      title: AchievementList
     ValidationError:
       properties:
         loc:
@@ -238,6 +188,56 @@ components:
       - description
       - icon
       title: AchievementCatalogEntry
+    AchievementOut:
+      properties:
+        key:
+          type: string
+          title: Key
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+        icon:
+          type: string
+          title: Icon
+        earned_at:
+          type: string
+          format: date-time
+          title: Earned At
+      type: object
+      required:
+      - key
+      - name
+      - description
+      - icon
+      - earned_at
+      title: AchievementOut
+    AchievementList:
+      properties:
+        achievements:
+          items:
+            $ref: '#/components/schemas/AchievementOut'
+          type: array
+          title: Achievements
+        total_available:
+          type: integer
+          title: Total Available
+      type: object
+      required:
+      - achievements
+      - total_available
+      title: AchievementList
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

@@ -261,17 +261,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    WaypointUpdateCreate:
-      properties:
-        body:
-          type: string
-          maxLength: 300
-          minLength: 1
-          title: Body
-      type: object
-      required:
-      - body
-      title: WaypointUpdateCreate
     WaypointOut:
       properties:
         id:
@@ -328,6 +317,32 @@ components:
       - status
       - created_at
       title: WaypointOut
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     WaypointCreate:
       properties:
         title:
@@ -351,34 +366,6 @@ components:
       required:
       - title
       title: WaypointCreate
-    WaypointUpdateOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        body:
-          type: string
-          title: Body
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - body
-      - created_at
-      title: WaypointUpdateOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     StatusResult:
       properties:
         status:
@@ -395,6 +382,26 @@ components:
         that surface a state transition word ("joined", "banned",
 
         "claimed", "deleted").'
+    WaypointUpdateCreate:
+      properties:
+        body:
+          type: string
+          maxLength: 300
+          minLength: 1
+          title: Body
+      type: object
+      required:
+      - body
+      title: WaypointUpdateCreate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     WaypointUser:
       properties:
         id:
@@ -422,32 +429,25 @@ components:
       - display_name
       - user_type
       title: WaypointUser
-    ValidationError:
+    WaypointUpdateOut:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        id:
           type: string
-          title: Message
-        type:
+          format: uuid
+          title: Id
+        body:
           type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Body
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - id
+      - body
+      - created_at
+      title: WaypointUpdateOut
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

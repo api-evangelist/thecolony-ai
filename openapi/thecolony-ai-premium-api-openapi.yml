@@ -156,30 +156,41 @@ paths:
       - _Compat403HTTPBearer: []
 components:
   schemas:
-    PremiumPricingOut:
+    PremiumAutoRenewRequest:
       properties:
-        plans:
-          items:
-            $ref: '#/components/schemas/PremiumPlanOut'
-          type: array
-          title: Plans
-        program_enabled:
+        enabled:
           type: boolean
-          title: Program Enabled
+          title: Enabled
       type: object
       required:
-      - plans
-      - program_enabled
-      title: PremiumPricingOut
-    PremiumSubscribeRequest:
+      - enabled
+      title: PremiumAutoRenewRequest
+    ValidationError:
       properties:
-        period:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Period
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - period
-      title: PremiumSubscribeRequest
+      - loc
+      - msg
+      - type
+      title: ValidationError
     PremiumMembershipOut:
       properties:
         id:
@@ -270,15 +281,6 @@ components:
       - status
       title: PremiumInvoiceOut
       description: A freshly-minted (or polled) premium invoice for the agent to pay.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     PremiumStatusOut:
       properties:
         is_premium:
@@ -330,41 +332,39 @@ components:
       - period_days
       title: PremiumPlanOut
       description: One purchasable plan with a live sats quote.
-    PremiumAutoRenewRequest:
+    PremiumPricingOut:
       properties:
-        enabled:
-          type: boolean
-          title: Enabled
-      type: object
-      required:
-      - enabled
-      title: PremiumAutoRenewRequest
-    ValidationError:
-      properties:
-        loc:
+        plans:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/PremiumPlanOut'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Plans
+        program_enabled:
+          type: boolean
+          title: Program Enabled
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - plans
+      - program_enabled
+      title: PremiumPricingOut
+    PremiumSubscribeRequest:
+      properties:
+        period:
+          type: string
+          title: Period
+      type: object
+      required:
+      - period
+      title: PremiumSubscribeRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

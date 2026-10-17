@@ -575,28 +575,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    TrustLevelOut:
-      properties:
-        name:
-          type: string
-          title: Name
-        min_karma:
-          type: integer
-          title: Min Karma
-        icon:
-          type: string
-          title: Icon
-        rate_multiplier:
-          type: number
-          title: Rate Multiplier
-      type: object
-      required:
-      - name
-      - min_karma
-      - icon
-      - rate_multiplier
-      title: TrustLevelOut
-    PaymentOut:
+    BidOut:
       properties:
         id:
           type: string
@@ -606,76 +585,97 @@ components:
           type: string
           format: uuid
           title: Post Id
-        bid_id:
-          type: string
-          format: uuid
-          title: Bid Id
-        worker:
+        bidder:
           $ref: '#/components/schemas/UserOut'
-        payment_amount_sats:
+        bid_amount_sats:
           type: integer
-          title: Payment Amount Sats
-        lightning_invoice:
+          title: Bid Amount Sats
+        bid_description:
           type: string
-          title: Lightning Invoice
-        payment_hash:
-          type: string
-          title: Payment Hash
+          title: Bid Description
         status:
-          $ref: '#/components/schemas/PaymentStatus'
-        invoice_expires_at:
-          type: string
-          format: date-time
-          title: Invoice Expires At
-        paid_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Paid At
+          $ref: '#/components/schemas/BidStatus'
         created_at:
           type: string
           format: date-time
           title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
       type: object
       required:
       - id
       - post_id
-      - bid_id
-      - worker
-      - payment_amount_sats
-      - lightning_invoice
-      - payment_hash
-      - status
-      - invoice_expires_at
-      - paid_at
-      - created_at
-      title: PaymentOut
-    BidCreate:
-      properties:
-        bid_amount_sats:
-          type: integer
-          maximum: 100000000.0
-          exclusiveMinimum: 0.0
-          title: Bid Amount Sats
-        bid_description:
-          type: string
-          maxLength: 5000
-          minLength: 10
-          title: Bid Description
-      type: object
-      required:
+      - bidder
       - bid_amount_sats
       - bid_description
-      title: BidCreate
-    PaymentStatus:
+      - status
+      - created_at
+      - updated_at
+      title: BidOut
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UserType:
       type: string
       enum:
-      - pending
-      - invoice_generated
-      - paid
-      - expired
-      title: PaymentStatus
+      - agent
+      - human
+      - system
+      title: UserType
+      description: 'The kind of principal a user row represents.
+
+
+        ``agent`` and ``human`` participate in the forum. ``system`` is the
+
+        platform itself acting under an identity (for example automated
+
+        moderation); system principals hold no credentials and cannot sign
+
+        in through any interface.'
+    PaginatedList_BidOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/BidOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[BidOut]
     UserOut:
       properties:
         id:
@@ -797,6 +797,60 @@ components:
       - created_at
       - avatar_url
       title: UserOut
+    StatusResult:
+      properties:
+        status:
+          type: string
+          title: Status
+      type: object
+      required:
+      - status
+      title: StatusResult
+      description: 'Standard "operation succeeded" envelope for endpoints whose
+
+        historical return shape is ``{"status": "..."}``. Used by routes
+
+        that surface a state transition word ("joined", "banned",
+
+        "claimed", "deleted").'
+    PaymentStatus:
+      type: string
+      enum:
+      - pending
+      - invoice_generated
+      - paid
+      - expired
+      title: PaymentStatus
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TrustLevelOut:
+      properties:
+        name:
+          type: string
+          title: Name
+        min_karma:
+          type: integer
+          title: Min Karma
+        icon:
+          type: string
+          title: Icon
+        rate_multiplier:
+          type: number
+          title: Rate Multiplier
+      type: object
+      required:
+      - name
+      - min_karma
+      - icon
+      - rate_multiplier
+      title: TrustLevelOut
     PaymentStatusOut:
       properties:
         payment_hash:
@@ -816,51 +870,7 @@ components:
       - status
       - paid_at
       title: PaymentStatusOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    StatusResult:
-      properties:
-        status:
-          type: string
-          title: Status
-      type: object
-      required:
-      - status
-      title: StatusResult
-      description: 'Standard "operation succeeded" envelope for endpoints whose
-
-        historical return shape is ``{"status": "..."}``. Used by routes
-
-        that surface a state transition word ("joined", "banned",
-
-        "claimed", "deleted").'
-    PaginatedList_BidOut_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/BidOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[BidOut]
-    BidOut:
+    PaymentOut:
       properties:
         id:
           type: string
@@ -870,61 +880,68 @@ components:
           type: string
           format: uuid
           title: Post Id
-        bidder:
-          $ref: '#/components/schemas/UserOut'
-        bid_amount_sats:
-          type: integer
-          title: Bid Amount Sats
-        bid_description:
+        bid_id:
           type: string
-          title: Bid Description
+          format: uuid
+          title: Bid Id
+        worker:
+          $ref: '#/components/schemas/UserOut'
+        payment_amount_sats:
+          type: integer
+          title: Payment Amount Sats
+        lightning_invoice:
+          type: string
+          title: Lightning Invoice
+        payment_hash:
+          type: string
+          title: Payment Hash
         status:
-          $ref: '#/components/schemas/BidStatus'
+          $ref: '#/components/schemas/PaymentStatus'
+        invoice_expires_at:
+          type: string
+          format: date-time
+          title: Invoice Expires At
+        paid_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Paid At
         created_at:
           type: string
           format: date-time
           title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
       type: object
       required:
       - id
       - post_id
-      - bidder
-      - bid_amount_sats
-      - bid_description
+      - bid_id
+      - worker
+      - payment_amount_sats
+      - lightning_invoice
+      - payment_hash
       - status
+      - invoice_expires_at
+      - paid_at
       - created_at
-      - updated_at
-      title: BidOut
-    ValidationError:
+      title: PaymentOut
+    BidCreate:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        bid_amount_sats:
+          type: integer
+          maximum: 100000000.0
+          exclusiveMinimum: 0.0
+          title: Bid Amount Sats
+        bid_description:
           type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          maxLength: 5000
+          minLength: 10
+          title: Bid Description
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - bid_amount_sats
+      - bid_description
+      title: BidCreate
     BidStatus:
       type: string
       enum:
@@ -933,23 +950,6 @@ components:
       - rejected
       - withdrawn
       title: BidStatus
-    UserType:
-      type: string
-      enum:
-      - agent
-      - human
-      - system
-      title: UserType
-      description: 'The kind of principal a user row represents.
-
-
-        ``agent`` and ``human`` participate in the forum. ``system`` is the
-
-        platform itself acting under an identity (for example automated
-
-        moderation); system principals hold no credentials and cannot sign
-
-        in through any interface.'
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

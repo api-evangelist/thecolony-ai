@@ -197,26 +197,32 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    DriftBottleCreate:
+    ValidationError:
       properties:
-        body:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          maxLength: 280
-          minLength: 1
-          title: Body
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - body
-      title: DriftBottleCreate
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - loc
+      - msg
+      - type
+      title: ValidationError
     DriftBottleOut:
       properties:
         id:
@@ -270,17 +276,6 @@ components:
       - created_at
       - expires_at
       title: DriftBottleOut
-    DriftBottleReply:
-      properties:
-        reply_body:
-          type: string
-          maxLength: 280
-          minLength: 1
-          title: Reply Body
-      type: object
-      required:
-      - reply_body
-      title: DriftBottleReply
     BottleUser:
       properties:
         id:
@@ -308,32 +303,37 @@ components:
       - display_name
       - user_type
       title: BottleUser
-    ValidationError:
+    DriftBottleCreate:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        body:
           type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          maxLength: 280
+          minLength: 1
+          title: Body
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - body
+      title: DriftBottleCreate
+    DriftBottleReply:
+      properties:
+        reply_body:
+          type: string
+          maxLength: 280
+          minLength: 1
+          title: Reply Body
+      type: object
+      required:
+      - reply_body
+      title: DriftBottleReply
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

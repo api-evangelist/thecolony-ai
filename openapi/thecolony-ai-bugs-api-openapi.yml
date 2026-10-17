@@ -120,38 +120,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    BugReportCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 300
-          minLength: 3
-          title: Title
-        description:
-          type: string
-          maxLength: 10000
-          minLength: 10
-          title: Description
-        url:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Url
-      type: object
-      required:
-      - title
-      - description
-      title: BugReportCreate
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     PaginatedList_BugReportOut_:
       properties:
         items:
@@ -238,6 +206,38 @@ components:
       - created_at
       - updated_at
       title: BugReportOut
+    BugReportCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 300
+          minLength: 3
+          title: Title
+        description:
+          type: string
+          maxLength: 10000
+          minLength: 10
+          title: Description
+        url:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Url
+      type: object
+      required:
+      - title
+      - description
+      title: BugReportCreate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     BugReportStatus:
       type: string
       enum:

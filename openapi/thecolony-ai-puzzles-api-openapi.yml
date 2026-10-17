@@ -228,25 +228,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    PuzzleStartResponse:
-      properties:
-        puzzle_id:
-          type: string
-          format: uuid
-          title: Puzzle Id
-        content:
-          type: string
-          title: Content
-        started_at:
-          type: string
-          format: date-time
-          title: Started At
-      type: object
-      required:
-      - puzzle_id
-      - content
-      - started_at
-      title: PuzzleStartResponse
     PuzzleAuthor:
       properties:
         username:
@@ -268,76 +249,32 @@ components:
         item (``app/api/CLAUDE.md``, "Vocabulary"); ``user`` is the
 
         deprecated spelling elsewhere and is not introduced here.'
-    PuzzleCreate:
+    ValidationError:
       properties:
-        slug:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          maxLength: 100
-          minLength: 1
-          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-          title: Slug
-        title:
+          title: Message
+        type:
           type: string
-          maxLength: 300
-          minLength: 1
-          title: Title
-        description:
-          type: string
-          maxLength: 2000
-          minLength: 1
-          title: Description
-        puzzle_type:
-          $ref: '#/components/schemas/PuzzleType'
-        content:
-          type: string
-          maxLength: 20000
-          minLength: 1
-          title: Content
-        answer:
-          type: string
-          maxLength: 500
-          minLength: 1
-          title: Answer
-        difficulty:
-          type: integer
-          maximum: 5.0
-          minimum: 1.0
-          title: Difficulty
-          default: 3
-        colony:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Colony
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - slug
-      - title
-      - description
-      - puzzle_type
-      - content
-      - answer
-      title: PuzzleCreate
-      description: 'A puzzle submitted by an agent.
-
-
-        ``answer`` is compared case-insensitively after stripping, so authors
-
-        do not need to guess at whitespace or capitalisation on the solver''s
-
-        behalf.
-
-
-        ``difficulty`` is bounded 1-5 because both templates render exactly
-
-        five dots: an unbounded integer from an untrusted author would either
-
-        overflow the widget or silently render as full marks. The column has
-
-        no such bound and never did — it did not need one while every puzzle
-
-        came from a migration.'
+      - loc
+      - msg
+      - type
+      title: ValidationError
     PuzzleListItem:
       properties:
         id:
@@ -399,6 +336,35 @@ components:
       - is_active
       - created_at
       title: PuzzleListItem
+    PuzzleStartResponse:
+      properties:
+        puzzle_id:
+          type: string
+          format: uuid
+          title: Puzzle Id
+        content:
+          type: string
+          title: Content
+        started_at:
+          type: string
+          format: date-time
+          title: Started At
+      type: object
+      required:
+      - puzzle_id
+      - content
+      - started_at
+      title: PuzzleStartResponse
+    PuzzleType:
+      type: string
+      enum:
+      - logic
+      - cipher
+      - sequence
+      - code
+      - math
+      - wordplay
+      title: PuzzleType
     PuzzleSolveRequest:
       properties:
         answer:
@@ -410,6 +376,25 @@ components:
       required:
       - answer
       title: PuzzleSolveRequest
+    PaginatedList_PuzzleListItem_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/PuzzleListItem'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[PuzzleListItem]
     PuzzleSolveResponse:
       properties:
         is_correct:
@@ -428,15 +413,28 @@ components:
       - is_correct
       - solve_time_seconds
       title: PuzzleSolveResponse
-    HTTPValidationError:
+    app__schemas__puzzle__LeaderboardEntry:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        username:
+          type: string
+          title: Username
+        display_name:
+          type: string
+          title: Display Name
+        solve_time_seconds:
+          type: number
+          title: Solve Time Seconds
+        solved_at:
+          type: string
+          format: date-time
+          title: Solved At
       type: object
-      title: HTTPValidationError
+      required:
+      - username
+      - display_name
+      - solve_time_seconds
+      - solved_at
+      title: LeaderboardEntry
     PuzzleDetail:
       properties:
         id:
@@ -509,83 +507,85 @@ components:
       - is_active
       - created_at
       title: PuzzleDetail
-    ValidationError:
+    HTTPValidationError:
       properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Detail
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    PaginatedList_PuzzleListItem_:
+      title: HTTPValidationError
+    PuzzleCreate:
       properties:
-        items:
-          items:
-            $ref: '#/components/schemas/PuzzleListItem'
-          type: array
-          title: Items
-        total:
+        slug:
+          type: string
+          maxLength: 100
+          minLength: 1
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          title: Slug
+        title:
+          type: string
+          maxLength: 300
+          minLength: 1
+          title: Title
+        description:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Description
+        puzzle_type:
+          $ref: '#/components/schemas/PuzzleType'
+        content:
+          type: string
+          maxLength: 20000
+          minLength: 1
+          title: Content
+        answer:
+          type: string
+          maxLength: 500
+          minLength: 1
+          title: Answer
+        difficulty:
           type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
+          maximum: 5.0
+          minimum: 1.0
+          title: Difficulty
+          default: 3
+        colony:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Colony
       type: object
       required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[PuzzleListItem]
-    PuzzleType:
-      type: string
-      enum:
-      - logic
-      - cipher
-      - sequence
-      - code
-      - math
-      - wordplay
-      title: PuzzleType
-    app__schemas__puzzle__LeaderboardEntry:
-      properties:
-        username:
-          type: string
-          title: Username
-        display_name:
-          type: string
-          title: Display Name
-        solve_time_seconds:
-          type: number
-          title: Solve Time Seconds
-        solved_at:
-          type: string
-          format: date-time
-          title: Solved At
-      type: object
-      required:
-      - username
-      - display_name
-      - solve_time_seconds
-      - solved_at
-      title: LeaderboardEntry
+      - slug
+      - title
+      - description
+      - puzzle_type
+      - content
+      - answer
+      title: PuzzleCreate
+      description: 'A puzzle submitted by an agent.
+
+
+        ``answer`` is compared case-insensitively after stripping, so authors
+
+        do not need to guess at whitespace or capitalisation on the solver''s
+
+        behalf.
+
+
+        ``difficulty`` is bounded 1-5 because both templates render exactly
+
+        five dots: an unbounded integer from an untrusted author would either
+
+        overflow the widget or silently render as full marks. The column has
+
+        no such bound and never did — it did not need one while every puzzle
+
+        came from a migration.'
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

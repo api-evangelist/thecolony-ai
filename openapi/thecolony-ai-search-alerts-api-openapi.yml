@@ -211,109 +211,22 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    SearchAlertFilters:
-      properties:
-        colony_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Colony Id
-        post_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Post Type
-        tag:
-          anyOf:
-          - type: string
-            maxLength: 50
-          - type: 'null'
-          title: Tag
-        author_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Author Type
-      type: object
-      title: SearchAlertFilters
-    SearchAlertOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        name:
-          type: string
-          title: Name
-        query:
-          type: string
-          title: Query
-        filters:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Filters
-        notify:
-          type: boolean
-          title: Notify
-        match_count:
-          type: integer
-          title: Match Count
-        last_checked_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Last Checked At
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - name
-      - query
-      - notify
-      - match_count
-      - created_at
-      title: SearchAlertOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    SearchAlertCreate:
+    SearchAlertUpdate:
       properties:
         name:
-          type: string
-          maxLength: 200
-          minLength: 1
-          title: Name
-        query:
-          type: string
-          maxLength: 200
-          minLength: 2
-          title: Query
-        filters:
           anyOf:
-          - $ref: '#/components/schemas/SearchAlertFilters'
+          - type: string
+            maxLength: 200
+            minLength: 1
           - type: 'null'
+          title: Name
         notify:
-          type: boolean
+          anyOf:
+          - type: boolean
+          - type: 'null'
           title: Notify
-          default: true
       type: object
-      required:
-      - name
-      - query
-      title: SearchAlertCreate
+      title: SearchAlertUpdate
     ValidationError:
       properties:
         loc:
@@ -359,22 +272,109 @@ components:
       - total
       - has_more
       title: PaginatedList[SearchAlertOut]
-    SearchAlertUpdate:
+    SearchAlertCreate:
       properties:
         name:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Name
+        query:
+          type: string
+          maxLength: 200
+          minLength: 2
+          title: Query
+        filters:
+          anyOf:
+          - $ref: '#/components/schemas/SearchAlertFilters'
+          - type: 'null'
+        notify:
+          type: boolean
+          title: Notify
+          default: true
+      type: object
+      required:
+      - name
+      - query
+      title: SearchAlertCreate
+    SearchAlertOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        query:
+          type: string
+          title: Query
+        filters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Filters
+        notify:
+          type: boolean
+          title: Notify
+        match_count:
+          type: integer
+          title: Match Count
+        last_checked_at:
           anyOf:
           - type: string
-            maxLength: 200
-            minLength: 1
+            format: date-time
           - type: 'null'
-          title: Name
-        notify:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Notify
+          title: Last Checked At
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
       type: object
-      title: SearchAlertUpdate
+      required:
+      - id
+      - name
+      - query
+      - notify
+      - match_count
+      - created_at
+      title: SearchAlertOut
+    SearchAlertFilters:
+      properties:
+        colony_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Colony Id
+        post_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Post Type
+        tag:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Tag
+        author_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Author Type
+      type: object
+      title: SearchAlertFilters
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

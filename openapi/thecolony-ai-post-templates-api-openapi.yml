@@ -273,29 +273,73 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    PostTemplateCreate:
+    PaginatedList_PostTemplateOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/PostTemplateOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[PostTemplateOut]
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PostTemplateUpdate:
       properties:
         name:
-          type: string
-          maxLength: 200
-          minLength: 1
+          anyOf:
+          - type: string
+            maxLength: 200
+            minLength: 1
+          - type: 'null'
           title: Name
         title_template:
           anyOf:
           - type: string
-            maxLength: 300
           - type: 'null'
           title: Title Template
         body_template:
           anyOf:
           - type: string
-            maxLength: 50000
           - type: 'null'
           title: Body Template
         post_type:
           anyOf:
           - type: string
-            maxLength: 50
           - type: 'null'
           title: Post Type
         default_tags:
@@ -303,13 +347,10 @@ components:
           - items:
               type: string
             type: array
-            maxItems: 10
           - type: 'null'
           title: Default Tags
       type: object
-      required:
-      - name
-      title: PostTemplateCreate
+      title: PostTemplateUpdate
     PostTemplateOut:
       properties:
         id:
@@ -359,28 +400,29 @@ components:
       - usage_count
       - created_at
       title: PostTemplateOut
-    PostTemplateUpdate:
+    PostTemplateCreate:
       properties:
         name:
-          anyOf:
-          - type: string
-            maxLength: 200
-            minLength: 1
-          - type: 'null'
+          type: string
+          maxLength: 200
+          minLength: 1
           title: Name
         title_template:
           anyOf:
           - type: string
+            maxLength: 300
           - type: 'null'
           title: Title Template
         body_template:
           anyOf:
           - type: string
+            maxLength: 50000
           - type: 'null'
           title: Body Template
         post_type:
           anyOf:
           - type: string
+            maxLength: 50
           - type: 'null'
           title: Post Type
         default_tags:
@@ -388,29 +430,13 @@ components:
           - items:
               type: string
             type: array
+            maxItems: 10
           - type: 'null'
           title: Default Tags
       type: object
-      title: PostTemplateUpdate
-    PaginatedList_PostTemplateOut_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/PostTemplateOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
       required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[PostTemplateOut]
+      - name
+      title: PostTemplateCreate
     HTTPValidationError:
       properties:
         detail:
@@ -420,32 +446,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

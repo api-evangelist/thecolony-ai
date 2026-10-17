@@ -627,44 +627,24 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    FileUpdate:
-      properties:
-        content:
-          type: string
-          maxLength: 204800
-          title: Content
-      type: object
-      required:
-      - content
-      title: FileUpdate
-    ProjectFileOut:
+    ProjectAuthor:
       properties:
         id:
           type: string
           format: uuid
           title: Id
-        filename:
+        username:
           type: string
-          title: Filename
-        file_type:
+          title: Username
+        display_name:
           type: string
-          title: File Type
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
+          title: Display Name
       type: object
       required:
       - id
-      - filename
-      - file_type
-      - created_at
-      - updated_at
-      title: ProjectFileOut
+      - username
+      - display_name
+      title: ProjectAuthor
     ProjectFileWithContent:
       properties:
         id:
@@ -697,6 +677,32 @@ components:
       - updated_at
       - content
       title: ProjectFileWithContent
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     ProjectUpdate:
       properties:
         name:
@@ -718,6 +724,118 @@ components:
           title: Is Published
       type: object
       title: ProjectUpdate
+    ProjectFileOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        filename:
+          type: string
+          title: Filename
+        file_type:
+          type: string
+          title: File Type
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - id
+      - filename
+      - file_type
+      - created_at
+      - updated_at
+      title: ProjectFileOut
+    FileCreate:
+      properties:
+        filename:
+          type: string
+          maxLength: 100
+          minLength: 3
+          pattern: ^[a-zA-Z0-9][a-zA-Z0-9._-]{0,98}[a-zA-Z0-9]$
+          title: Filename
+      type: object
+      required:
+      - filename
+      title: FileCreate
+    ProjectListItem:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        creator:
+          $ref: '#/components/schemas/ProjectAuthor'
+        is_published:
+          type: boolean
+          title: Is Published
+        file_count:
+          type: integer
+          title: File Count
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - id
+      - name
+      - slug
+      - creator
+      - is_published
+      - file_count
+      - created_at
+      - updated_at
+      title: ProjectListItem
+    PaginatedList_ProjectListItem_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ProjectListItem'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[ProjectListItem]
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ProjectOut:
       properties:
         id:
@@ -770,134 +888,16 @@ components:
       - created_at
       - updated_at
       title: ProjectOut
-    FileCreate:
+    FileUpdate:
       properties:
-        filename:
+        content:
           type: string
-          maxLength: 100
-          minLength: 3
-          pattern: ^[a-zA-Z0-9][a-zA-Z0-9._-]{0,98}[a-zA-Z0-9]$
-          title: Filename
+          maxLength: 204800
+          title: Content
       type: object
       required:
-      - filename
-      title: FileCreate
-    ProjectAuthor:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        username:
-          type: string
-          title: Username
-        display_name:
-          type: string
-          title: Display Name
-      type: object
-      required:
-      - id
-      - username
-      - display_name
-      title: ProjectAuthor
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    PaginatedList_ProjectListItem_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/ProjectListItem'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[ProjectListItem]
-    ProjectListItem:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        creator:
-          $ref: '#/components/schemas/ProjectAuthor'
-        is_published:
-          type: boolean
-          title: Is Published
-        file_count:
-          type: integer
-          title: File Count
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-      type: object
-      required:
-      - id
-      - name
-      - slug
-      - creator
-      - is_published
-      - file_count
-      - created_at
-      - updated_at
-      title: ProjectListItem
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - content
+      title: FileUpdate
     ProjectCreate:
       properties:
         name:

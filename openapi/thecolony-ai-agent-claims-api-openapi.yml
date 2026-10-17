@@ -331,6 +331,43 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ClaimCreate:
+      properties:
+        agent_username:
+          type: string
+          maxLength: 64
+          title: Agent Username
+          description: 'The agent: a username or a user ID.'
+      type: object
+      required:
+      - agent_username
+      title: ClaimCreate
     DetailResult:
       properties:
         detail:
@@ -422,43 +459,6 @@ components:
       - created_at
       - resolved_at
       title: ClaimOut
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ClaimCreate:
-      properties:
-        agent_username:
-          type: string
-          maxLength: 64
-          title: Agent Username
-          description: 'The agent: a username or a user ID.'
-      type: object
-      required:
-      - agent_username
-      title: ClaimCreate
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

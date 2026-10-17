@@ -488,60 +488,32 @@ components:
         real. It also saves the follow-up ``/notifications/count`` that a
 
         processing round would otherwise make (@rosetta''s suggestion).'
-    NotificationBatchDelete:
+    ValidationError:
       properties:
-        ids:
+        loc:
           items:
-            type: string
-            format: uuid
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          maxItems: 100
-          minItems: 1
-          title: Ids
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - ids
-      title: NotificationBatchDelete
-      description: 'Ids to delete in one request.
-
-
-        Deleting is PERMANENT — there is no dismissed/archived state for a
-
-        notification, and the web''s own Dismiss button is a hard delete too.
-
-        Idempotent all the same: ids that do not exist or belong to someone
-
-        else are silently ignored, so a retried batch is a no-op rather than
-
-        an error.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    NotificationDeleteReadOut:
-      properties:
-        deleted:
-          type: integer
-          title: Deleted
-      type: object
-      required:
-      - deleted
-      title: NotificationDeleteReadOut
-      description: 'How many read notifications were swept.
-
-
-        Safe to report, unlike the batch counts above, because no
-
-        caller-supplied ids are involved: the number is a fact about the
-
-        caller''s own mailbox and cannot confirm a guess about anyone
-
-        else''s. Mirrors what the mark-all-read tool returns.'
+      - loc
+      - msg
+      - type
+      title: ValidationError
     NotificationBatchRead:
       properties:
         ids:
@@ -570,6 +542,62 @@ components:
         is capped at 120/hr, so four rounds of thirty put the workflow into
 
         a rate limit rather than merely making it chatty.'
+    NotificationActor:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        username:
+          type: string
+          title: Username
+        display_name:
+          type: string
+          title: Display Name
+        user_type:
+          type: string
+          title: User Type
+      type: object
+      required:
+      - id
+      - username
+      - display_name
+      - user_type
+      title: NotificationActor
+      description: 'Who did the thing this notification is about.
+
+
+        Same shape as ``EchoAuthor`` / ``EventAuthor`` elsewhere in this
+
+        package, so a caller that can read one can read all three.
+
+
+        ``id`` is the stable identifier and the only one of the three that is:
+
+        ``username`` can change (there is a ``UsernameChange`` model) and
+
+        ``display_name`` was never unique — two accounts may carry the same
+
+        one today, and a new account may take one that already exists.'
+    NotificationDeleteReadOut:
+      properties:
+        deleted:
+          type: integer
+          title: Deleted
+      type: object
+      required:
+      - deleted
+      title: NotificationDeleteReadOut
+      description: 'How many read notifications were swept.
+
+
+        Safe to report, unlike the batch counts above, because no
+
+        caller-supplied ids are involved: the number is a fact about the
+
+        caller''s own mailbox and cannot confirm a guess about anyone
+
+        else''s. Mirrors what the mark-all-read tool returns.'
     NotificationBatchDeleteOut:
       properties:
         unread_notifications:
@@ -619,69 +647,6 @@ components:
         the caller''s own aggregate and looks harmless, which is precisely
 
         why it is worth not returning.'
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    NotificationActor:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        username:
-          type: string
-          title: Username
-        display_name:
-          type: string
-          title: Display Name
-        user_type:
-          type: string
-          title: User Type
-      type: object
-      required:
-      - id
-      - username
-      - display_name
-      - user_type
-      title: NotificationActor
-      description: 'Who did the thing this notification is about.
-
-
-        Same shape as ``EchoAuthor`` / ``EventAuthor`` elsewhere in this
-
-        package, so a caller that can read one can read all three.
-
-
-        ``id`` is the stable identifier and the only one of the three that is:
-
-        ``username`` can change (there is a ``UsernameChange`` model) and
-
-        ``display_name`` was never unique — two accounts may carry the same
-
-        one today, and a new account may take one that already exists.'
     NotificationOut:
       properties:
         id:
@@ -736,6 +701,41 @@ components:
       - is_read
       - created_at
       title: NotificationOut
+    NotificationBatchDelete:
+      properties:
+        ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          maxItems: 100
+          minItems: 1
+          title: Ids
+      type: object
+      required:
+      - ids
+      title: NotificationBatchDelete
+      description: 'Ids to delete in one request.
+
+
+        Deleting is PERMANENT — there is no dismissed/archived state for a
+
+        notification, and the web''s own Dismiss button is a hard delete too.
+
+        Idempotent all the same: ids that do not exist or belong to someone
+
+        else are silently ignored, so a retried batch is a no-op rather than
+
+        an error.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http

@@ -512,52 +512,19 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    WikiRevisionListItem:
+    WikiAuthor:
       properties:
-        id:
+        username:
           type: string
-          format: uuid
-          title: Id
-        title:
+          title: Username
+        display_name:
           type: string
-          title: Title
-        summary:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Summary
-        author:
-          $ref: '#/components/schemas/WikiAuthor'
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
+          title: Display Name
       type: object
       required:
-      - id
-      - title
-      - author
-      - created_at
-      title: WikiRevisionListItem
-    PaginatedList_WikiPageListItem_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/WikiPageListItem'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[WikiPageListItem]
+      - username
+      - display_name
+      title: WikiAuthor
     WikiPageCreate:
       properties:
         title:
@@ -599,19 +566,32 @@ components:
       - title
       - slug
       title: WikiPageCreate
-    WikiAuthor:
+    ValidationError:
       properties:
-        username:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Username
-        display_name:
+          title: Message
+        type:
           type: string
-          title: Display Name
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - username
-      - display_name
-      title: WikiAuthor
+      - loc
+      - msg
+      - type
+      title: ValidationError
     WikiPageOut:
       properties:
         id:
@@ -676,72 +656,25 @@ components:
       - created_at
       - updated_at
       title: WikiPageOut
-    HTTPValidationError:
+    PaginatedList_WikiPageListItem_:
       properties:
-        detail:
+        items:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/WikiPageListItem'
           type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    WikiRevisionOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        title:
-          type: string
-          title: Title
-        content:
-          type: string
-          title: Content
-        summary:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Summary
-        author:
-          $ref: '#/components/schemas/WikiAuthor'
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
       type: object
       required:
-      - id
-      - title
-      - content
-      - author
-      - created_at
-      title: WikiRevisionOut
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - items
+      - total
+      - has_more
+      title: PaginatedList[WikiPageListItem]
     WikiPageListItem:
       properties:
         id:
@@ -795,6 +728,73 @@ components:
       - created_at
       - updated_at
       title: WikiPageListItem
+    WikiRevisionOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        title:
+          type: string
+          title: Title
+        content:
+          type: string
+          title: Content
+        summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Summary
+        author:
+          $ref: '#/components/schemas/WikiAuthor'
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - title
+      - content
+      - author
+      - created_at
+      title: WikiRevisionOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    WikiRevisionListItem:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        title:
+          type: string
+          title: Title
+        summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Summary
+        author:
+          $ref: '#/components/schemas/WikiAuthor'
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - title
+      - author
+      - created_at
+      title: WikiRevisionListItem
     WikiPageUpdate:
       properties:
         title:

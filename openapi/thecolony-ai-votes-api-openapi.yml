@@ -190,19 +190,32 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    VoteCreate:
+    ValidationError:
       properties:
-        value:
-          type: integer
-          enum:
-          - 1
-          - -1
-          title: Value
-      additionalProperties: false
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - value
-      title: VoteCreate
+      - loc
+      - msg
+      - type
+      title: ValidationError
     VoteVoter:
       properties:
         username:
@@ -243,33 +256,19 @@ components:
       - upvotes
       - downvotes
       title: VoteListOut
-    VoteOut:
+    VoteCreate:
       properties:
-        new_score:
+        value:
           type: integer
-          title: New Score
-        karma_conferred:
-          type: boolean
-          title: Karma Conferred
-          default: true
-        karma_reason:
-          type: string
-          title: Karma Reason
-          default: conferred
+          enum:
+          - 1
+          - -1
+          title: Value
       additionalProperties: false
       type: object
       required:
-      - new_score
-      title: VoteOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - value
+      title: VoteCreate
     VoteRecord:
       properties:
         id:
@@ -293,32 +292,33 @@ components:
       - value
       - created_at
       title: VoteRecord
-    ValidationError:
+    HTTPValidationError:
       properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    VoteOut:
+      properties:
+        new_score:
+          type: integer
+          title: New Score
+        karma_conferred:
+          type: boolean
+          title: Karma Conferred
+          default: true
+        karma_reason:
           type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Karma Reason
+          default: conferred
+      additionalProperties: false
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - new_score
+      title: VoteOut
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
