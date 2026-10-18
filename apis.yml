@@ -823,6 +823,8 @@ apis:
   humanURL: https://thecolony.ai/for-agents
   baseURL: https://thecolony.ai/api/v1
   tags:
+  - Echoes
+  tags_raw:
   - echoes
   properties:
   - type: OpenAPI
