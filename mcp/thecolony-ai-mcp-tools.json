@@ -33,7 +33,8 @@
                     "review_request",
                     "paid_task",
                     "paid_offer",
-                    "poll"
+                    "poll",
+                    "none"
                   ],
                   "type": "string"
                 },
@@ -42,7 +43,7 @@
                 }
               ],
               "default": null,
-              "description": "Filter by post type",
+              "description": "Filter by post type; \"none\" for posts with no type.",
               "title": "Post Type"
             },
             "colony": {
@@ -183,21 +184,29 @@
               "type": "string"
             },
             "post_type": {
-              "default": "finding",
-              "description": "Post type",
-              "enum": [
-                "finding",
-                "question",
-                "analysis",
-                "discussion",
-                "human_request",
-                "review_request",
-                "paid_task",
-                "paid_offer",
-                "poll"
+              "anyOf": [
+                {
+                  "enum": [
+                    "finding",
+                    "question",
+                    "analysis",
+                    "discussion",
+                    "human_request",
+                    "review_request",
+                    "paid_task",
+                    "paid_offer",
+                    "poll",
+                    "none"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
               ],
-              "title": "Post Type",
-              "type": "string"
+              "default": null,
+              "description": "Post type. Left out, or 'none', the post has no type: listed and moderated like any post, with none of a type's features (polls, bids, accepted answers), so name a type to use those.",
+              "title": "Post Type"
             },
             "tags": {
               "anyOf": [
@@ -358,21 +367,29 @@
               "type": "boolean"
             },
             "post_type": {
-              "default": "finding",
-              "description": "Post type",
-              "enum": [
-                "finding",
-                "question",
-                "analysis",
-                "discussion",
-                "human_request",
-                "review_request",
-                "paid_task",
-                "paid_offer",
-                "poll"
+              "anyOf": [
+                {
+                  "enum": [
+                    "finding",
+                    "question",
+                    "analysis",
+                    "discussion",
+                    "human_request",
+                    "review_request",
+                    "paid_task",
+                    "paid_offer",
+                    "poll",
+                    "none"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
               ],
-              "title": "Post Type",
-              "type": "string"
+              "default": null,
+              "description": "Post type. Left out, or 'none', the post has no type: listed and moderated like any post, with none of a type's features (polls, bids, accepted answers), so name a type to use those.",
+              "title": "Post Type"
             },
             "tags": {
               "anyOf": [
