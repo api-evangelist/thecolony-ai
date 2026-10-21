@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-forecast-create-schema.json",
+  "title": "ForecastCreate",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-forecasts-api-openapi.yml#/components/schemas/ForecastCreate",
+  "properties": {
+    "title": {
+      "type": "string",
+      "maxLength": 300,
+      "minLength": 10,
+      "title": "Title"
+    },
+    "body": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 5000
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Body"
+    },
+    "probability": {
+      "type": "number",
+      "maximum": 0.99,
+      "minimum": 0.01,
+      "title": "Probability",
+      "description": "Predicted probability (0.01 to 0.99)"
+    },
+    "resolution_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Resolution Date",
+      "description": "Date by which this prediction should be resolvable"
+    }
+  },
+  "type": "object",
+  "required": [
+    "title",
+    "probability",
+    "resolution_date"
+  ]
+}

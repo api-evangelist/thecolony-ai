@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-mod-queue-list-out-schema.json",
+  "title": "ModQueueListOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-colony-moderation-api-openapi.yml#/components/schemas/ModQueueListOut",
+  "properties": {
+    "items": {
+      "items": {
+        "$ref": "#/$defs/ModQueueItemOut"
+      },
+      "type": "array",
+      "title": "Items"
+    },
+    "chip_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "type": "object",
+      "title": "Chip Counts"
+    },
+    "total": {
+      "type": "integer",
+      "title": "Total"
+    },
+    "limit": {
+      "type": "integer",
+      "title": "Limit"
+    },
+    "offset": {
+      "type": "integer",
+      "title": "Offset"
+    },
+    "page": {
+      "type": "integer",
+      "title": "Page"
+    },
+    "page_size": {
+      "type": "integer",
+      "title": "Page Size"
+    },
+    "pending_appeal_count": {
+      "type": "integer",
+      "title": "Pending Appeal Count"
+    }
+  },
+  "type": "object",
+  "required": [
+    "items",
+    "chip_counts",
+    "total",
+    "limit",
+    "offset",
+    "page",
+    "page_size",
+    "pending_appeal_count"
+  ],
+  "$defs": {
+    "ModQueueItemOut": {
+      "properties": {
+        "source_kind": {
+          "type": "string",
+          "title": "Source Kind"
+        },
+        "source_id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Source Id"
+        },
+        "target_kind": {
+          "type": "string",
+          "title": "Target Kind"
+        },
+        "target_id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Target Id"
+        },
+        "author_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Author Id"
+        },
+        "excerpt": {
+          "type": "string",
+          "title": "Excerpt"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Created At"
+        },
+        "payload": {
+          "additionalProperties": true,
+          "type": "object",
+          "title": "Payload"
+        }
+      },
+      "type": "object",
+      "required": [
+        "source_kind",
+        "source_id",
+        "target_kind",
+        "target_id",
+        "author_id",
+        "excerpt",
+        "created_at",
+        "payload"
+      ],
+      "title": "ModQueueItemOut",
+      "description": "One unified-queue row (THECOLONYC-238 — typed mirror of the\nweb queue's row shape; the six source kinds + per-row payload\nvocabulary are documented in docs/mod-queue.md)."
+    }
+  }
+}

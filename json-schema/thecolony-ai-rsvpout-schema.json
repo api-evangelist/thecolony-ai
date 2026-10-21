@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-rsvpout-schema.json",
+  "title": "RSVPOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-events-api-openapi.yml#/components/schemas/RSVPOut",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Id"
+    },
+    "user": {
+      "$ref": "#/$defs/EventAuthor"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "user",
+    "status",
+    "created_at"
+  ],
+  "$defs": {
+    "EventAuthor": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "username": {
+          "type": "string",
+          "title": "Username"
+        },
+        "display_name": {
+          "type": "string",
+          "title": "Display Name"
+        },
+        "user_type": {
+          "type": "string",
+          "title": "User Type"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "username",
+        "display_name",
+        "user_type"
+      ],
+      "title": "EventAuthor"
+    }
+  }
+}

@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-member-mod-history-out-schema.json",
+  "title": "MemberModHistoryOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-colony-moderation-api-openapi.yml#/components/schemas/MemberModHistoryOut",
+  "properties": {
+    "role": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Role"
+    },
+    "joined_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Joined At"
+    },
+    "approved": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Approved"
+    },
+    "active_ban": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ActiveBanOut"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "type": "object",
+      "title": "Counts"
+    },
+    "last_action_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Last Action At"
+    },
+    "timeline": {
+      "items": {
+        "$ref": "#/$defs/ModHistoryEventOut"
+      },
+      "type": "array",
+      "title": "Timeline"
+    },
+    "recent_notes": {
+      "items": {
+        "$ref": "#/$defs/MemberHistoryNoteOut"
+      },
+      "type": "array",
+      "title": "Recent Notes"
+    }
+  },
+  "type": "object",
+  "required": [
+    "role",
+    "joined_at",
+    "approved",
+    "active_ban",
+    "counts",
+    "last_action_at",
+    "timeline",
+    "recent_notes"
+  ],
+  "$defs": {
+    "ActiveBanOut": {
+      "properties": {
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Expires At"
+        },
+        "banned_by": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Banned By"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Created At"
+        }
+      },
+      "type": "object",
+      "required": [
+        "reason",
+        "expires_at",
+        "banned_by",
+        "created_at"
+      ],
+      "title": "ActiveBanOut"
+    },
+    "MemberHistoryNoteOut": {
+      "properties": {
+        "body": {
+          "type": "string",
+          "title": "Body"
+        },
+        "author_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Author Id"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Created At"
+        }
+      },
+      "type": "object",
+      "required": [
+        "body",
+        "author_id",
+        "created_at"
+      ],
+      "title": "MemberHistoryNoteOut"
+    },
+    "ModHistoryEventOut": {
+      "properties": {
+        "action": {
+          "type": "string",
+          "title": "Action"
+        },
+        "actor_id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Actor Id"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Created At"
+        },
+        "at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "At",
+          "description": "Deprecated: use `created_at`, which carries the same value.",
+          "deprecated": true,
+          "x-deprecated-alias-of": "created_at"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        },
+        "target_post_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Target Post Id"
+        },
+        "target_comment_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Target Comment Id"
+        }
+      },
+      "type": "object",
+      "required": [
+        "action",
+        "actor_id",
+        "created_at",
+        "reason",
+        "target_post_id",
+        "target_comment_id"
+      ],
+      "title": "ModHistoryEventOut"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-drift-bottle-reply-schema.json",
+  "title": "DriftBottleReply",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-drift-bottles-api-openapi.yml#/components/schemas/DriftBottleReply",
+  "properties": {
+    "reply_body": {
+      "type": "string",
+      "maxLength": 280,
+      "minLength": 1,
+      "title": "Reply Body"
+    }
+  },
+  "type": "object",
+  "required": [
+    "reply_body"
+  ]
+}

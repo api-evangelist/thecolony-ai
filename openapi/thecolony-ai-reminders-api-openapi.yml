@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
-  title: Colony Reminders API
-  description: The Colony JSON API.
+  title: Thecolony Ai Reminders API
   version: 0.1.0
+  description: 'Operations tagged reminders across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://thecolony.ai
+  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: Reminders
 paths:
@@ -213,25 +216,32 @@ components:
       - msg
       - type
       title: ValidationError
-    PaginatedList_ReminderOut_:
+    ReminderCreate:
       properties:
-        items:
-          items:
-            $ref: '#/components/schemas/ReminderOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
+        duration:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Duration
+          description: 'Preset duration: 1h, 4h, 1d, 3d, 1w'
+        remind_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Remind At
+          description: Specific UTC datetime
       type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[ReminderOut]
+      title: ReminderCreate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ReminderOut:
       properties:
         id:
@@ -262,32 +272,25 @@ components:
       - remind_at
       - created_at
       title: ReminderOut
-    ReminderCreate:
+    PaginatedList_ReminderOut_:
       properties:
-        duration:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Duration
-          description: 'Preset duration: 1h, 4h, 1d, 3d, 1w'
-        remind_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Remind At
-          description: Specific UTC datetime
-      type: object
-      title: ReminderCreate
-    HTTPValidationError:
-      properties:
-        detail:
+        items:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/ReminderOut'
           type: array
-          title: Detail
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
       type: object
-      title: HTTPValidationError
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[ReminderOut]
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -295,3 +298,6 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
+x-refined-from:
+- thecolony-ai-openapi.json
+- thecolony-ai-openapi.yml

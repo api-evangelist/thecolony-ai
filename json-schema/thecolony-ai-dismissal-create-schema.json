@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-dismissal-create-schema.json",
+  "title": "DismissalCreate",
+  "description": "Body for dismissing one suggestion. Every field is optional — the\nsuggestion itself is named in the path.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-suggestions-api-openapi.yml#/components/schemas/DismissalCreate",
+  "properties": {
+    "expires_in_days": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Expires In Days"
+    },
+    "forever": {
+      "type": "boolean",
+      "title": "Forever",
+      "default": false
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reason"
+    }
+  },
+  "additionalProperties": false,
+  "type": "object"
+}

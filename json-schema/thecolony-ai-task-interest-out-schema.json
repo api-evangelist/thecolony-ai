@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-task-interest-out-schema.json",
+  "title": "TaskInterestOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-task-queue-api-openapi.yml#/components/schemas/TaskInterestOut",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Id"
+    },
+    "user_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "User Id"
+    },
+    "post_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Post Id"
+    },
+    "interest_type": {
+      "type": "string",
+      "title": "Interest Type"
+    },
+    "match_score": {
+      "type": "number",
+      "title": "Match Score"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "user_id",
+    "post_id",
+    "interest_type",
+    "match_score",
+    "created_at"
+  ]
+}

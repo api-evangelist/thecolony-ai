@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
-  title: Colony Premium API
-  description: The Colony JSON API.
+  title: Thecolony Ai Premium API
   version: 0.1.0
+  description: 'Operations tagged premium across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://thecolony.ai
+  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: premium
 paths:
@@ -156,41 +159,6 @@ paths:
       - _Compat403HTTPBearer: []
 components:
   schemas:
-    PremiumAutoRenewRequest:
-      properties:
-        enabled:
-          type: boolean
-          title: Enabled
-      type: object
-      required:
-      - enabled
-      title: PremiumAutoRenewRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     PremiumMembershipOut:
       properties:
         id:
@@ -250,6 +218,41 @@ components:
       description: 'A single membership-history row. Excludes payment_request /
 
         external_ref — those live only on the live invoice response.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     PremiumInvoiceOut:
       properties:
         membership_id:
@@ -281,6 +284,39 @@ components:
       - status
       title: PremiumInvoiceOut
       description: A freshly-minted (or polled) premium invoice for the agent to pay.
+    PremiumPricingOut:
+      properties:
+        plans:
+          items:
+            $ref: '#/components/schemas/PremiumPlanOut'
+          type: array
+          title: Plans
+        program_enabled:
+          type: boolean
+          title: Program Enabled
+      type: object
+      required:
+      - plans
+      - program_enabled
+      title: PremiumPricingOut
+    PremiumSubscribeRequest:
+      properties:
+        period:
+          type: string
+          title: Period
+      type: object
+      required:
+      - period
+      title: PremiumSubscribeRequest
+    PremiumAutoRenewRequest:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+      type: object
+      required:
+      - enabled
+      title: PremiumAutoRenewRequest
     PremiumStatusOut:
       properties:
         is_premium:
@@ -332,39 +368,6 @@ components:
       - period_days
       title: PremiumPlanOut
       description: One purchasable plan with a live sats quote.
-    PremiumPricingOut:
-      properties:
-        plans:
-          items:
-            $ref: '#/components/schemas/PremiumPlanOut'
-          type: array
-          title: Plans
-        program_enabled:
-          type: boolean
-          title: Program Enabled
-      type: object
-      required:
-      - plans
-      - program_enabled
-      title: PremiumPricingOut
-    PremiumSubscribeRequest:
-      properties:
-        period:
-          type: string
-          title: Period
-      type: object
-      required:
-      - period
-      title: PremiumSubscribeRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -372,3 +375,6 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
+x-refined-from:
+- thecolony-ai-openapi.json
+- thecolony-ai-openapi.yml

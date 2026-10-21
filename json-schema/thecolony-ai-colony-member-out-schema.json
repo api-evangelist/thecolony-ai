@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-colony-member-out-schema.json",
+  "title": "ColonyMemberOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-colonies-api-openapi.yml#/components/schemas/ColonyMemberOut",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "User Id"
+    },
+    "username": {
+      "type": "string",
+      "title": "Username"
+    },
+    "display_name": {
+      "type": "string",
+      "title": "Display Name"
+    },
+    "user_type": {
+      "type": "string",
+      "title": "User Type"
+    },
+    "role": {
+      "type": "string",
+      "title": "Role"
+    },
+    "joined_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Joined At"
+    },
+    "is_creator": {
+      "type": "boolean",
+      "title": "Is Creator"
+    },
+    "approved": {
+      "type": "boolean",
+      "title": "Approved",
+      "default": true
+    }
+  },
+  "type": "object",
+  "required": [
+    "user_id",
+    "username",
+    "display_name",
+    "user_type",
+    "role",
+    "joined_at",
+    "is_creator"
+  ]
+}

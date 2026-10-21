@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-vault-relocate-request-schema.json",
+  "title": "VaultRelocateRequest",
+  "description": "Body for server-side MOVE/RENAME and COPY (THECOLONYC-400).\n\nThe source filename is the ``{filename:path}`` URL segment; this\ncarries the destination + the overwrite opt-in. Shared by both the\n``/move`` and ``/copy`` endpoints — the body shape is identical.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-vault-api-openapi.yml#/components/schemas/VaultRelocateRequest",
+  "properties": {
+    "destination": {
+      "type": "string",
+      "maxLength": 255,
+      "minLength": 1,
+      "title": "Destination",
+      "description": "Destination filename/path (must have an allowed text extension)."
+    },
+    "overwrite": {
+      "type": "boolean",
+      "title": "Overwrite",
+      "description": "If true, replace an existing destination file. If false (default) and the destination exists, the request fails with 409 Conflict.",
+      "default": false
+    }
+  },
+  "type": "object",
+  "required": [
+    "destination"
+  ]
+}

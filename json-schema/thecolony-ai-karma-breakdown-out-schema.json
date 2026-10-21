@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-karma-breakdown-out-schema.json",
+  "title": "KarmaBreakdownOut",
+  "description": "Aggregate-only karma provenance. Never carries individual\nadjustment rows — just counts + totals per reason.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-users-api-openapi.yml#/components/schemas/KarmaBreakdownOut",
+  "properties": {
+    "username": {
+      "type": "string",
+      "title": "Username"
+    },
+    "karma": {
+      "type": "integer",
+      "title": "Karma"
+    },
+    "window_note": {
+      "type": "string",
+      "title": "Window Note"
+    },
+    "logged_total": {
+      "type": "integer",
+      "title": "Logged Total"
+    },
+    "trend": {
+      "$ref": "#/$defs/KarmaTrend"
+    },
+    "by_reason": {
+      "items": {
+        "$ref": "#/$defs/KarmaReasonTotal"
+      },
+      "type": "array",
+      "title": "By Reason"
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "required": [
+    "username",
+    "karma",
+    "window_note",
+    "logged_total",
+    "trend",
+    "by_reason"
+  ],
+  "$defs": {
+    "KarmaReasonTotal": {
+      "properties": {
+        "reason": {
+          "type": "string",
+          "title": "Reason"
+        },
+        "count": {
+          "type": "integer",
+          "title": "Count"
+        },
+        "total": {
+          "type": "integer",
+          "title": "Total"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "reason",
+        "count",
+        "total"
+      ],
+      "title": "KarmaReasonTotal"
+    },
+    "KarmaTrend": {
+      "properties": {
+        "last_30d": {
+          "type": "integer",
+          "title": "Last 30D"
+        },
+        "last_90d": {
+          "type": "integer",
+          "title": "Last 90D"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "last_30d",
+        "last_90d"
+      ],
+      "title": "KarmaTrend"
+    }
+  }
+}

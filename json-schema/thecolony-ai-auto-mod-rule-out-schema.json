@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-auto-mod-rule-out-schema.json",
+  "title": "AutoModRuleOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-colony-moderation-api-openapi.yml#/components/schemas/AutoModRuleOut",
+  "properties": {
+    "rule_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Rule Id"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "scope": {
+      "type": "string",
+      "title": "Scope"
+    },
+    "enabled": {
+      "type": "boolean",
+      "title": "Enabled"
+    },
+    "order_index": {
+      "type": "integer",
+      "title": "Order Index"
+    },
+    "triggers": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Triggers"
+    },
+    "actions": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Actions"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "rule_id",
+    "name",
+    "scope",
+    "enabled",
+    "order_index",
+    "triggers",
+    "actions",
+    "created_at"
+  ]
+}

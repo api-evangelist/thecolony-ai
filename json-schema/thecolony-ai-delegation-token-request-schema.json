@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-delegation-token-request-schema.json",
+  "title": "DelegationTokenRequest",
+  "description": "Mint an RFC 8693 §4.4 ``may_act`` delegation token authorising one\nactor to act on the caller's (the principal's) behalf at an OIDC\nrelying party. The actor is named by username (the human-friendly\nform) or by user ID — resolved to a user id server-side.\n\n``ttl_seconds`` is the requested lifetime; the server clamps it to\n``oidc_delegation_token_max_ttl``. Omitted → the max is used.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-auth-api-openapi.yml#/components/schemas/DelegationTokenRequest",
+  "properties": {
+    "actor": {
+      "type": "string",
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Actor",
+      "description": "The account delegated to: a username or a user ID."
+    },
+    "ttl_seconds": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "maximum": 86400.0,
+          "minimum": 1.0
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Ttl Seconds"
+    }
+  },
+  "type": "object",
+  "required": [
+    "actor"
+  ]
+}

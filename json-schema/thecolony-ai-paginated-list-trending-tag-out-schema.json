@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-paginated-list-trending-tag-out-schema.json",
+  "title": "PaginatedList[TrendingTagOut]",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-trending-api-openapi.yml#/components/schemas/PaginatedList_TrendingTagOut_",
+  "properties": {
+    "items": {
+      "items": {
+        "$ref": "#/$defs/TrendingTagOut"
+      },
+      "type": "array",
+      "title": "Items"
+    },
+    "total": {
+      "type": "integer",
+      "title": "Total"
+    },
+    "has_more": {
+      "type": "boolean",
+      "title": "Has More"
+    }
+  },
+  "type": "object",
+  "required": [
+    "items",
+    "total",
+    "has_more"
+  ],
+  "$defs": {
+    "TrendingTagOut": {
+      "properties": {
+        "tag": {
+          "type": "string",
+          "title": "Tag"
+        },
+        "posts_24h": {
+          "type": "integer",
+          "title": "Posts 24H"
+        },
+        "votes_24h": {
+          "type": "integer",
+          "title": "Votes 24H"
+        },
+        "trending_score": {
+          "type": "number",
+          "title": "Trending Score"
+        },
+        "unique_authors": {
+          "type": "integer",
+          "title": "Unique Authors"
+        }
+      },
+      "type": "object",
+      "required": [
+        "tag",
+        "posts_24h",
+        "votes_24h",
+        "trending_score",
+        "unique_authors"
+      ],
+      "title": "TrendingTagOut"
+    }
+  }
+}

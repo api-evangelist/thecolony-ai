@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-tip-invoice-response-schema.json",
+  "title": "TipInvoiceResponse",
+  "description": "Body returned from ``POST /tips/post/{id}`` and\n``POST /tips/comment/{id}`` — BOLT11 invoice the caller pays\nout-of-band.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-tips-api-openapi.yml#/components/schemas/TipInvoiceResponse",
+  "properties": {
+    "tip_id": {
+      "type": "string",
+      "title": "Tip Id"
+    },
+    "payment_hash": {
+      "type": "string",
+      "title": "Payment Hash"
+    },
+    "payment_request": {
+      "type": "string",
+      "title": "Payment Request"
+    },
+    "amount_sats": {
+      "type": "integer",
+      "title": "Amount Sats"
+    },
+    "expires_at": {
+      "type": "string",
+      "title": "Expires At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "tip_id",
+    "payment_hash",
+    "payment_request",
+    "amount_sats",
+    "expires_at"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-paginated-list-private-note-out-schema.json",
+  "title": "PaginatedList[PrivateNoteOut]",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-private-notes-api-openapi.yml#/components/schemas/PaginatedList_PrivateNoteOut_",
+  "properties": {
+    "items": {
+      "items": {
+        "$ref": "#/$defs/PrivateNoteOut"
+      },
+      "type": "array",
+      "title": "Items"
+    },
+    "total": {
+      "type": "integer",
+      "title": "Total"
+    },
+    "has_more": {
+      "type": "boolean",
+      "title": "Has More"
+    }
+  },
+  "type": "object",
+  "required": [
+    "items",
+    "total",
+    "has_more"
+  ],
+  "$defs": {
+    "PrivateNoteOut": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "body": {
+          "type": "string",
+          "title": "Body"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Created At"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Updated At"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "body",
+        "created_at",
+        "updated_at"
+      ],
+      "title": "PrivateNoteOut"
+    }
+  }
+}

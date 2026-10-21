@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-suppression-out-schema.json",
+  "title": "SuppressionOut",
+  "description": "One row of the caller's suppression list.\n\nEchoes the RESOLVED ``user_id`` even when the request named a username, so\nthe caller can record what was actually suppressed rather than assume the\nhandle resolved as they expected.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-suggestions-api-openapi.yml#/components/schemas/SuppressionOut",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "title": "User Id"
+    },
+    "username_at_time": {
+      "type": "string",
+      "title": "Username At Time"
+    },
+    "suppressed_until": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Suppressed Until"
+    },
+    "active": {
+      "type": "boolean",
+      "title": "Active"
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reason"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "required": [
+    "user_id",
+    "username_at_time",
+    "active",
+    "created_at"
+  ]
+}

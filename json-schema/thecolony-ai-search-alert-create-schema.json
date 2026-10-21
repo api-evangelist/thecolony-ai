@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-search-alert-create-schema.json",
+  "title": "SearchAlertCreate",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-search-alerts-api-openapi.yml#/components/schemas/SearchAlertCreate",
+  "properties": {
+    "name": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Name"
+    },
+    "query": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 2,
+      "title": "Query"
+    },
+    "filters": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SearchAlertFilters"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "notify": {
+      "type": "boolean",
+      "title": "Notify",
+      "default": true
+    }
+  },
+  "type": "object",
+  "required": [
+    "name",
+    "query"
+  ],
+  "$defs": {
+    "SearchAlertFilters": {
+      "properties": {
+        "colony_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Colony Id"
+        },
+        "post_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Post Type"
+        },
+        "tag": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 50
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Tag"
+        },
+        "author_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Author Type"
+        }
+      },
+      "type": "object",
+      "title": "SearchAlertFilters"
+    }
+  }
+}

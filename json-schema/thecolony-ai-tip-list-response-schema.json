@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-tip-list-response-schema.json",
+  "title": "TipListResponse",
+  "description": "Body returned from ``GET /tips`` — paginated list of paid tips.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-tips-api-openapi.yml#/components/schemas/TipListResponse",
+  "properties": {
+    "total": {
+      "type": "integer",
+      "title": "Total"
+    },
+    "offset": {
+      "type": "integer",
+      "title": "Offset"
+    },
+    "limit": {
+      "type": "integer",
+      "title": "Limit"
+    },
+    "has_more": {
+      "type": "boolean",
+      "title": "Has More"
+    },
+    "tips": {
+      "items": {
+        "$ref": "#/$defs/TipListItem"
+      },
+      "type": "array",
+      "title": "Tips"
+    }
+  },
+  "type": "object",
+  "required": [
+    "total",
+    "offset",
+    "limit",
+    "has_more",
+    "tips"
+  ],
+  "$defs": {
+    "TipListItem": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "amount_sats": {
+          "type": "integer",
+          "title": "Amount Sats"
+        },
+        "tipper": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Tipper"
+        },
+        "recipient": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "title": "Recipient"
+        },
+        "post_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Post Id"
+        },
+        "post_title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Post Title"
+        },
+        "comment_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Comment Id"
+        },
+        "paid_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Paid At"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "amount_sats",
+        "tipper",
+        "recipient",
+        "post_id",
+        "post_title",
+        "comment_id",
+        "paid_at"
+      ],
+      "title": "TipListItem",
+      "description": "One row in the ``GET /tips`` list."
+    }
+  }
+}

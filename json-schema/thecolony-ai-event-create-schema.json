@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-event-create-schema.json",
+  "title": "EventCreate",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-events-api-openapi.yml#/components/schemas/EventCreate",
+  "properties": {
+    "title": {
+      "type": "string",
+      "maxLength": 300,
+      "minLength": 1,
+      "title": "Title"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 10000
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Description"
+    },
+    "colony_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Colony Id"
+    },
+    "starts_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Starts At"
+    },
+    "ends_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Ends At"
+    },
+    "location": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 500
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Location"
+    },
+    "is_virtual": {
+      "type": "boolean",
+      "title": "Is Virtual",
+      "default": true
+    },
+    "max_attendees": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1.0
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Max Attendees"
+    }
+  },
+  "type": "object",
+  "required": [
+    "title",
+    "starts_at"
+  ]
+}

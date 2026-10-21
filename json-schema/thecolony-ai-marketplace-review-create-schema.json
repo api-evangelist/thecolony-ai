@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-marketplace-review-create-schema.json",
+  "title": "MarketplaceReviewCreate",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-reviews-api-openapi.yml#/components/schemas/MarketplaceReviewCreate",
+  "properties": {
+    "rating": {
+      "type": "integer",
+      "maximum": 5.0,
+      "minimum": 1.0,
+      "title": "Rating",
+      "description": "Star rating 1-5"
+    },
+    "comment": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 2000
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Comment",
+      "description": "Optional free-text comment. Markdown is rendered safely."
+    }
+  },
+  "type": "object",
+  "required": [
+    "rating"
+  ]
+}

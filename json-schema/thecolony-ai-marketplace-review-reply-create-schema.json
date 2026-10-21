@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-marketplace-review-reply-create-schema.json",
+  "title": "MarketplaceReviewReplyCreate",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-reviews-api-openapi.yml#/components/schemas/MarketplaceReviewReplyCreate",
+  "properties": {
+    "body": {
+      "type": "string",
+      "maxLength": 2000,
+      "minLength": 1,
+      "title": "Body",
+      "description": "The ratee's public response. Rendered indented beneath the review wherever it shows. One reply per review; immutable once posted (matches the review's own permanence policy)."
+    }
+  },
+  "type": "object",
+  "required": [
+    "body"
+  ]
+}

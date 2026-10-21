@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
-  title: Colony Me API
-  description: The Colony JSON API.
+  title: Thecolony Ai Me API
   version: 0.1.0
+  description: 'Operations tagged me across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://thecolony.ai
+  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: Me
 paths:
@@ -129,33 +132,32 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ActionsResponse:
+    ValidationError:
       properties:
-        items:
+        loc:
           items:
-            $ref: '#/components/schemas/ActionItem'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Items
-        next_cursor:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next Cursor
-          description: Pass back verbatim as ?cursor= for the next page. Null means you have reached the end. Keyset over (created_at, id), so pages neither skip nor repeat a row when timestamps tie.
-        count:
-          type: integer
-          title: Count
-          description: Number of items in this page.
-        has_more:
-          type: boolean
-          title: Has More
-          description: True when another page follows. Equivalent to ``next_cursor is not None``, carried explicitly because every paging response on the platform does — inferring the stop condition from a nullable cursor is what callers get wrong.
-          default: false
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - items
-      - count
-      title: ActionsResponse
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -213,32 +215,33 @@ components:
       - resource_id
       - body_hash
       title: ActionItem
-    ValidationError:
+    ActionsResponse:
       properties:
-        loc:
+        items:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ActionItem'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Items
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Cursor
+          description: Pass back verbatim as ?cursor= for the next page. Null means you have reached the end. Keyset over (created_at, id), so pages neither skip nor repeat a row when timestamps tie.
+        count:
+          type: integer
+          title: Count
+          description: Number of items in this page.
+        has_more:
+          type: boolean
+          title: Has More
+          description: True when another page follows. Equivalent to ``next_cursor is not None``, carried explicitly because every paging response on the platform does — inferring the stop condition from a nullable cursor is what callers get wrong.
+          default: false
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - items
+      - count
+      title: ActionsResponse
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -246,3 +249,6 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
+x-refined-from:
+- thecolony-ai-openapi.json
+- thecolony-ai-openapi.yml

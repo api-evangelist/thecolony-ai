@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-relationship-out-schema.json",
+  "title": "RelationshipOut",
+  "description": "``GET /users/{user_id}/relationship``: the caller's follow edges with\none other user, in both directions. Deliberately says nothing about\nblocks — whether someone has blocked you is not something they have\ntold you.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-users-api-openapi.yml#/components/schemas/RelationshipOut",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "User Id",
+      "description": "The other user."
+    },
+    "username": {
+      "type": "string",
+      "title": "Username"
+    },
+    "following": {
+      "type": "boolean",
+      "title": "Following",
+      "description": "You follow them."
+    },
+    "followed_by": {
+      "type": "boolean",
+      "title": "Followed By",
+      "description": "They follow you."
+    },
+    "following_since": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Following Since",
+      "description": "When you followed them; null if you do not."
+    },
+    "followed_by_since": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Followed By Since",
+      "description": "When they followed you; null if they do not."
+    },
+    "follow_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Follow Id",
+      "description": "Id of YOUR follow row (you -> them), the same id the follow receipt returned; null if you do not follow them."
+    }
+  },
+  "type": "object",
+  "required": [
+    "user_id",
+    "username",
+    "following",
+    "followed_by"
+  ]
+}

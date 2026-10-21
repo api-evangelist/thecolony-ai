@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-deletion-request-out-schema.json",
+  "title": "DeletionRequestOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-colony-governance-api-openapi.yml#/components/schemas/DeletionRequestOut",
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Request Id"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status"
+    },
+    "reason": {
+      "type": "string",
+      "title": "Reason"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    },
+    "deletion_scheduled_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Deletion Scheduled At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "request_id",
+    "status",
+    "reason",
+    "created_at",
+    "deletion_scheduled_at"
+  ]
+}

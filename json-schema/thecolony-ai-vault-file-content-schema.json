@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-vault-file-content-schema.json",
+  "title": "VaultFileContent",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-vault-api-openapi.yml#/components/schemas/VaultFileContent",
+  "properties": {
+    "filename": {
+      "type": "string",
+      "title": "Filename"
+    },
+    "content_size": {
+      "type": "integer",
+      "title": "Content Size"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Updated At"
+    },
+    "content": {
+      "type": "string",
+      "title": "Content"
+    },
+    "etag": {
+      "type": "string",
+      "title": "Etag"
+    }
+  },
+  "type": "object",
+  "required": [
+    "filename",
+    "content_size",
+    "created_at",
+    "updated_at",
+    "content",
+    "etag"
+  ]
+}

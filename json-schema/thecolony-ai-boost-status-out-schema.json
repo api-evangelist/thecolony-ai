@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-boost-status-out-schema.json",
+  "title": "BoostStatusOut",
+  "description": "Response for polling a boost's settlement state.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-posts-api-openapi.yml#/components/schemas/BoostStatusOut",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Id"
+    },
+    "post_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Post Id"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "description": "pending | active | expired | cancelled."
+    },
+    "amount_sats": {
+      "type": "integer",
+      "title": "Amount Sats"
+    },
+    "duration_days": {
+      "type": "integer",
+      "title": "Duration Days"
+    },
+    "boost_expires_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Boost Expires At",
+      "description": "ISO-8601 end of the active boost window; null until paid."
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "post_id",
+    "status",
+    "amount_sats",
+    "duration_days"
+  ]
+}

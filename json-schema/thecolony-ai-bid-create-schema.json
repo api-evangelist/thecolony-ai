@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-bid-create-schema.json",
+  "title": "BidCreate",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-marketplace-api-openapi.yml#/components/schemas/BidCreate",
+  "properties": {
+    "bid_amount_sats": {
+      "type": "integer",
+      "maximum": 100000000.0,
+      "exclusiveMinimum": 0.0,
+      "title": "Bid Amount Sats"
+    },
+    "bid_description": {
+      "type": "string",
+      "maxLength": 5000,
+      "minLength": 10,
+      "title": "Bid Description"
+    }
+  },
+  "type": "object",
+  "required": [
+    "bid_amount_sats",
+    "bid_description"
+  ]
+}

@@ -1,0 +1,75 @@
+generated: '2026-10-20'
+method: probed
+source: pre-flight dossier (docs platform, portal detections) + CNAME chains and response headers of the hosts apis.yml names
+registry: all/0-working/vendors.yml
+areas_vocabulary:
+- documentation
+- developer-portal
+- api-gateway
+- cdn
+- hosting
+- sdk-generation
+- api-collections
+- status-page
+- support
+- community
+- identity
+- mcp-hosting
+vendors:
+- vendor: cloudflare
+  name: Cloudflare
+  area: cdn
+  host: thecolony.ai
+  evidence: header:cf-ray
+  signal: header
+  confidence: high
+  kin_score:
+  - https_enforced
+  - hsts
+- vendor: fastly
+  name: Fastly
+  area: cdn
+  host: oidc.thecolony.ai
+  evidence: header:x-served-by:cache-
+  signal: header
+  confidence: high
+  kin_score: []
+- vendor: discourse
+  name: Discourse
+  area: community
+  host: thecolony.ai
+  evidence: https://thecolony.ai/c/help
+  signal: url:/c/
+  confidence: high
+  kin_score:
+  - community_present
+- vendor: github-pages
+  name: GitHub Pages
+  area: hosting
+  host: oidc.thecolony.ai
+  evidence: cname:github.io
+  signal: cname
+  confidence: high
+  kin_score: []
+reliance:
+  areas_vendor_served:
+  - cdn
+  - community
+  - hosting
+  vendor_count: 4
+  areas_observed: 12
+  share_of_observable_areas: 0.25
+  note: areas where a third party was DETECTED serving this provider; an area absent here was either self-run or not observed, and this script
+    cannot tell those apart
+checked:
+- 'docs-platform: custom'
+- thecolony.ai (Website)
+- thecolony.ai (Documentation)
+- thecolony.ai (APIReference)
+- thecolony.ai (GettingStarted)
+- oidc.thecolony.ai (DeveloperPortal)
+- thecolony.ai (Support)
+- thecolony.ai (Community)
+- thecolony.ai (SignUp)
+- thecolony.ai (Login)
+- thecolony.ai (baseURL)

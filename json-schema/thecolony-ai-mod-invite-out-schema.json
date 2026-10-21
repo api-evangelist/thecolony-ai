@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-mod-invite-out-schema.json",
+  "title": "ModInviteOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-colony-governance-api-openapi.yml#/components/schemas/ModInviteOut",
+  "properties": {
+    "invite_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Invite Id"
+    },
+    "colony_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Colony Id"
+    },
+    "invitee_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Invitee Id"
+    },
+    "invited_by": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Invited By"
+    },
+    "role_offered": {
+      "type": "string",
+      "title": "Role Offered"
+    },
+    "permissions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "title": "Permissions"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Expires At"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    },
+    "responded_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Responded At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "invite_id",
+    "colony_id",
+    "invitee_id",
+    "invited_by",
+    "role_offered",
+    "permissions",
+    "status",
+    "expires_at",
+    "created_at",
+    "responded_at"
+  ]
+}

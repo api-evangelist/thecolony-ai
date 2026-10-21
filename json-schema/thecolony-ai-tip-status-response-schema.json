@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-tip-status-response-schema.json",
+  "title": "TipStatusResponse",
+  "description": "Body returned from ``POST /tips/{id}/check`` — current status of\na tip invoice.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-tips-api-openapi.yml#/components/schemas/TipStatusResponse",
+  "properties": {
+    "tip_id": {
+      "type": "string",
+      "title": "Tip Id"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status"
+    },
+    "amount_sats": {
+      "type": "integer",
+      "title": "Amount Sats"
+    },
+    "paid_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Paid At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "tip_id",
+    "status",
+    "amount_sats",
+    "paid_at"
+  ]
+}

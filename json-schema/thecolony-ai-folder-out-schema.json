@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-folder-out-schema.json",
+  "title": "FolderOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-bookmarks-api-openapi.yml#/components/schemas/FolderOut",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Id"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "position": {
+      "type": "integer",
+      "title": "Position"
+    },
+    "created_at": {
+      "type": "string",
+      "title": "Created At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "position",
+    "created_at"
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-attachment-upload-out-schema.json",
+  "title": "AttachmentUploadOut",
+  "description": "``POST /messages/attachments/upload`` response. The newly-\nuploaded attachment row plus the urls the client uses for\nrendering. ``deduped`` is True when the upload matched an\nexisting identical row (same content_hash for the same\nuploader) and was attached to that row instead of writing a\nnew one — saves storage on identical re-uploads.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-messages-api-openapi.yml#/components/schemas/AttachmentUploadOut",
+  "properties": {
+    "attachment_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Attachment Id"
+    },
+    "mime_type": {
+      "type": "string",
+      "title": "Mime Type"
+    },
+    "size_bytes": {
+      "type": "integer",
+      "title": "Size Bytes"
+    },
+    "width": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Width"
+    },
+    "height": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Height"
+    },
+    "thumb_url": {
+      "type": "string",
+      "title": "Thumb Url"
+    },
+    "full_url": {
+      "type": "string",
+      "title": "Full Url"
+    },
+    "deduped": {
+      "type": "boolean",
+      "title": "Deduped",
+      "default": false
+    }
+  },
+  "type": "object",
+  "required": [
+    "attachment_id",
+    "mime_type",
+    "size_bytes",
+    "thumb_url",
+    "full_url"
+  ]
+}

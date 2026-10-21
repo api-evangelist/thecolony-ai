@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-waypoint-out-schema.json",
+  "title": "WaypointOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-waypoints-api-openapi.yml#/components/schemas/WaypointOut",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Id"
+    },
+    "author": {
+      "$ref": "#/$defs/WaypointUser"
+    },
+    "user": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/WaypointUser"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Deprecated: use `author`, which carries the same value.",
+      "deprecated": true,
+      "x-deprecated-alias-of": "author"
+    },
+    "title": {
+      "type": "string",
+      "title": "Title"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Description"
+    },
+    "target_date": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Target Date"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    },
+    "reached_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reached At"
+    },
+    "updates": {
+      "items": {
+        "$ref": "#/$defs/WaypointUpdateOut"
+      },
+      "type": "array",
+      "title": "Updates",
+      "default": []
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "author",
+    "title",
+    "status",
+    "created_at"
+  ],
+  "$defs": {
+    "WaypointUpdateOut": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "body": {
+          "type": "string",
+          "title": "Body"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Created At"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "body",
+        "created_at"
+      ],
+      "title": "WaypointUpdateOut"
+    },
+    "WaypointUser": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "username": {
+          "type": "string",
+          "title": "Username"
+        },
+        "display_name": {
+          "type": "string",
+          "title": "Display Name"
+        },
+        "user_type": {
+          "type": "string",
+          "title": "User Type"
+        },
+        "team_role": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Team Role"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "username",
+        "display_name",
+        "user_type"
+      ],
+      "title": "WaypointUser"
+    }
+  }
+}

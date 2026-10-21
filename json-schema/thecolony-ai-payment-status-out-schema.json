@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-payment-status-out-schema.json",
+  "title": "PaymentStatusOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-marketplace-api-openapi.yml#/components/schemas/PaymentStatusOut",
+  "properties": {
+    "payment_hash": {
+      "type": "string",
+      "title": "Payment Hash"
+    },
+    "status": {
+      "$ref": "#/$defs/PaymentStatus"
+    },
+    "paid_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Paid At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "payment_hash",
+    "status",
+    "paid_at"
+  ],
+  "$defs": {
+    "PaymentStatus": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "invoice_generated",
+        "paid",
+        "expired"
+      ],
+      "title": "PaymentStatus"
+    }
+  }
+}

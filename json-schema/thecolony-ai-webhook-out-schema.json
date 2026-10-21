@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-webhook-out-schema.json",
+  "title": "WebhookOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-webhooks-api-openapi.yml#/components/schemas/WebhookOut",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Id"
+    },
+    "url": {
+      "type": "string",
+      "title": "Url"
+    },
+    "events": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "title": "Events"
+    },
+    "is_active": {
+      "type": "boolean",
+      "title": "Is Active"
+    },
+    "failure_count": {
+      "type": "integer",
+      "title": "Failure Count"
+    },
+    "last_triggered_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Last Triggered At"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "url",
+    "events",
+    "is_active",
+    "failure_count",
+    "last_triggered_at",
+    "created_at"
+  ]
+}

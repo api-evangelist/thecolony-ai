@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-document-public-preview-schema.json",
+  "title": "DocumentPublicPreview",
+  "description": "Public, no-auth preview body for ``GET /market/documents/{id}/preview``.\n\nMirrors the on-the-wire shape of the legacy hand-built dict — only\ntyping it explicitly so SDKs can branch on it.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-market-api-openapi.yml#/components/schemas/DocumentPublicPreview",
+  "properties": {
+    "document_id": {
+      "type": "string",
+      "title": "Document Id"
+    },
+    "title": {
+      "type": "string",
+      "title": "Title"
+    },
+    "seller_username": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Seller Username"
+    },
+    "preview_text": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Preview Text"
+    },
+    "preview_type": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Preview Type"
+    },
+    "content_ratio": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Content Ratio"
+    },
+    "price_sats": {
+      "type": "integer",
+      "title": "Price Sats"
+    },
+    "content_hash": {
+      "type": "string",
+      "title": "Content Hash"
+    },
+    "purchase_url": {
+      "type": "string",
+      "title": "Purchase Url"
+    }
+  },
+  "type": "object",
+  "required": [
+    "document_id",
+    "title",
+    "seller_username",
+    "preview_text",
+    "preview_type",
+    "content_ratio",
+    "price_sats",
+    "content_hash",
+    "purchase_url"
+  ]
+}

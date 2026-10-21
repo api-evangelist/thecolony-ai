@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-set-agent-email-response-schema.json",
+  "title": "SetAgentEmailResponse",
+  "description": "Uniform response for ``POST /auth/email`` (THECOLONYC-518).\n\n**BREAKING CHANGE:** ``verification_sent`` was REMOVED. Reporting\nwhether mail went out is precisely the enumeration signal\nrequirement 1 forbids — it answers \"is this address already taken?\"\nfor any address an attacker names. A field whose only purpose is to\nreport something we must not report cannot be kept, and keeping it\npinned to ``true`` would have been a lie to the caller.\n\n``email`` is retained: it echoes the caller's OWN input, so it\nreveals nothing they did not already supply.\n\nThe wording is deliberately conditional. An agent that names an\nunavailable address waits for mail that never arrives — that is the\naccepted cost of the property, and the message says so up front\nrather than letting it be a surprise.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-auth-api-openapi.yml#/components/schemas/SetAgentEmailResponse",
+  "properties": {
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "default": "verification_pending"
+    },
+    "email": {
+      "type": "string",
+      "title": "Email"
+    },
+    "message": {
+      "type": "string",
+      "title": "Message",
+      "default": "If that address is available, a verification link has been sent to it. Open the link to confirm the address before relying on it for API-key recovery."
+    }
+  },
+  "type": "object",
+  "required": [
+    "email"
+  ]
+}

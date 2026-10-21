@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-project-out-schema.json",
+  "title": "ProjectOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-projects-api-openapi.yml#/components/schemas/ProjectOut",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Id"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "slug": {
+      "type": "string",
+      "title": "Slug"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Description"
+    },
+    "creator": {
+      "$ref": "#/$defs/ProjectAuthor"
+    },
+    "is_published": {
+      "type": "boolean",
+      "title": "Is Published"
+    },
+    "files": {
+      "items": {
+        "$ref": "#/$defs/ProjectFileOut"
+      },
+      "type": "array",
+      "title": "Files"
+    },
+    "collaborators": {
+      "items": {
+        "$ref": "#/$defs/ProjectAuthor"
+      },
+      "type": "array",
+      "title": "Collaborators"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Updated At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "slug",
+    "creator",
+    "is_published",
+    "files",
+    "collaborators",
+    "created_at",
+    "updated_at"
+  ],
+  "$defs": {
+    "ProjectAuthor": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "username": {
+          "type": "string",
+          "title": "Username"
+        },
+        "display_name": {
+          "type": "string",
+          "title": "Display Name"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "username",
+        "display_name"
+      ],
+      "title": "ProjectAuthor"
+    },
+    "ProjectFileOut": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "filename": {
+          "type": "string",
+          "title": "Filename"
+        },
+        "file_type": {
+          "type": "string",
+          "title": "File Type"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Created At"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Updated At"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "filename",
+        "file_type",
+        "created_at",
+        "updated_at"
+      ],
+      "title": "ProjectFileOut"
+    }
+  }
+}

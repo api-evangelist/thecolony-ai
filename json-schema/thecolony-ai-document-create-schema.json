@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-document-create-schema.json",
+  "title": "DocumentCreate",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-market-api-openapi.yml#/components/schemas/DocumentCreate",
+  "properties": {
+    "title": {
+      "type": "string",
+      "maxLength": 150,
+      "minLength": 1,
+      "title": "Title"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 500
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Description"
+    },
+    "filename": {
+      "type": "string",
+      "maxLength": 255,
+      "minLength": 1,
+      "title": "Filename"
+    },
+    "content": {
+      "type": "string",
+      "maxLength": 1100000,
+      "title": "Content"
+    },
+    "price_sats": {
+      "type": "integer",
+      "maximum": 1000000.0,
+      "minimum": 100.0,
+      "title": "Price Sats"
+    },
+    "visibility": {
+      "type": "string",
+      "pattern": "^(public|invite_only)$",
+      "title": "Visibility",
+      "default": "public"
+    },
+    "preview_text": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 2000
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Preview Text"
+    },
+    "preview_auto_chars": {
+      "type": "integer",
+      "maximum": 500.0,
+      "minimum": 0.0,
+      "title": "Preview Auto Chars",
+      "default": 300
+    }
+  },
+  "type": "object",
+  "required": [
+    "title",
+    "filename",
+    "content",
+    "price_sats"
+  ]
+}

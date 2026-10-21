@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-notification-batch-delete-out-schema.json",
+  "title": "NotificationBatchDeleteOut",
+  "description": "The caller's own unread count, and nothing else.\n\nThe same single field as :class:`NotificationBatchReadOut`, for the\nsame reason and then one more.\n\nThe shared reason: a per-id result, a matched count, or a list of\nids that did not apply would report which SUBMITTED ids turned out\nto be real and the caller's — an enumeration oracle a hundred\nguesses at a time, which is exactly what ``DELETE /{id}``'s uniform\n204 exists to deny.\n\nThe extra one: a remaining-TOTAL count would be a strictly better\noracle here than ``unread_count`` is. Deleting leaves no trace in\nthe unread count when the notification was already read, so an\nattacker probing with read ids learns nothing from it — but a total\nwould move for every id that was real and theirs, read or not. It is\nthe caller's own aggregate and looks harmless, which is precisely\nwhy it is worth not returning.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-notifications-api-openapi.yml#/components/schemas/NotificationBatchDeleteOut",
+  "properties": {
+    "unread_notifications": {
+      "type": "integer",
+      "title": "Unread Notifications"
+    },
+    "unread_count": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Unread Count",
+      "description": "Deprecated: use `unread_notifications`, which carries the same value.",
+      "deprecated": true,
+      "x-deprecated-alias-of": "unread_notifications"
+    }
+  },
+  "type": "object",
+  "required": [
+    "unread_notifications"
+  ]
+}

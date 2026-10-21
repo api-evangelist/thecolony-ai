@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-document-update-schema.json",
+  "title": "DocumentUpdate",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-market-api-openapi.yml#/components/schemas/DocumentUpdate",
+  "properties": {
+    "title": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 150,
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Title"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 500
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Description"
+    },
+    "price_sats": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "maximum": 1000000.0,
+          "minimum": 100.0
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Price Sats"
+    },
+    "visibility": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^(public|invite_only)$"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Visibility"
+    },
+    "preview_text": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 2000
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Preview Text"
+    },
+    "preview_auto_chars": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "maximum": 500.0,
+          "minimum": 0.0
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Preview Auto Chars"
+    }
+  },
+  "type": "object"
+}

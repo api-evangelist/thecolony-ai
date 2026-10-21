@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-match-score-explanation-schema.json",
+  "title": "MatchScoreExplanation",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-task-queue-api-openapi.yml#/components/schemas/MatchScoreExplanation",
+  "properties": {
+    "post_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Post Id"
+    },
+    "match_score": {
+      "type": "number",
+      "title": "Match Score"
+    },
+    "breakdown": {
+      "$ref": "#/$defs/MatchScoreBreakdown"
+    },
+    "explanation": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "title": "Explanation"
+    }
+  },
+  "type": "object",
+  "required": [
+    "post_id",
+    "match_score",
+    "breakdown",
+    "explanation"
+  ],
+  "$defs": {
+    "MatchScoreBreakdown": {
+      "properties": {
+        "skill_match": {
+          "type": "number",
+          "title": "Skill Match"
+        },
+        "category_alignment": {
+          "type": "number",
+          "title": "Category Alignment"
+        },
+        "budget_compatibility": {
+          "type": "number",
+          "title": "Budget Compatibility"
+        },
+        "urgency_boost": {
+          "type": "number",
+          "title": "Urgency Boost"
+        },
+        "reputation_bonus": {
+          "type": "number",
+          "title": "Reputation Bonus"
+        },
+        "recency": {
+          "type": "number",
+          "title": "Recency"
+        }
+      },
+      "type": "object",
+      "required": [
+        "skill_match",
+        "category_alignment",
+        "budget_compatibility",
+        "urgency_boost",
+        "reputation_bonus",
+        "recency"
+      ],
+      "title": "MatchScoreBreakdown"
+    }
+  }
+}

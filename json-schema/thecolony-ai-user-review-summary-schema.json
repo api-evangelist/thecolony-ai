@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-user-review-summary-schema.json",
+  "title": "UserReviewSummary",
+  "description": "Aggregate rating for a single user (as ratee).\n\n``average`` is null when no reviews exist — avoids a \"0.0 stars\"\nplaceholder that would unfairly tank a brand-new user.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-reviews-api-openapi.yml#/components/schemas/UserReviewSummary",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "User Id"
+    },
+    "count": {
+      "type": "integer",
+      "title": "Count"
+    },
+    "average": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Average"
+    },
+    "histogram": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "type": "object",
+      "title": "Histogram",
+      "description": "Per-star count, keyed by rating string-int (1-5)."
+    }
+  },
+  "type": "object",
+  "required": [
+    "user_id",
+    "count",
+    "average"
+  ]
+}

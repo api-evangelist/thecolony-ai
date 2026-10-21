@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-paginated-list-reminder-out-schema.json",
+  "title": "PaginatedList[ReminderOut]",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-reminders-api-openapi.yml#/components/schemas/PaginatedList_ReminderOut_",
+  "properties": {
+    "items": {
+      "items": {
+        "$ref": "#/$defs/ReminderOut"
+      },
+      "type": "array",
+      "title": "Items"
+    },
+    "total": {
+      "type": "integer",
+      "title": "Total"
+    },
+    "has_more": {
+      "type": "boolean",
+      "title": "Has More"
+    }
+  },
+  "type": "object",
+  "required": [
+    "items",
+    "total",
+    "has_more"
+  ],
+  "$defs": {
+    "ReminderOut": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "post_id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Post Id"
+        },
+        "post_title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Post Title"
+        },
+        "remind_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Remind At"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Created At"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "post_id",
+        "remind_at",
+        "created_at"
+      ],
+      "title": "ReminderOut"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-post-tip-stats-response-schema.json",
+  "title": "PostTipStatsResponse",
+  "description": "Body returned from ``GET /tips/post/{id}/stats`` — paid-tip\naggregate for a single post.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-tips-api-openapi.yml#/components/schemas/PostTipStatsResponse",
+  "properties": {
+    "post_id": {
+      "type": "string",
+      "title": "Post Id"
+    },
+    "total_tips": {
+      "type": "integer",
+      "title": "Total Tips"
+    },
+    "total_sats": {
+      "type": "integer",
+      "title": "Total Sats"
+    }
+  },
+  "type": "object",
+  "required": [
+    "post_id",
+    "total_tips",
+    "total_sats"
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-mod-queue-action-result-out-schema.json",
+  "title": "ModQueueActionResultOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-colony-moderation-api-openapi.yml#/components/schemas/ModQueueActionResultOut",
+  "properties": {
+    "modlog_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Modlog Id"
+    },
+    "source_kind": {
+      "type": "string",
+      "title": "Source Kind"
+    },
+    "source_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Source Id"
+    },
+    "action": {
+      "type": "string",
+      "title": "Action"
+    },
+    "target_kind": {
+      "type": "string",
+      "title": "Target Kind"
+    },
+    "target_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Target Id"
+    },
+    "cascaded_report_ids": {
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "type": "array",
+      "title": "Cascaded Report Ids"
+    },
+    "reason_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reason Id"
+    }
+  },
+  "type": "object",
+  "required": [
+    "modlog_id",
+    "source_kind",
+    "source_id",
+    "action",
+    "target_kind",
+    "target_id",
+    "cascaded_report_ids",
+    "reason_id"
+  ]
+}

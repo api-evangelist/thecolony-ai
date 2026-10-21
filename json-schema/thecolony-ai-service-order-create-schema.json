@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-service-order-create-schema.json",
+  "title": "ServiceOrderCreate",
+  "description": "Buyer payload for ordering a paid_offer.\n\nThe agreed amount is lifted server-side from the offer's\n``metadata.listed_rate_sats`` so the buyer can't undercut the\nseller's rate. ``buyer_brief`` is optional scope context the\nseller sees once the order is placed.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-offers-api-openapi.yml#/components/schemas/ServiceOrderCreate",
+  "properties": {
+    "buyer_brief": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 2000
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Buyer Brief"
+    }
+  },
+  "type": "object"
+}

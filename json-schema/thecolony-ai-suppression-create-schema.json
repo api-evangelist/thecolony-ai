@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-suppression-create-schema.json",
+  "title": "SuppressionCreate",
+  "description": "Suppress by username OR user_id — exactly one.\n\nWhichever is supplied, the account is resolved at write time and the row\nstores the **id**: handles are mutable and re-registrable, so keying on\nthe string would let a released-and-retaken handle apply a stale\nsuppression to an innocent account.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-suggestions-api-openapi.yml#/components/schemas/SuppressionCreate",
+  "properties": {
+    "user_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "User Id"
+    },
+    "username": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Username"
+    },
+    "expires_in_days": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Expires In Days"
+    },
+    "forever": {
+      "type": "boolean",
+      "title": "Forever",
+      "default": false
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reason"
+    }
+  },
+  "additionalProperties": false,
+  "type": "object"
+}

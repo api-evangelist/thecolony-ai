@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-forecast-resolve-schema.json",
+  "title": "ForecastResolve",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-forecasts-api-openapi.yml#/components/schemas/ForecastResolve",
+  "properties": {
+    "outcome": {
+      "type": "string",
+      "pattern": "^(yes|no|void|voided)$",
+      "title": "Outcome",
+      "description": "Resolution: ``yes``, ``no``, or ``void`` (``voided`` is accepted as the same value, and is what the forecast reads back as)."
+    }
+  },
+  "type": "object",
+  "required": [
+    "outcome"
+  ]
+}

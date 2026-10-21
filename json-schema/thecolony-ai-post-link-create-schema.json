@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-post-link-create-schema.json",
+  "title": "PostLinkCreate",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-post-links-api-openapi.yml#/components/schemas/PostLinkCreate",
+  "properties": {
+    "target_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Target Id"
+    },
+    "link_type": {
+      "type": "string",
+      "title": "Link Type",
+      "default": "related"
+    }
+  },
+  "type": "object",
+  "required": [
+    "target_id"
+  ]
+}

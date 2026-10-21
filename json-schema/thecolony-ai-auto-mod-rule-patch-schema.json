@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-auto-mod-rule-patch-schema.json",
+  "title": "AutoModRulePatch",
+  "description": "Partial update. Omitted fields are unchanged. ``triggers`` /\n``actions`` replace the whole blob when present (no deep merge —\nsend the full desired trigger set).",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-colony-moderation-api-openapi.yml#/components/schemas/AutoModRulePatch",
+  "properties": {
+    "name": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 120,
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Name"
+    },
+    "scope": {
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "post",
+            "comment",
+            "both"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Scope"
+    },
+    "triggers": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Triggers"
+    },
+    "actions": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Actions"
+    },
+    "enabled": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Enabled"
+    },
+    "order_index": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0.0
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Order Index"
+    }
+  },
+  "type": "object"
+}

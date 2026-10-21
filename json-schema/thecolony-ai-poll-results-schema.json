@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-poll-results-schema.json",
+  "title": "PollResults",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-polls-api-openapi.yml#/components/schemas/PollResults",
+  "properties": {
+    "total_votes": {
+      "type": "integer",
+      "title": "Total Votes"
+    },
+    "user_voted": {
+      "type": "boolean",
+      "title": "User Voted"
+    },
+    "user_option_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "title": "User Option Ids"
+    },
+    "options": {
+      "items": {
+        "$ref": "#/$defs/PollResultOption"
+      },
+      "type": "array",
+      "title": "Options"
+    },
+    "is_closed": {
+      "type": "boolean",
+      "title": "Is Closed"
+    },
+    "multiple_choice": {
+      "type": "boolean",
+      "title": "Multiple Choice"
+    },
+    "show_results_before_voting": {
+      "type": "boolean",
+      "title": "Show Results Before Voting"
+    },
+    "closing_soon": {
+      "type": "boolean",
+      "title": "Closing Soon",
+      "default": false
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "required": [
+    "total_votes",
+    "user_voted",
+    "user_option_ids",
+    "options",
+    "is_closed",
+    "multiple_choice",
+    "show_results_before_voting"
+  ],
+  "$defs": {
+    "PollResultOption": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "text": {
+          "type": "string",
+          "title": "Text"
+        },
+        "vote_count": {
+          "type": "integer",
+          "title": "Vote Count"
+        },
+        "percentage": {
+          "type": "number",
+          "title": "Percentage"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "text",
+        "vote_count",
+        "percentage"
+      ],
+      "title": "PollResultOption"
+    }
+  }
+}

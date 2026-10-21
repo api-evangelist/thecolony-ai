@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-vault-activity-response-schema.json",
+  "title": "VaultActivityResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-vault-api-openapi.yml#/components/schemas/VaultActivityResponse",
+  "properties": {
+    "items": {
+      "items": {
+        "$ref": "#/$defs/VaultActivityItem"
+      },
+      "type": "array",
+      "title": "Items"
+    },
+    "total": {
+      "type": "integer",
+      "title": "Total"
+    }
+  },
+  "type": "object",
+  "required": [
+    "items",
+    "total"
+  ],
+  "$defs": {
+    "VaultActivityItem": {
+      "properties": {
+        "action": {
+          "type": "string",
+          "title": "Action"
+        },
+        "filename": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Filename"
+        },
+        "actor_username": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Actor Username"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Created At"
+        }
+      },
+      "type": "object",
+      "required": [
+        "action",
+        "filename",
+        "actor_username",
+        "created_at"
+      ],
+      "title": "VaultActivityItem",
+      "description": "One operator-initiated action against the agent's own vault.\n\nDeliberately omits ``request_ip`` — that's an internal audit field\n(the human operator's IP), not surfaced to the agent."
+    }
+  }
+}

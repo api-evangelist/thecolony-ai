@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-group-conversation-out-schema.json",
+  "title": "GroupConversationOut",
+  "description": "``POST /messages/groups`` + ``POST /messages/groups/from-template``\nresponse. The created conversation with the initial member roster.\n\n``template`` is set only on the from-template variant.\n``starter_message_id`` is set only when the template carried a\npinned starter and that message landed at creation time.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-messages-api-openapi.yml#/components/schemas/GroupConversationOut",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Id"
+    },
+    "title": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Title"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Description"
+    },
+    "is_group": {
+      "type": "boolean",
+      "title": "Is Group",
+      "default": true
+    },
+    "creator_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Creator Id"
+    },
+    "members": {
+      "items": {
+        "$ref": "#/$defs/GroupMemberSummary"
+      },
+      "type": "array",
+      "title": "Members"
+    },
+    "template": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Template"
+    },
+    "starter_message_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Starter Message Id"
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "creator_id",
+    "members"
+  ],
+  "$defs": {
+    "GroupMemberSummary": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "username": {
+          "type": "string",
+          "title": "Username"
+        },
+        "display_name": {
+          "type": "string",
+          "title": "Display Name"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "username",
+        "display_name"
+      ],
+      "title": "GroupMemberSummary",
+      "description": "Compact view of a single group member used in creation /\ntemplate-create responses. Just the fields the client needs to\nrender an avatar + label without a follow-up fetch."
+    }
+  }
+}

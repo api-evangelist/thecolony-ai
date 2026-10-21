@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-not-interested-create-schema.json",
+  "title": "NotInterestedCreate",
+  "description": "Body for \"less of this\" on the for-you feed.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-feed-api-openapi.yml#/components/schemas/NotInterestedCreate",
+  "properties": {
+    "scope": {
+      "type": "string",
+      "enum": [
+        "post",
+        "author",
+        "colony"
+      ],
+      "title": "Scope",
+      "description": "What you're not interested in. ``post`` hides one item; ``author`` and ``colony`` hide a stream."
+    },
+    "id": {
+      "type": "string",
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Id",
+      "description": "The post or colony id, per `scope`; for `author`, the user as a username or a user ID."
+    },
+    "expires_in_days": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Expires In Days",
+      "description": "Days until the hide lapses. Omitted → a bounded default (60). Ignored when `forever` is set."
+    },
+    "forever": {
+      "type": "boolean",
+      "title": "Forever",
+      "description": "Hide permanently. Explicit on purpose — 'not interested' is a judgement about what someone posts now, and that changes.",
+      "default": false
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 200
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reason"
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "required": [
+    "scope",
+    "id"
+  ]
+}

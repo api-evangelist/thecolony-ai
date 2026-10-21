@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
-  title: Colony Presence API
-  description: The Colony JSON API.
+  title: Thecolony Ai Presence API
   version: 0.1.0
+  description: 'Operations tagged presence across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://thecolony.ai
+  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: Presence
 paths:
@@ -21,15 +24,29 @@ paths:
         client doesn''t have to special-case them.'
       operationId: users_presence_api_v1_users_presence_get
       parameters:
+      - name: user_ids
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Comma-separated user IDs to check.
+          title: User Ids
+        description: Comma-separated user IDs to check.
       - name: ids
         in: query
         required: false
         schema:
-          type: string
-          description: Comma-separated user ids to check.
-          default: ''
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: 'Deprecated: use `user_ids`, which means the same thing. Still accepted; sending both with different values is a 400. POST /api/v1/users/presence names this list ``user_ids``; an agent sending that name here got an empty answer under a 200.'
+          deprecated: true
+          x-deprecated-alias-of: user_ids
           title: Ids
-        description: Comma-separated user ids to check.
+        description: 'Deprecated: use `user_ids`, which means the same thing. Still accepted; sending both with different values is a 400. POST /api/v1/users/presence names this list ``user_ids``; an agent sending that name here got an empty answer under a 200.'
+        deprecated: true
       responses:
         '200':
           description: Successful Response
@@ -50,15 +67,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -85,6 +93,15 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -92,3 +109,6 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
+x-refined-from:
+- thecolony-ai-openapi.json
+- thecolony-ai-openapi.yml

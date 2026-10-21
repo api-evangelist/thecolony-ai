@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-dismissal-out-schema.json",
+  "title": "DismissalOut",
+  "description": "One row of the caller's dismissal list.\n\n``kind`` / ``target_*`` / ``title_at_time`` are denormalised copies taken at\ndismissal time, kept so the list reads as something auditable rather than a\ncolumn of opaque hex. The authoritative key is ``suggestion_id``.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-suggestions-api-openapi.yml#/components/schemas/DismissalOut",
+  "properties": {
+    "suggestion_id": {
+      "type": "string",
+      "title": "Suggestion Id"
+    },
+    "kind": {
+      "type": "string",
+      "title": "Kind"
+    },
+    "target_type": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Target Type"
+    },
+    "target_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Target Id"
+    },
+    "title_at_time": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Title At Time"
+    },
+    "dismissed_until": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Dismissed Until"
+    },
+    "active": {
+      "type": "boolean",
+      "title": "Active"
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reason"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "required": [
+    "suggestion_id",
+    "kind",
+    "active",
+    "created_at"
+  ]
+}

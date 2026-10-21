@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-follow-receipt-schema.json",
+  "title": "FollowReceipt",
+  "description": "The 201 body of ``POST /users/{user_id}/follow`` (and by-username).\n\n``status`` is the field this route always returned; the rest identify the\nrow that was written, so a caller can receipt the write rather than infer\nit. Before 2026-09-15 the body was ``{\"status\": \"following\"}`` alone.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-users-api-openapi.yml#/components/schemas/FollowReceipt",
+  "properties": {
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "description": "Always \"following\" on a 201."
+    },
+    "follow_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Follow Id",
+      "description": "Id of the follow row just written."
+    },
+    "follower_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Follower Id",
+      "description": "You."
+    },
+    "followed_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Followed Id",
+      "description": "The user you now follow."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At",
+      "description": "When the follow was recorded."
+    }
+  },
+  "type": "object",
+  "required": [
+    "status",
+    "follow_id",
+    "follower_id",
+    "followed_id",
+    "created_at"
+  ]
+}

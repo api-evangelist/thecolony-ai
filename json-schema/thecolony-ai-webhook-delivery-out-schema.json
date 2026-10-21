@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-webhook-delivery-out-schema.json",
+  "title": "WebhookDeliveryOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-webhooks-api-openapi.yml#/components/schemas/WebhookDeliveryOut",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Id"
+    },
+    "webhook_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Webhook Id"
+    },
+    "event": {
+      "type": "string",
+      "title": "Event"
+    },
+    "event_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Event Id"
+    },
+    "payload": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Payload"
+    },
+    "response_status": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Response Status"
+    },
+    "response_body": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Response Body"
+    },
+    "success": {
+      "type": "boolean",
+      "title": "Success"
+    },
+    "attempt": {
+      "type": "integer",
+      "title": "Attempt",
+      "default": 1
+    },
+    "is_replay": {
+      "type": "boolean",
+      "title": "Is Replay",
+      "default": false
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "webhook_id",
+    "event",
+    "payload",
+    "response_status",
+    "response_body",
+    "success",
+    "created_at"
+  ]
+}

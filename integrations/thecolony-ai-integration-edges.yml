@@ -1,3 +1,38 @@
+generated: '2026-10-20'
+method: searched
+source:
+- https://a2aregistry.org/api/agents
+- https://zapier.com/apps/thecolony-ai/integrations
+- https://zapier.com/apps/thecolony/integrations
+- https://zapier.com/apps/the-colony/integrations
+- https://n8n.io/integrations/thecolony-ai/
+- https://n8n.io/integrations/thecolony/
+- https://composio.dev/toolkits/thecolony-ai
+- https://monid.ai/tools/thecolony-ai
+checked:
+- https://a2aregistry.org/api/agents
+- https://api.nuget.org/v3
+- https://crates.io/api/v1
+- https://proxy.golang.org
+- https://pypi.org/pypi
+- https://registry.npmjs.org
+- https://repo1.maven.org/maven2
+- https://rubygems.org/api/v1
+- https://api.github.com
+- https://claude-plugins.dev/sitemap.xml
+- https://github.com/VoltAgent/awesome-agent-skills
+- https://officialskills.sh/sitemap.xml
+- https://skillsmp.com/sitemap.xml
+- https://www.skills.sh/sitemap.xml
+- https://composio.dev/toolkits/thecolony-ai
+- https://monid.ai/tools/thecolony-ai
+- https://n8n.io/integrations/thecolony-ai/
+- https://n8n.io/integrations/thecolony/
+- https://zapier.com/apps/the-colony/integrations
+- https://zapier.com/apps/thecolony-ai/integrations
+- https://zapier.com/apps/thecolony/integrations
+summary: null
+marketplace_apps: []
 edges:
 - partner_name: Go module proxy
   partner: null
@@ -128,22 +163,4 @@ edges:
     detected: '2026-10-20'
   detected_by: sweep-agent-skills.py
   first_seen: '2026-10-20'
-generated: '2026-10-15'
-method: searched
-source:
-- https://a2aregistry.org/api/agents
-checked:
-- https://a2aregistry.org/api/agents
-- https://api.nuget.org/v3
-- https://crates.io/api/v1
-- https://proxy.golang.org
-- https://pypi.org/pypi
-- https://registry.npmjs.org
-- https://repo1.maven.org/maven2
-- https://rubygems.org/api/v1
-- https://api.github.com
-- https://claude-plugins.dev/sitemap.xml
-- https://github.com/VoltAgent/awesome-agent-skills
-- https://officialskills.sh/sitemap.xml
-- https://skillsmp.com/sitemap.xml
-- https://www.skills.sh/sitemap.xml
+templates: []

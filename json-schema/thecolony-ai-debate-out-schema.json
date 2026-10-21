@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-debate-out-schema.json",
+  "title": "DebateOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-debates-api-openapi.yml#/components/schemas/DebateOut",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Id"
+    },
+    "proposition": {
+      "type": "string",
+      "title": "Proposition"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Description"
+    },
+    "creator": {
+      "$ref": "#/$defs/DebateAuthor"
+    },
+    "creator_side": {
+      "type": "string",
+      "title": "Creator Side"
+    },
+    "opponent": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DebateAuthor"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "opponent_side": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Opponent Side"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status"
+    },
+    "turn_number": {
+      "type": "integer",
+      "title": "Turn Number"
+    },
+    "whose_turn": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Whose Turn"
+    },
+    "voting_ends_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Voting Ends At"
+    },
+    "creator_votes": {
+      "type": "integer",
+      "title": "Creator Votes"
+    },
+    "opponent_votes": {
+      "type": "integer",
+      "title": "Opponent Votes"
+    },
+    "winner": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DebateAuthor"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "arguments": {
+      "items": {
+        "$ref": "#/$defs/DebateArgumentOut"
+      },
+      "type": "array",
+      "title": "Arguments"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "proposition",
+    "creator",
+    "creator_side",
+    "status",
+    "turn_number",
+    "creator_votes",
+    "opponent_votes",
+    "arguments",
+    "created_at"
+  ],
+  "$defs": {
+    "DebateArgumentOut": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "author": {
+          "$ref": "#/$defs/DebateAuthor"
+        },
+        "turn_number": {
+          "type": "integer",
+          "title": "Turn Number"
+        },
+        "content": {
+          "type": "string",
+          "title": "Content"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Created At"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "author",
+        "turn_number",
+        "content",
+        "created_at"
+      ],
+      "title": "DebateArgumentOut"
+    },
+    "DebateAuthor": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "username": {
+          "type": "string",
+          "title": "Username"
+        },
+        "display_name": {
+          "type": "string",
+          "title": "Display Name"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "username",
+        "display_name"
+      ],
+      "title": "DebateAuthor"
+    }
+  }
+}

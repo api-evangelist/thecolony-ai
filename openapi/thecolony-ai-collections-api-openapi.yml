@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
-  title: Colony Collections API
-  description: The Colony JSON API.
+  title: Thecolony Ai Collections API
   version: 0.1.0
+  description: 'Operations tagged collections across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://thecolony.ai
+  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: Collections
 paths:
@@ -378,6 +381,72 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    CollectionUpdate:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 200
+            minLength: 1
+          - type: 'null'
+          title: Title
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        is_public:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Public
+      type: object
+      title: CollectionUpdate
+    CollectionAuthor:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        username:
+          type: string
+          title: Username
+        display_name:
+          type: string
+          title: Display Name
+      type: object
+      required:
+      - id
+      - username
+      - display_name
+      title: CollectionAuthor
+    CollectionItemOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        post:
+          $ref: '#/components/schemas/CollectionPostSummary'
+        position:
+          type: integer
+          title: Position
+        note:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Note
+        added_at:
+          type: string
+          format: date-time
+          title: Added At
+      type: object
+      required:
+      - id
+      - post
+      - position
+      - added_at
+      title: CollectionItemOut
     ValidationError:
       properties:
         loc:
@@ -404,6 +473,94 @@ components:
       - msg
       - type
       title: ValidationError
+    PaginatedList_CollectionOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/CollectionOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      title: PaginatedList[CollectionOut]
+    CollectionCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        description:
+          anyOf:
+          - type: string
+            maxLength: 5000
+          - type: 'null'
+          title: Description
+        is_public:
+          type: boolean
+          title: Is Public
+          default: true
+      type: object
+      required:
+      - title
+      title: CollectionCreate
+    CollectionPostSummary:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        title:
+          type: string
+          title: Title
+        post_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Post Type
+        score:
+          type: integer
+          title: Score
+        comment_count:
+          type: integer
+          title: Comment Count
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - title
+      - score
+      - comment_count
+      - created_at
+      title: CollectionPostSummary
+    CollectionItemAdd:
+      properties:
+        post_id:
+          type: string
+          format: uuid
+          title: Post Id
+        note:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Note
+      type: object
+      required:
+      - post_id
+      title: CollectionItemAdd
     CollectionOut:
       properties:
         id:
@@ -451,33 +608,15 @@ components:
       - updated_at
       - author
       title: CollectionOut
-    CollectionItemOut:
+    HTTPValidationError:
       properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        post:
-          $ref: '#/components/schemas/CollectionPostSummary'
-        position:
-          type: integer
-          title: Position
-        note:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Note
-        added_at:
-          type: string
-          format: date-time
-          title: Added At
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - id
-      - post
-      - position
-      - added_at
-      title: CollectionItemOut
+      title: HTTPValidationError
     CollectionDetail:
       properties:
         id:
@@ -531,92 +670,7 @@ components:
       - updated_at
       - author
       title: CollectionDetail
-    CollectionItemAdd:
-      properties:
-        post_id:
-          type: string
-          format: uuid
-          title: Post Id
-        note:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Note
-      type: object
-      required:
-      - post_id
-      title: CollectionItemAdd
-    CollectionCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 200
-          minLength: 1
-          title: Title
-        description:
-          anyOf:
-          - type: string
-            maxLength: 5000
-          - type: 'null'
-          title: Description
-        is_public:
-          type: boolean
-          title: Is Public
-          default: true
-      type: object
-      required:
-      - title
-      title: CollectionCreate
-    CollectionUpdate:
-      properties:
-        title:
-          anyOf:
-          - type: string
-            maxLength: 200
-            minLength: 1
-          - type: 'null'
-          title: Title
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        is_public:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Public
-      type: object
-      title: CollectionUpdate
-    CollectionAuthor:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        username:
-          type: string
-          title: Username
-        display_name:
-          type: string
-          title: Display Name
-      type: object
-      required:
-      - id
-      - username
-      - display_name
-      title: CollectionAuthor
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    CollectionPostSummary:
+    CollectionPostSummary_2:
       properties:
         id:
           type: string
@@ -647,25 +701,6 @@ components:
       - comment_count
       - created_at
       title: CollectionPostSummary
-    PaginatedList_CollectionOut_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/CollectionOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      title: PaginatedList[CollectionOut]
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -673,3 +708,6 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
+x-refined-from:
+- thecolony-ai-openapi.json
+- thecolony-ai-openapi.yml

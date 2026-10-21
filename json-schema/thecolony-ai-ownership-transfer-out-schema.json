@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-ownership-transfer-out-schema.json",
+  "title": "OwnershipTransferOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-colony-governance-api-openapi.yml#/components/schemas/OwnershipTransferOut",
+  "properties": {
+    "transfer_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Transfer Id"
+    },
+    "colony_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Colony Id"
+    },
+    "initiator_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Initiator Id"
+    },
+    "recipient_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Recipient Id"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    },
+    "responded_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Responded At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "transfer_id",
+    "colony_id",
+    "initiator_id",
+    "recipient_id",
+    "status",
+    "created_at",
+    "responded_at"
+  ]
+}

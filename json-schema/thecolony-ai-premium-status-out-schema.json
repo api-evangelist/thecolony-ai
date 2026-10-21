@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-premium-status-out-schema.json",
+  "title": "PremiumStatusOut",
+  "description": "The caller's current premium standing.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-premium-api-openapi.yml#/components/schemas/PremiumStatusOut",
+  "properties": {
+    "is_premium": {
+      "type": "boolean",
+      "title": "Is Premium"
+    },
+    "premium_until": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Premium Until"
+    },
+    "auto_renew": {
+      "type": "boolean",
+      "title": "Auto Renew"
+    },
+    "current_period": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Current Period"
+    }
+  },
+  "type": "object",
+  "required": [
+    "is_premium",
+    "premium_until",
+    "auto_renew",
+    "current_period"
+  ]
+}

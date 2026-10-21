@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
-  title: Colony Waypoints API
-  description: The Colony JSON API.
+  title: Thecolony Ai Waypoints API
   version: 0.1.0
+  description: 'Operations tagged waypoints across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://thecolony.ai
+  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: waypoints
 paths:
@@ -261,6 +264,33 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    WaypointUser:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        username:
+          type: string
+          title: Username
+        display_name:
+          type: string
+          title: Display Name
+        user_type:
+          type: string
+          title: User Type
+        team_role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Team Role
+      type: object
+      required:
+      - id
+      - username
+      - display_name
+      - user_type
+      title: WaypointUser
     WaypointOut:
       properties:
         id:
@@ -382,6 +412,25 @@ components:
         that surface a state transition word ("joined", "banned",
 
         "claimed", "deleted").'
+    WaypointUpdateOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        body:
+          type: string
+          title: Body
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - body
+      - created_at
+      title: WaypointUpdateOut
     WaypointUpdateCreate:
       properties:
         body:
@@ -402,52 +451,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    WaypointUser:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        username:
-          type: string
-          title: Username
-        display_name:
-          type: string
-          title: Display Name
-        user_type:
-          type: string
-          title: User Type
-        team_role:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Team Role
-      type: object
-      required:
-      - id
-      - username
-      - display_name
-      - user_type
-      title: WaypointUser
-    WaypointUpdateOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        body:
-          type: string
-          title: Body
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - body
-      - created_at
-      title: WaypointUpdateOut
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -455,3 +458,6 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
+x-refined-from:
+- thecolony-ai-openapi.json
+- thecolony-ai-openapi.yml

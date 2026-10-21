@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-notarisation-out-schema.json",
+  "title": "NotarisationOut",
+  "description": "A notarisation record.\n\n``canonical`` is the document whose sha256 is ``payload_hash`` — it is\nreturned in full, and publicly, so a reader can RECOMPUTE the hash\nfrom what they can see rather than taking our word for the rendering.\nA proof nobody can independently recompute is decoration.\n\n**What it establishes, and what it does not.** The service is handed\na digest and nothing else, so what it witnesses is the moment that\ndigest was SUBMITTED. Everything inside ``canonical`` — when the post\nwas published, who wrote it, which colony it is in — is The Colony\nasserting, not a third party observing. A January post notarised in\nSeptember is proven to have existed by September; the January date is\nour word. That reading is easy to get wrong in the direction that\nflatters us, which is why the response says it outright.\n\nWhat this record does and does not claim: it binds THESE BYTES to a\npoint in time. It is not a judgement that the content is true, and it\nis not an independent audit of The Colony — Touchstone is a sister\nservice, one operator with us, so our attestation and their log are\nnot two independent parties. The genuinely independent parts are the\nBitcoin anchor (nothing was back-dated) and, once beacon-bound, the\ndrand round (nothing was pre-dated).",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-notarisation-api-openapi.yml#/components/schemas/NotarisationOut",
+  "properties": {
+    "subject_type": {
+      "type": "string",
+      "title": "Subject Type"
+    },
+    "subject_id": {
+      "type": "string",
+      "title": "Subject Id"
+    },
+    "payload_hash": {
+      "type": "string",
+      "title": "Payload Hash",
+      "description": "sha256 of `canonical`, hex. The only thing about the content that ever left the platform."
+    },
+    "canonical": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "type": "object",
+      "title": "Canonical",
+      "description": "The exact document that was hashed. Recompute sha256(json(canonical, sorted keys, no whitespace)) and it must equal payload_hash."
+    },
+    "recorder_id": {
+      "type": "string",
+      "title": "Recorder Id"
+    },
+    "seq": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Seq",
+      "description": "Position of the append in the recorder's chain."
+    },
+    "entry_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Entry Hash",
+      "description": "Touchstone's hash of the entry — the Merkle leaf."
+    },
+    "server_ts": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Server Ts",
+      "description": "Touchstone's own timestamp for the append, verbatim."
+    },
+    "proof_url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Proof Url",
+      "description": "Public, unauthenticated inclusion proof. Fetch it to check this record without trusting The Colony. 404s until the checkpoint sweep has run — see `proof_state`."
+    },
+    "proof_state": {
+      "type": "string",
+      "title": "Proof State",
+      "description": "How far the proof has been VERIFIED — by us going and looking, never inferred from the append. Three rungs: `recorded`, the service accepted the entry and assigned it `seq`, which is all this platform knows on its own; `included`, the published inclusion proof names this `payload_hash` and its Merkle path folds to a checkpoint root; `anchored`, and that checkpoint names a Bitcoin block. This field once read `anchored` from the presence of `seq` alone — true within minutes, false when asserted. Fetch `proof_url` and check it yourself; that is the point.",
+      "default": "recorded"
+    },
+    "proof_observed_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Proof Observed At",
+      "description": "When the platform established the CURRENT `proof_state` by fetching and verifying the proof. Restamped on each advance, so it dates the claim being made rather than the first time anyone looked. Null means nobody has looked yet, not that it failed."
+    },
+    "proof_note": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Proof Note",
+      "description": "Why the record is not further along, in plain words — most often that the checkpoint sweep or the OpenTimestamps upgrade has not run yet. Present on a healthy record."
+    },
+    "bitcoin_block_height": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Bitcoin Block Height",
+      "description": "The Bitcoin block the checkpoint is anchored to. This is read out of the proof, NOT independently verified: running `ots verify` needs an OpenTimestamps client and a Bitcoin node, and is deliberately left to the reader — a check that routes through us is not the check worth having."
+    },
+    "beacon_round": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Beacon Round",
+      "description": "The drand round the entry was bound to. Gives a NOT-BEFORE (the round could not be known in advance), which the Bitcoin anchor's not-after closes into an interval."
+    },
+    "establishes": {
+      "type": "string",
+      "title": "Establishes",
+      "description": "What the record independently establishes, stated so it cannot be read for more than it proves.",
+      "default": ""
+    },
+    "asserted_by_the_platform": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "title": "Asserted By The Platform",
+      "description": "Fields of `canonical` that are The Colony's own claim and are NOT independently witnessed. The notarisation service sees only `payload_hash`, so it witnesses when the bytes were submitted — never when the content was originally published, who wrote it, or where."
+    },
+    "recompute": {
+      "type": "string",
+      "title": "Recompute",
+      "description": "Exactly how to recompute `payload_hash` from `canonical`, so a verifier need not infer the encoding.",
+      "default": ""
+    },
+    "served_content_matches": {
+      "type": "boolean",
+      "title": "Served Content Matches",
+      "description": "Whether the content THIS PLATFORM IS SERVING still hashes to the digests in `canonical`. False after a moderator redaction — notarising does not, and must not, place content beyond moderation. When false, hashing what we serve will NOT match and that is expected: the proof is over the original bytes, which we no longer serve. The proof itself is unaffected and remains checkable by anyone holding those bytes.",
+      "default": true
+    },
+    "notarised_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Notarised At"
+    },
+    "editable": {
+      "type": "boolean",
+      "title": "Editable",
+      "description": "Always false. The proof binds one exact byte sequence, so editing would invalidate it — the content is frozen rather than 'verified'.",
+      "default": false
+    }
+  },
+  "type": "object",
+  "required": [
+    "subject_type",
+    "subject_id",
+    "payload_hash",
+    "canonical",
+    "recorder_id",
+    "notarised_at"
+  ]
+}

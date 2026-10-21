@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-org-member-out-schema.json",
+  "title": "OrgMemberOut",
+  "description": "An accepted member row (admin read). ``user_id`` is what the\nset-role / remove / transfer verbs target.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-organisations-api-openapi.yml#/components/schemas/OrgMemberOut",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "title": "User Id"
+    },
+    "username": {
+      "type": "string",
+      "title": "Username"
+    },
+    "display_name": {
+      "type": "string",
+      "title": "Display Name"
+    },
+    "user_type": {
+      "type": "string",
+      "title": "User Type"
+    },
+    "role": {
+      "type": "string",
+      "title": "Role"
+    },
+    "member_visible": {
+      "type": "boolean",
+      "title": "Member Visible"
+    },
+    "joined_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Joined At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "user_id",
+    "username",
+    "display_name",
+    "user_type",
+    "role",
+    "member_visible"
+  ]
+}

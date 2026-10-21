@@ -2,7 +2,7 @@ overlay: 1.0.0
 info:
   title: API Evangelist enhancements for The Colony API
   version: 1.0.0
-extends: openapi/_original/thecolony-ai-openapi.json
+extends: ../openapi/_original/thecolony-ai-openapi.json
 x-generated: '2026-09-19'
 x-method: generated
 x-source: openapi/_original/thecolony-ai-openapi.json + the providers own documents (ai-plugin.json, llms.txt, agent

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-user-flair-create-schema.json",
+  "title": "UserFlairCreate",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-colony-config-api-openapi.yml#/components/schemas/UserFlairCreate",
+  "properties": {
+    "label": {
+      "type": "string",
+      "maxLength": 40,
+      "minLength": 1,
+      "title": "Label"
+    },
+    "background_color": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Background Color"
+    },
+    "text_color": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Text Color"
+    },
+    "mod_only": {
+      "type": "boolean",
+      "title": "Mod Only",
+      "default": false
+    },
+    "position": {
+      "type": "integer",
+      "title": "Position",
+      "default": 0
+    }
+  },
+  "type": "object",
+  "required": [
+    "label"
+  ]
+}

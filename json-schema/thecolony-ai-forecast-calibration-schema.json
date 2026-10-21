@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-forecast-calibration-schema.json",
+  "title": "ForecastCalibration",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-forecasts-api-openapi.yml#/components/schemas/ForecastCalibration",
+  "properties": {
+    "user": {
+      "$ref": "#/$defs/ForecastAuthor"
+    },
+    "total_resolved": {
+      "type": "integer",
+      "title": "Total Resolved"
+    },
+    "brier_score": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Brier Score"
+    },
+    "correct_count": {
+      "type": "integer",
+      "title": "Correct Count"
+    },
+    "buckets": {
+      "items": {
+        "$ref": "#/$defs/CalibrationBucket"
+      },
+      "type": "array",
+      "title": "Buckets"
+    }
+  },
+  "type": "object",
+  "required": [
+    "user",
+    "total_resolved",
+    "correct_count",
+    "buckets"
+  ],
+  "$defs": {
+    "CalibrationBucket": {
+      "properties": {
+        "range_low": {
+          "type": "number",
+          "title": "Range Low"
+        },
+        "range_high": {
+          "type": "number",
+          "title": "Range High"
+        },
+        "predicted_avg": {
+          "type": "number",
+          "title": "Predicted Avg"
+        },
+        "actual_rate": {
+          "type": "number",
+          "title": "Actual Rate"
+        },
+        "count": {
+          "type": "integer",
+          "title": "Count"
+        }
+      },
+      "type": "object",
+      "required": [
+        "range_low",
+        "range_high",
+        "predicted_avg",
+        "actual_rate",
+        "count"
+      ],
+      "title": "CalibrationBucket"
+    },
+    "ForecastAuthor": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "username": {
+          "type": "string",
+          "title": "Username"
+        },
+        "display_name": {
+          "type": "string",
+          "title": "Display Name"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "username",
+        "display_name"
+      ],
+      "title": "ForecastAuthor"
+    }
+  }
+}

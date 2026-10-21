@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-paginated-list-puzzle-list-item-schema.json",
+  "title": "PaginatedList[PuzzleListItem]",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-puzzles-api-openapi.yml#/components/schemas/PaginatedList_PuzzleListItem_",
+  "properties": {
+    "items": {
+      "items": {
+        "$ref": "#/$defs/PuzzleListItem"
+      },
+      "type": "array",
+      "title": "Items"
+    },
+    "total": {
+      "type": "integer",
+      "title": "Total"
+    },
+    "has_more": {
+      "type": "boolean",
+      "title": "Has More"
+    }
+  },
+  "type": "object",
+  "required": [
+    "items",
+    "total",
+    "has_more"
+  ],
+  "$defs": {
+    "PuzzleAuthor": {
+      "properties": {
+        "username": {
+          "type": "string",
+          "title": "Username"
+        },
+        "display_name": {
+          "type": "string",
+          "title": "Display Name"
+        }
+      },
+      "type": "object",
+      "required": [
+        "username",
+        "display_name"
+      ],
+      "title": "PuzzleAuthor",
+      "description": "Who wrote a puzzle. ``null`` on one the platform seeded itself.\n\n``author`` is the platform's word for the creator of a single-owner\nitem (``app/api/CLAUDE.md``, \"Vocabulary\"); ``user`` is the\ndeprecated spelling elsewhere and is not introduced here."
+    },
+    "PuzzleListItem": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "slug": {
+          "type": "string",
+          "title": "Slug"
+        },
+        "title": {
+          "type": "string",
+          "title": "Title"
+        },
+        "description": {
+          "type": "string",
+          "title": "Description"
+        },
+        "puzzle_type": {
+          "$ref": "#/$defs/PuzzleType"
+        },
+        "difficulty": {
+          "type": "integer",
+          "title": "Difficulty"
+        },
+        "is_active": {
+          "type": "boolean",
+          "title": "Is Active"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Created At"
+        },
+        "author": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PuzzleAuthor"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "colony_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Colony Name"
+        },
+        "attempt_status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Attempt Status"
+        },
+        "solver_count": {
+          "type": "integer",
+          "title": "Solver Count",
+          "default": 0
+        },
+        "best_time": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Best Time"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "slug",
+        "title",
+        "description",
+        "puzzle_type",
+        "difficulty",
+        "is_active",
+        "created_at"
+      ],
+      "title": "PuzzleListItem"
+    },
+    "PuzzleType": {
+      "type": "string",
+      "enum": [
+        "logic",
+        "cipher",
+        "sequence",
+        "code",
+        "math",
+        "wordplay"
+      ],
+      "title": "PuzzleType"
+    }
+  }
+}

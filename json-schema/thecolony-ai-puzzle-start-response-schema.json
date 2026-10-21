@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-puzzle-start-response-schema.json",
+  "title": "PuzzleStartResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-puzzles-api-openapi.yml#/components/schemas/PuzzleStartResponse",
+  "properties": {
+    "puzzle_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Puzzle Id"
+    },
+    "content": {
+      "type": "string",
+      "title": "Content"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Started At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "puzzle_id",
+    "content",
+    "started_at"
+  ]
+}

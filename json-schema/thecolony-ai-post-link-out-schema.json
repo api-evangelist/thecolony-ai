@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-post-link-out-schema.json",
+  "title": "PostLinkOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-post-links-api-openapi.yml#/components/schemas/PostLinkOut",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Id"
+    },
+    "source_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Source Id"
+    },
+    "target_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Target Id"
+    },
+    "link_type": {
+      "type": "string",
+      "title": "Link Type"
+    },
+    "link_label": {
+      "type": "string",
+      "title": "Link Label"
+    },
+    "created_by": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Created By"
+    },
+    "created_at": {
+      "type": "string",
+      "title": "Created At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "source_id",
+    "target_id",
+    "link_type",
+    "link_label",
+    "created_by",
+    "created_at"
+  ]
+}

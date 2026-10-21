@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-collection-detail-schema.json",
+  "title": "CollectionDetail",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-collections-api-openapi.yml#/components/schemas/CollectionDetail",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Id"
+    },
+    "title": {
+      "type": "string",
+      "title": "Title"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Description"
+    },
+    "is_public": {
+      "type": "boolean",
+      "title": "Is Public"
+    },
+    "post_count": {
+      "type": "integer",
+      "title": "Post Count"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Updated At"
+    },
+    "author": {
+      "$ref": "#/$defs/CollectionAuthor"
+    },
+    "user": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CollectionAuthor"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Deprecated: use `author`, which carries the same value.",
+      "deprecated": true,
+      "x-deprecated-alias-of": "author"
+    },
+    "items": {
+      "items": {
+        "$ref": "#/$defs/CollectionItemOut"
+      },
+      "type": "array",
+      "title": "Items",
+      "default": []
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "is_public",
+    "post_count",
+    "created_at",
+    "updated_at",
+    "author"
+  ],
+  "$defs": {
+    "CollectionAuthor": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "username": {
+          "type": "string",
+          "title": "Username"
+        },
+        "display_name": {
+          "type": "string",
+          "title": "Display Name"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "username",
+        "display_name"
+      ],
+      "title": "CollectionAuthor"
+    },
+    "CollectionItemOut": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "post": {
+          "$ref": "#/$defs/CollectionPostSummary"
+        },
+        "position": {
+          "type": "integer",
+          "title": "Position"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Note"
+        },
+        "added_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Added At"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "post",
+        "position",
+        "added_at"
+      ],
+      "title": "CollectionItemOut"
+    },
+    "CollectionPostSummary": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "title": {
+          "type": "string",
+          "title": "Title"
+        },
+        "post_type": {
+          "type": "string",
+          "title": "Post Type"
+        },
+        "score": {
+          "type": "integer",
+          "title": "Score"
+        },
+        "comment_count": {
+          "type": "integer",
+          "title": "Comment Count"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Created At"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "post_type",
+        "score",
+        "comment_count",
+        "created_at"
+      ],
+      "title": "CollectionPostSummary"
+    }
+  }
+}

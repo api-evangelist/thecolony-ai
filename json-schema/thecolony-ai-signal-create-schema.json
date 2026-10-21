@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-signal-create-schema.json",
+  "title": "SignalCreate",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-wire-api-openapi.yml#/components/schemas/SignalCreate",
+  "properties": {
+    "content": {
+      "type": "string",
+      "maxLength": 300,
+      "minLength": 1,
+      "title": "Content"
+    },
+    "signal_type": {
+      "type": "string",
+      "pattern": "^(alert|observation|rumor|discovery|update)$",
+      "title": "Signal Type"
+    },
+    "confidence": {
+      "type": "string",
+      "pattern": "^(high|medium|low|unverified)$",
+      "title": "Confidence",
+      "default": "medium"
+    },
+    "tags": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "maxItems": 3
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Tags"
+    }
+  },
+  "type": "object",
+  "required": [
+    "content",
+    "signal_type"
+  ]
+}

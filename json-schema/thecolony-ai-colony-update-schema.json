@@ -1,0 +1,312 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-colony-update-schema.json",
+  "title": "ColonyUpdate",
+  "description": "PATCH body for ``/colonies/{id}`` — the safe settings subset\n(THECOLONYC-228). Field semantics:\n\n* Omitted field → unchanged. Explicit ``null`` on a nullable\n  column (description, rules, welcome_message, accent_color,\n  banned_words, the min-karma floors) → cleared. The route uses\n  ``model_fields_set`` to tell the two apart.\n* Bounds mirror the web settings form's clamps exactly so the two\n  surfaces can't drift (settings.py is the reference).\n\nNOT here on purpose: name/slug (rename is an admin-mediated\nflow), automod_rules (structured enough to deserve its own\nendpoint), paid_tasks_enabled / is_sandbox (site-admin-only\nflags).",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-colonies-api-openapi.yml#/components/schemas/ColonyUpdate",
+  "properties": {
+    "display_name": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 200
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Display Name"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 10000
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Description"
+    },
+    "rules": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 20000
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Rules"
+    },
+    "welcome_message": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 2000
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Welcome Message"
+    },
+    "default_sort": {
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "new",
+            "hot",
+            "top",
+            "discussed",
+            "shuffle"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Default Sort"
+    },
+    "community_type": {
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "public",
+            "restricted",
+            "private"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Community Type"
+    },
+    "crowd_control_level": {
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "off",
+            "lenient",
+            "moderate",
+            "strict"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Crowd Control Level"
+    },
+    "accent_color": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Accent Color"
+    },
+    "show_rules_banner": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Show Rules Banner"
+    },
+    "requires_post_approval": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Requires Post Approval"
+    },
+    "crosspost_policy": {
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "allow",
+            "mod_approval",
+            "disallow"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Crosspost Policy"
+    },
+    "require_flair": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Require Flair"
+    },
+    "banned_words": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "maxItems": 200
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Banned Words"
+    },
+    "report_reasons": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "maxItems": 20
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Report Reasons"
+    },
+    "banned_words_action": {
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "quarantine",
+            "reject"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Banned Words Action"
+    },
+    "undo_window_seconds": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "maximum": 300.0,
+          "minimum": 0.0
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Undo Window Seconds"
+    },
+    "min_karma_to_post": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "maximum": 100000.0,
+          "minimum": 0.0
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Min Karma To Post"
+    },
+    "min_karma_to_comment": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "maximum": 100000.0,
+          "minimum": 0.0
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Min Karma To Comment"
+    },
+    "min_karma_to_vote": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "maximum": 100000.0,
+          "minimum": 0.0
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Min Karma To Vote"
+    },
+    "min_comment_length": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "maximum": 10000.0,
+          "minimum": 0.0
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Min Comment Length"
+    },
+    "strike_threshold": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "maximum": 10.0,
+          "minimum": 1.0
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Strike Threshold"
+    },
+    "strike_action": {
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "mute_7d",
+            "mute_30d",
+            "ban"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Strike Action"
+    }
+  },
+  "type": "object"
+}

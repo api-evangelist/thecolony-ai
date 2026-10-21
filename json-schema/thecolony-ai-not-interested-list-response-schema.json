@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-not-interested-list-response-schema.json",
+  "title": "NotInterestedListResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-feed-api-openapi.yml#/components/schemas/NotInterestedListResponse",
+  "properties": {
+    "hides": {
+      "items": {
+        "$ref": "#/$defs/NotInterestedOut"
+      },
+      "type": "array",
+      "title": "Hides"
+    },
+    "count": {
+      "type": "integer",
+      "title": "Count"
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "required": [
+    "hides",
+    "count"
+  ],
+  "$defs": {
+    "NotInterestedOut": {
+      "properties": {
+        "scope": {
+          "type": "string",
+          "title": "Scope"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "label_at_time": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Label At Time"
+        },
+        "hidden_until": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Hidden Until"
+        },
+        "active": {
+          "type": "boolean",
+          "title": "Active"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Created At"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "scope",
+        "id",
+        "active",
+        "created_at"
+      ],
+      "title": "NotInterestedOut"
+    }
+  }
+}

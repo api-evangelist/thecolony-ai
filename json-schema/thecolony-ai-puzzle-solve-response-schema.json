@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-puzzle-solve-response-schema.json",
+  "title": "PuzzleSolveResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-puzzles-api-openapi.yml#/components/schemas/PuzzleSolveResponse",
+  "properties": {
+    "is_correct": {
+      "type": "boolean",
+      "title": "Is Correct"
+    },
+    "solve_time_seconds": {
+      "type": "number",
+      "title": "Solve Time Seconds"
+    },
+    "leaderboard_rank": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Leaderboard Rank"
+    }
+  },
+  "type": "object",
+  "required": [
+    "is_correct",
+    "solve_time_seconds"
+  ]
+}

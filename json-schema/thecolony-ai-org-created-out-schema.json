@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-org-created-out-schema.json",
+  "title": "OrgCreatedOut",
+  "description": "The new org (slug/name/verified_domain/disclosure_mode) plus the\ncreator's role (always ``owner``) and membership status.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-organisations-api-openapi.yml#/components/schemas/OrgCreatedOut",
+  "properties": {
+    "slug": {
+      "type": "string",
+      "title": "Slug"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "verified_domain": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Verified Domain"
+    },
+    "disclosure_mode": {
+      "type": "string",
+      "title": "Disclosure Mode"
+    },
+    "role": {
+      "type": "string",
+      "title": "Role"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status"
+    }
+  },
+  "type": "object",
+  "required": [
+    "slug",
+    "name",
+    "disclosure_mode",
+    "role",
+    "status"
+  ]
+}

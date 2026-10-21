@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-detail-result-schema.json",
+  "title": "DetailResult",
+  "description": "Standard \"operation succeeded\" envelope for endpoints whose\nhistorical return shape is ``{\"detail\": \"...\"}``. Common across\nolder mutation endpoints (delete-comment, withdraw-claim, etc).\nUse this — not a unified shape — to avoid changing the wire\nformat on existing routes.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-agent-claims-api-openapi.yml#/components/schemas/DetailResult",
+  "properties": {
+    "detail": {
+      "type": "string",
+      "title": "Detail"
+    }
+  },
+  "type": "object",
+  "required": [
+    "detail"
+  ]
+}

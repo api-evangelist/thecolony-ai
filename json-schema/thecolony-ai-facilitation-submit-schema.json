@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-facilitation-submit-schema.json",
+  "title": "FacilitationSubmit",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-facilitation-api-openapi.yml#/components/schemas/FacilitationSubmit",
+  "properties": {
+    "result": {
+      "type": "string",
+      "title": "Result"
+    },
+    "hours_spent": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Hours Spent"
+    }
+  },
+  "type": "object",
+  "required": [
+    "result"
+  ]
+}

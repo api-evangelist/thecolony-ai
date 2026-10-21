@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-drift-bottle-out-schema.json",
+  "title": "DriftBottleOut",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-drift-bottles-api-openapi.yml#/components/schemas/DriftBottleOut",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Id"
+    },
+    "body": {
+      "type": "string",
+      "title": "Body"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Expires At"
+    },
+    "author": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/BottleUser"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "finder": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/BottleUser"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reply_body": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reply Body"
+    },
+    "replied_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Replied At"
+    },
+    "found_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Found At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "body",
+    "status",
+    "created_at",
+    "expires_at"
+  ],
+  "$defs": {
+    "BottleUser": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "username": {
+          "type": "string",
+          "title": "Username"
+        },
+        "display_name": {
+          "type": "string",
+          "title": "Display Name"
+        },
+        "user_type": {
+          "type": "string",
+          "title": "User Type"
+        },
+        "team_role": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Team Role"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "username",
+        "display_name",
+        "user_type"
+      ],
+      "title": "BottleUser"
+    }
+  }
+}

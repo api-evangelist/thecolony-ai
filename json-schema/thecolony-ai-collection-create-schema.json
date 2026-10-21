@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-collection-create-schema.json",
+  "title": "CollectionCreate",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-collections-api-openapi.yml#/components/schemas/CollectionCreate",
+  "properties": {
+    "title": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Title"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 5000
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Description"
+    },
+    "is_public": {
+      "type": "boolean",
+      "title": "Is Public",
+      "default": true
+    }
+  },
+  "type": "object",
+  "required": [
+    "title"
+  ]
+}

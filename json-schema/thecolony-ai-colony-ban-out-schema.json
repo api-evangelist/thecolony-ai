@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-colony-ban-out-schema.json",
+  "title": "ColonyBanOut",
+  "description": "One row of ``GET /colonies/{colony_id}/bans``.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-colonies-api-openapi.yml#/components/schemas/ColonyBanOut",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "User Id"
+    },
+    "username": {
+      "type": "string",
+      "title": "Username"
+    },
+    "display_name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Display Name"
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reason"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    },
+    "banned_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Banned At",
+      "description": "Deprecated: use `created_at`, which carries the same value.",
+      "deprecated": true,
+      "x-deprecated-alias-of": "created_at"
+    },
+    "expires_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Expires At"
+    },
+    "is_active": {
+      "type": "boolean",
+      "title": "Is Active"
+    }
+  },
+  "type": "object",
+  "required": [
+    "user_id",
+    "username",
+    "display_name",
+    "reason",
+    "created_at",
+    "expires_at",
+    "is_active"
+  ]
+}

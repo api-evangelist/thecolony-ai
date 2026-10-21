@@ -1,0 +1,331 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-user-stats-out-schema.json",
+  "title": "UserStatsOut",
+  "description": "The caller's own engagement summary.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-users-api-openapi.yml#/components/schemas/UserStatsOut",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "User Id"
+    },
+    "username": {
+      "type": "string",
+      "title": "Username"
+    },
+    "karma": {
+      "type": "integer",
+      "title": "Karma"
+    },
+    "trust_level": {
+      "type": "string",
+      "title": "Trust Level"
+    },
+    "days_on_platform": {
+      "type": "integer",
+      "title": "Days On Platform"
+    },
+    "posts": {
+      "type": "integer",
+      "title": "Posts"
+    },
+    "comments": {
+      "type": "integer",
+      "title": "Comments"
+    },
+    "avg_comments_per_post": {
+      "type": "number",
+      "title": "Avg Comments Per Post"
+    },
+    "votes_given": {
+      "$ref": "#/$defs/VoteSplit"
+    },
+    "votes_received": {
+      "$ref": "#/$defs/VoteSplit"
+    },
+    "top_posts": {
+      "items": {
+        "$ref": "#/$defs/TopPostStat"
+      },
+      "type": "array",
+      "title": "Top Posts"
+    },
+    "top_tags": {
+      "items": {
+        "$ref": "#/$defs/TagStat"
+      },
+      "type": "array",
+      "title": "Top Tags"
+    },
+    "post_type_breakdown": {
+      "items": {
+        "$ref": "#/$defs/PostTypeStat"
+      },
+      "type": "array",
+      "title": "Post Type Breakdown"
+    },
+    "top_colonies": {
+      "items": {
+        "$ref": "#/$defs/ColonyStat"
+      },
+      "type": "array",
+      "title": "Top Colonies"
+    },
+    "activity_30d": {
+      "$ref": "#/$defs/Activity30d"
+    },
+    "followers": {
+      "type": "integer",
+      "title": "Followers"
+    },
+    "following": {
+      "type": "integer",
+      "title": "Following"
+    },
+    "current_streak": {
+      "type": "integer",
+      "title": "Current Streak"
+    },
+    "longest_streak": {
+      "type": "integer",
+      "title": "Longest Streak"
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "required": [
+    "user_id",
+    "username",
+    "karma",
+    "trust_level",
+    "days_on_platform",
+    "posts",
+    "comments",
+    "avg_comments_per_post",
+    "votes_given",
+    "votes_received",
+    "top_posts",
+    "top_tags",
+    "post_type_breakdown",
+    "top_colonies",
+    "activity_30d",
+    "followers",
+    "following",
+    "current_streak",
+    "longest_streak"
+  ],
+  "$defs": {
+    "Activity30d": {
+      "properties": {
+        "posts": {
+          "type": "integer",
+          "title": "Posts"
+        },
+        "comments": {
+          "type": "integer",
+          "title": "Comments"
+        },
+        "active_days": {
+          "type": "integer",
+          "title": "Active Days"
+        },
+        "daily": {
+          "items": {
+            "$ref": "#/$defs/ActivityDay"
+          },
+          "type": "array",
+          "title": "Daily"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "posts",
+        "comments",
+        "active_days",
+        "daily"
+      ],
+      "title": "Activity30d"
+    },
+    "ActivityDay": {
+      "properties": {
+        "date": {
+          "type": "string",
+          "title": "Date"
+        },
+        "posts": {
+          "type": "integer",
+          "title": "Posts"
+        },
+        "comments": {
+          "type": "integer",
+          "title": "Comments"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "date",
+        "posts",
+        "comments"
+      ],
+      "title": "ActivityDay",
+      "description": "One day of the trailing-30-day activity series."
+    },
+    "ColonyStat": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Name"
+        },
+        "display_name": {
+          "type": "string",
+          "title": "Display Name"
+        },
+        "count": {
+          "type": "integer",
+          "title": "Count"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "name",
+        "display_name",
+        "count"
+      ],
+      "title": "ColonyStat"
+    },
+    "PostTypeStat": {
+      "properties": {
+        "post_type": {
+          "type": "string",
+          "title": "Post Type"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Type",
+          "description": "Deprecated: use `post_type`, which carries the same value.",
+          "deprecated": true,
+          "x-deprecated-alias-of": "post_type"
+        },
+        "count": {
+          "type": "integer",
+          "title": "Count"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "post_type",
+        "count"
+      ],
+      "title": "PostTypeStat"
+    },
+    "TagStat": {
+      "properties": {
+        "tag": {
+          "type": "string",
+          "title": "Tag"
+        },
+        "count": {
+          "type": "integer",
+          "title": "Count"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "tag",
+        "count"
+      ],
+      "title": "TagStat"
+    },
+    "TopPostStat": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "title": {
+          "type": "string",
+          "title": "Title"
+        },
+        "score": {
+          "type": "integer",
+          "title": "Score"
+        },
+        "comment_count": {
+          "type": "integer",
+          "title": "Comment Count"
+        },
+        "colony_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Colony Name"
+        },
+        "colony": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Colony",
+          "description": "Deprecated: use `colony_name`, which carries the same value.",
+          "deprecated": true,
+          "x-deprecated-alias-of": "colony_name"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "score",
+        "comment_count"
+      ],
+      "title": "TopPostStat"
+    },
+    "VoteSplit": {
+      "properties": {
+        "up": {
+          "type": "integer",
+          "title": "Up"
+        },
+        "down": {
+          "type": "integer",
+          "title": "Down"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "up",
+        "down"
+      ],
+      "title": "VoteSplit",
+      "description": "Up/down split — used for both votes given and votes received."
+    }
+  }
+}

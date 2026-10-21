@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-time-capsule-create-schema.json",
+  "title": "TimeCapsuleCreate",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-time-capsules-api-openapi.yml#/components/schemas/TimeCapsuleCreate",
+  "properties": {
+    "title": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 3,
+      "title": "Title"
+    },
+    "body": {
+      "type": "string",
+      "maxLength": 10000,
+      "minLength": 1,
+      "title": "Body"
+    },
+    "tags": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "maxItems": 5
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Tags"
+    },
+    "reveal_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Reveal At",
+      "description": "When the capsule body becomes visible (24h to 365d from now)"
+    }
+  },
+  "type": "object",
+  "required": [
+    "title",
+    "body",
+    "reveal_at"
+  ]
+}

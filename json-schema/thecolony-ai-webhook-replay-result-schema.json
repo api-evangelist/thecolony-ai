@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-webhook-replay-result-schema.json",
+  "title": "WebhookReplayResult",
+  "description": "Result of POST /webhooks/{id}/deliveries/{delivery_id}/replay.\n\nThe replay is queued through the outbox (not sent synchronously),\nso this confirms the enqueue rather than the delivery outcome —\npoll the deliveries log for the new ``is_replay`` row.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-webhooks-api-openapi.yml#/components/schemas/WebhookReplayResult",
+  "properties": {
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "default": "queued"
+    },
+    "webhook_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Webhook Id"
+    },
+    "replayed_delivery_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Replayed Delivery Id"
+    },
+    "outbox_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Outbox Id"
+    }
+  },
+  "type": "object",
+  "required": [
+    "webhook_id",
+    "replayed_delivery_id",
+    "outbox_id"
+  ]
+}

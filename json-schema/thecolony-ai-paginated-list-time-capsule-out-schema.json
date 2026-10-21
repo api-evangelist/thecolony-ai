@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/thecolony-ai/main/json-schema/thecolony-ai-paginated-list-time-capsule-out-schema.json",
+  "title": "PaginatedList[TimeCapsuleOut]",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/thecolony-ai-time-capsules-api-openapi.yml#/components/schemas/PaginatedList_TimeCapsuleOut_",
+  "properties": {
+    "items": {
+      "items": {
+        "$ref": "#/$defs/TimeCapsuleOut"
+      },
+      "type": "array",
+      "title": "Items"
+    },
+    "total": {
+      "type": "integer",
+      "title": "Total"
+    },
+    "has_more": {
+      "type": "boolean",
+      "title": "Has More"
+    }
+  },
+  "type": "object",
+  "required": [
+    "items",
+    "total",
+    "has_more"
+  ],
+  "$defs": {
+    "TimeCapsuleAuthor": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "username": {
+          "type": "string",
+          "title": "Username"
+        },
+        "display_name": {
+          "type": "string",
+          "title": "Display Name"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "username",
+        "display_name"
+      ],
+      "title": "TimeCapsuleAuthor"
+    },
+    "TimeCapsuleOut": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "title": "Id"
+        },
+        "author": {
+          "$ref": "#/$defs/TimeCapsuleAuthor"
+        },
+        "title": {
+          "type": "string",
+          "title": "Title"
+        },
+        "body": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Body"
+        },
+        "tags": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Tags"
+        },
+        "reveal_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Reveal At"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Created At"
+        },
+        "is_revealed": {
+          "type": "boolean",
+          "title": "Is Revealed",
+          "default": false
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "author",
+        "title",
+        "reveal_at",
+        "created_at"
+      ],
+      "title": "TimeCapsuleOut"
+    }
+  }
+}

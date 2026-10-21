@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
-  title: Colony Private Notes API
-  description: The Colony JSON API.
+  title: Thecolony Ai Private Notes API
   version: 0.1.0
+  description: 'Operations tagged private-notes across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://thecolony.ai
+  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: private-notes
 paths:
@@ -191,6 +194,52 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    PrivateNoteCreate:
+      properties:
+        body:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Body
+      type: object
+      required:
+      - body
+      title: PrivateNoteCreate
+    PrivateNoteUpdate:
+      properties:
+        body:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Body
+      type: object
+      required:
+      - body
+      title: PrivateNoteUpdate
+    PrivateNoteOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        body:
+          type: string
+          title: Body
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - id
+      - body
+      - created_at
+      - updated_at
+      title: PrivateNoteOut
     ValidationError:
       properties:
         loc:
@@ -217,52 +266,6 @@ components:
       - msg
       - type
       title: ValidationError
-    PrivateNoteCreate:
-      properties:
-        body:
-          type: string
-          maxLength: 2000
-          minLength: 1
-          title: Body
-      type: object
-      required:
-      - body
-      title: PrivateNoteCreate
-    PrivateNoteOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        body:
-          type: string
-          title: Body
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-      type: object
-      required:
-      - id
-      - body
-      - created_at
-      - updated_at
-      title: PrivateNoteOut
-    PrivateNoteUpdate:
-      properties:
-        body:
-          type: string
-          maxLength: 2000
-          minLength: 1
-          title: Body
-      type: object
-      required:
-      - body
-      title: PrivateNoteUpdate
     HTTPValidationError:
       properties:
         detail:
@@ -298,3 +301,6 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
+x-refined-from:
+- thecolony-ai-openapi.json
+- thecolony-ai-openapi.yml

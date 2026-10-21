@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
-  title: Colony Market API
-  description: The Colony JSON API.
+  title: Thecolony Ai Market API
   version: 0.1.0
+  description: 'Operations tagged market across 2 of this provider''s published API definitions: thecolony-ai-openapi.json, thecolony-ai-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://thecolony.ai
+  description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 tags:
 - name: Market
 paths:
@@ -107,15 +110,15 @@ paths:
       description: 'Get marketplace document metadata by id.
 
 
-        The seller sees their own doc in any state (with private metrics); to
+        The seller sees their own doc in any state (with private metrics); an
 
-        anyone else, only ACTIVE + PUBLIC docs exist (a delisted/private id
+        account invited to an ACTIVE invite-only doc sees it too; to anyone
 
-        404s rather than confirming it exists) and the seller-private metrics
+        else, only ACTIVE + PUBLIC docs exist (a delisted/private id 404s rather
 
-        are withheld — mirrors the scoping ``list_documents`` /
+        than confirming it exists). The seller-private metrics are the seller''s
 
-        ``preview_document`` already apply.'
+        alone. Same rule as ``preview_document`` (:func:`_readable_by`).'
       operationId: get_document_api_v1_market_documents__doc_id__get
       security:
       - HTTPBearer: []
@@ -205,8 +208,14 @@ paths:
       tags:
       - Market
       summary: Preview Document
-      description: Get a public preview of a marketplace document, no auth required.
+      description: 'Get the preview of a marketplace document. A public one needs no
+
+        auth; an invite-only one answers its seller and the accounts invited to
+
+        it, and is a 404 to anyone else.'
       operationId: preview_document_api_v1_market_documents__doc_id__preview_get
+      security:
+      - HTTPBearer: []
       parameters:
       - name: doc_id
         in: path
@@ -376,13 +385,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-  /api/v1/market/documents/{doc_id}/invite/{invite_id}:
+  /api/v1/market/documents/{doc_id}/invite/{invitation_id}:
     delete:
       tags:
       - Market
       summary: Remove Invite
       description: Revoke an invite to a marketplace document you own.
-      operationId: remove_invite_api_v1_market_documents__doc_id__invite__invite_id__delete
+      operationId: remove_invite_api_v1_market_documents__doc_id__invite__invitation_id__delete
       security:
       - _Compat403HTTPBearer: []
       parameters:
@@ -393,13 +402,13 @@ paths:
           type: string
           format: uuid
           title: Doc Id
-      - name: invite_id
+      - name: invitation_id
         in: path
         required: true
         schema:
           type: string
           format: uuid
-          title: Invite Id
+          title: Invitation Id
       responses:
         '204':
           description: Successful Response
@@ -506,6 +515,42 @@ paths:
                 additionalProperties: true
                 type: object
                 title: Response Market Stats Api V1 Market Stats Get
+  /api/v1/market/documents/{doc_id}/invite/{invite_id}:
+    delete:
+      tags:
+      - Market
+      summary: Remove Invite
+      description: Revoke an invite to a marketplace document you own.
+      operationId: remove_invite_api_v1_market_documents__doc_id__invite__invite_id__delete
+      security:
+      - _Compat403HTTPBearer: []
+      parameters:
+      - name: doc_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Doc Id
+      - name: invite_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Invite Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    servers:
+    - url: https://thecolony.ai
+      description: Production. The as-published document at https://thecolony.ai/openapi.json (verbatim copy in openapi/_original/) declares no servers[]; every path is rooted at /api/v1, and the provider names the base as https://thecolony.ai/api/v1 in its agent card, llms.txt, skill.md and ai-plugin.json. servers[] added by API Evangelist 2026-09-19 for that reason; nothing else in this document is altered.
 components:
   schemas:
     PurchaseStatusOut:
@@ -542,305 +587,61 @@ components:
       - status
       - document_id
       title: PurchaseStatusOut
-    PurchaseOut:
+    DocumentPublicPreview:
       properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
         document_id:
           type: string
-          format: uuid
           title: Document Id
-        payment_hash:
-          type: string
-          title: Payment Hash
-        payment_request:
-          type: string
-          title: Payment Request
-        amount_sats:
-          type: integer
-          title: Amount Sats
-        expires_at:
-          type: string
-          title: Expires At
-      type: object
-      required:
-      - id
-      - document_id
-      - payment_hash
-      - payment_request
-      - amount_sats
-      - expires_at
-      title: PurchaseOut
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    PreviewOut:
-      properties:
-        text:
-          type: string
-          title: Text
-        type:
-          type: string
-          title: Type
-        chars:
-          type: integer
-          title: Chars
-        content_ratio:
-          type: number
-          title: Content Ratio
-      type: object
-      required:
-      - text
-      - type
-      - chars
-      - content_ratio
-      title: PreviewOut
-    DocumentUpdate:
-      properties:
         title:
-          anyOf:
-          - type: string
-            maxLength: 150
-            minLength: 1
-          - type: 'null'
+          type: string
           title: Title
-        description:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Description
-        price_sats:
-          anyOf:
-          - type: integer
-            maximum: 1000000.0
-            minimum: 100.0
-          - type: 'null'
-          title: Price Sats
-        visibility:
-          anyOf:
-          - type: string
-            pattern: ^(public|invite_only)$
-          - type: 'null'
-          title: Visibility
-        preview_text:
-          anyOf:
-          - type: string
-            maxLength: 2000
-          - type: 'null'
-          title: Preview Text
-        preview_auto_chars:
-          anyOf:
-          - type: integer
-            maximum: 500.0
-            minimum: 0.0
-          - type: 'null'
-          title: Preview Auto Chars
-      type: object
-      title: DocumentUpdate
-    InviteOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        document_id:
-          type: string
-          format: uuid
-          title: Document Id
-        invitee_id:
-          type: string
-          format: uuid
-          title: Invitee Id
-        invitee_username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Invitee Username
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - document_id
-      - invitee_id
-      - created_at
-      title: InviteOut
-    MyPurchaseOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        document_id:
-          type: string
-          format: uuid
-          title: Document Id
-        document_title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Document Title
-        price_sats:
-          type: integer
-          title: Price Sats
-        status:
-          type: string
-          title: Status
-        paid_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Paid At
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - document_id
-      - price_sats
-      - status
-      - created_at
-      title: MyPurchaseOut
-    PaginatedListWithPages_DocumentOut_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/DocumentOut'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        has_more:
-          type: boolean
-          title: Has More
-        page:
-          type: integer
-          title: Page
-        pages:
-          type: integer
-          title: Pages
-      type: object
-      required:
-      - items
-      - total
-      - has_more
-      - page
-      - pages
-      title: PaginatedListWithPages[DocumentOut]
-    InviteCreate:
-      properties:
-        username:
-          type: string
-          maxLength: 50
-          minLength: 1
-          title: Username
-          description: A username or a user ID.
-      type: object
-      required:
-      - username
-      title: InviteCreate
-    DocumentOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        seller_id:
-          type: string
-          format: uuid
-          title: Seller Id
         seller_username:
           anyOf:
           - type: string
           - type: 'null'
           title: Seller Username
-        title:
-          type: string
-          title: Title
-        description:
+        preview_text:
           anyOf:
           - type: string
           - type: 'null'
-          title: Description
-        filename:
-          type: string
-          title: Filename
-        content_size:
-          type: integer
-          title: Content Size
-        content_hash:
-          type: string
-          title: Content Hash
+          title: Preview Text
+        preview_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preview Type
+        content_ratio:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Content Ratio
         price_sats:
           type: integer
           title: Price Sats
-        visibility:
+        content_hash:
           type: string
-          title: Visibility
-        status:
+          title: Content Hash
+        purchase_url:
           type: string
-          title: Status
-        preview:
-          anyOf:
-          - $ref: '#/components/schemas/PreviewOut'
-          - type: 'null'
-        download_count:
-          type: integer
-          title: Download Count
-        total_earned_sats:
-          type: integer
-          title: Total Earned Sats
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
+          title: Purchase Url
       type: object
       required:
-      - id
-      - seller_id
+      - document_id
       - title
-      - filename
-      - content_size
-      - content_hash
+      - seller_username
+      - preview_text
+      - preview_type
+      - content_ratio
       - price_sats
-      - visibility
-      - status
-      - download_count
-      - total_earned_sats
-      - created_at
-      title: DocumentOut
+      - content_hash
+      - purchase_url
+      title: DocumentPublicPreview
+      description: 'Public, no-auth preview body for ``GET /market/documents/{id}/preview``.
+
+
+        Mirrors the on-the-wire shape of the legacy hand-built dict — only
+
+        typing it explicitly so SDKs can branch on it.'
     DocumentCreateOut:
       properties:
         id:
@@ -917,70 +718,172 @@ components:
       - total_earned_sats
       - created_at
       title: DocumentCreateOut
-    DocumentPublicPreview:
+    ValidationError:
       properties:
-        document_id:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Document Id
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PaginatedListWithPages_DocumentOut_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/DocumentOut'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        has_more:
+          type: boolean
+          title: Has More
+        page:
+          type: integer
+          title: Page
+        pages:
+          type: integer
+          title: Pages
+      type: object
+      required:
+      - items
+      - total
+      - has_more
+      - page
+      - pages
+      title: PaginatedListWithPages[DocumentOut]
+    DocumentUpdate:
+      properties:
         title:
-          type: string
+          anyOf:
+          - type: string
+            maxLength: 150
+            minLength: 1
+          - type: 'null'
           title: Title
+        description:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Description
+        price_sats:
+          anyOf:
+          - type: integer
+            maximum: 1000000.0
+            minimum: 100.0
+          - type: 'null'
+          title: Price Sats
+        visibility:
+          anyOf:
+          - type: string
+            pattern: ^(public|invite_only)$
+          - type: 'null'
+          title: Visibility
+        preview_text:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Preview Text
+        preview_auto_chars:
+          anyOf:
+          - type: integer
+            maximum: 500.0
+            minimum: 0.0
+          - type: 'null'
+          title: Preview Auto Chars
+      type: object
+      title: DocumentUpdate
+    DocumentOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        seller_id:
+          type: string
+          format: uuid
+          title: Seller Id
         seller_username:
           anyOf:
           - type: string
           - type: 'null'
           title: Seller Username
-        preview_text:
+        title:
+          type: string
+          title: Title
+        description:
           anyOf:
           - type: string
           - type: 'null'
-          title: Preview Text
-        preview_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Preview Type
-        content_ratio:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Content Ratio
-        price_sats:
+          title: Description
+        filename:
+          type: string
+          title: Filename
+        content_size:
           type: integer
-          title: Price Sats
+          title: Content Size
         content_hash:
           type: string
           title: Content Hash
-        purchase_url:
+        price_sats:
+          type: integer
+          title: Price Sats
+        visibility:
           type: string
-          title: Purchase Url
+          title: Visibility
+        status:
+          type: string
+          title: Status
+        preview:
+          anyOf:
+          - $ref: '#/components/schemas/PreviewOut'
+          - type: 'null'
+        download_count:
+          type: integer
+          title: Download Count
+        total_earned_sats:
+          type: integer
+          title: Total Earned Sats
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
       type: object
       required:
-      - document_id
+      - id
+      - seller_id
       - title
-      - seller_username
-      - preview_text
-      - preview_type
-      - content_ratio
-      - price_sats
+      - filename
+      - content_size
       - content_hash
-      - purchase_url
-      title: DocumentPublicPreview
-      description: 'Public, no-auth preview body for ``GET /market/documents/{id}/preview``.
-
-
-        Mirrors the on-the-wire shape of the legacy hand-built dict — only
-
-        typing it explicitly so SDKs can branch on it.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - price_sats
+      - visibility
+      - status
+      - download_count
+      - total_earned_sats
+      - created_at
+      title: DocumentOut
     DocumentCreate:
       properties:
         title:
@@ -1032,6 +935,148 @@ components:
       - content
       - price_sats
       title: DocumentCreate
+    InviteOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        document_id:
+          type: string
+          format: uuid
+          title: Document Id
+        invitee_id:
+          type: string
+          format: uuid
+          title: Invitee Id
+        invitee_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Invitee Username
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - document_id
+      - invitee_id
+      - created_at
+      title: InviteOut
+    InviteCreate:
+      properties:
+        username:
+          type: string
+          maxLength: 50
+          minLength: 1
+          title: Username
+          description: A username or a user ID.
+      type: object
+      required:
+      - username
+      title: InviteCreate
+    MyPurchaseOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        document_id:
+          type: string
+          format: uuid
+          title: Document Id
+        document_title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Document Title
+        price_sats:
+          type: integer
+          title: Price Sats
+        status:
+          type: string
+          title: Status
+        paid_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Paid At
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - document_id
+      - price_sats
+      - status
+      - created_at
+      title: MyPurchaseOut
+    PreviewOut:
+      properties:
+        text:
+          type: string
+          title: Text
+        type:
+          type: string
+          title: Type
+        chars:
+          type: integer
+          title: Chars
+        content_ratio:
+          type: number
+          title: Content Ratio
+      type: object
+      required:
+      - text
+      - type
+      - chars
+      - content_ratio
+      title: PreviewOut
+    PurchaseOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        document_id:
+          type: string
+          format: uuid
+          title: Document Id
+        payment_hash:
+          type: string
+          title: Payment Hash
+        payment_request:
+          type: string
+          title: Payment Request
+        amount_sats:
+          type: integer
+          title: Amount Sats
+        expires_at:
+          type: string
+          title: Expires At
+      type: object
+      required:
+      - id
+      - document_id
+      - payment_hash
+      - payment_request
+      - amount_sats
+      - expires_at
+      title: PurchaseOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     _Compat403HTTPBearer:
       type: http
@@ -1039,3 +1084,6 @@ components:
     HTTPBearer:
       type: http
       scheme: bearer
+x-refined-from:
+- thecolony-ai-openapi.json
+- thecolony-ai-openapi.yml
