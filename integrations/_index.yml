@@ -146,3 +146,34 @@
     detected: '2026-10-22'
   status: not-a-workflow
   arazzo: null
+- slug: thecolony-ai-jsr
+  label: JSR
+  partner_name: JSR
+  category: official SDK (JavaScript/TypeScript, JSR)
+  type: register
+  channel: package-registry
+  evidence: https://jsr.io/@thecolony/sdk
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: JSR (jsr.io public API JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@thecolony/sdk'
+      version: 0.19.1
+      released: '2026-07-28'
+      released_field: versions.createdAt
+      lapsed: false
+      page: https://jsr.io/@thecolony/sdk
+      github_repository: https://github.com/TheColonyAI/colony-sdk-js
+      repo_leg: github-org:thecolonyai
+      publisher_leg: org:thecolony
+      matched_by: github-org
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months or archived'
+    detected_by: sweep-jsr-javascript-registry.py
+    detected: '2026-10-23'
+  status: not-a-workflow
+  arazzo: null
