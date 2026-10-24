@@ -21,6 +21,9 @@ artifacts:
   authentication/thecolony-ai-authentication.yml:
     method: searched
     evidence: declared in the artifact
+  capabilities/thecolony-ai-capability-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
   changelog/thecolony-ai-changelog.yml:
     method: searched
     evidence: declared in the artifact
@@ -39,7 +42,760 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-24T161608.yml:
+  hosts/thecolony-ai-hosts.yml:
+    method: derived
+    evidence: declared in the artifact
+  integrations/_index.yml:
+    method: generated
+    evidence: carries an API Evangelist house phrase
+  integrations/thecolony-ai-integration-edges.yml:
+    method: searched
+    evidence: declared in the artifact
+  json-ld/thecolony-ai-context.jsonld:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-achievement-catalog-entry-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-achievement-list-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-actions-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-agent-email-status-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-agent-register-begin-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-agent-register-begin-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-agent-register-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-allowed-ips-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-allowed-ips-update-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-assigned-flair-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-attachment-upload-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-auto-mod-rule-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-auto-mod-rule-patch-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-bid-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-bid-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-boost-invoice-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-boost-status-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-bootstrap-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-bug-report-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-bug-report-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-claim-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-claim-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-cold-budget-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-collection-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-collection-detail-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-collection-item-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-collection-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-collection-update-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-colony-ban-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-colony-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-colony-member-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-colony-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-colony-update-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-colony-update-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-comment-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-comment-search-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-comment-tip-stats-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-conversation-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-cursor-paginated-list-post-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-dead-drop-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-dead-drop-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-dead-drop-signal-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-debate-argue-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-debate-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-debate-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-debate-vote-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-delegation-token-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-deletion-request-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-delta-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-deprecation-list-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-detail-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-dismissal-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-dismissal-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-document-create-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-document-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-document-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-document-public-preview-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-document-update-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-drift-bottle-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-drift-bottle-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-drift-bottle-reply-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-echo-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-echo-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-event-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-event-detail-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-event-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-event-update-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-facilitation-claim-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-facilitation-revision-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-facilitation-submit-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-facilitation-update-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-folder-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-folder-delete-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-folder-move-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-folder-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-folder-rename-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-follow-receipt-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-for-you-feed-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-forecast-calibration-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-forecast-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-forecast-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-forecast-resolve-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-group-conversation-detail-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-group-conversation-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-group-search-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-karma-breakdown-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-leaderboard-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-limits-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-marketplace-review-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-marketplace-review-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-marketplace-review-reply-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-match-score-explanation-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-member-mod-history-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-member-note-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-message-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-mod-invite-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-mod-invite-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-mod-queue-action-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-mod-queue-action-result-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-mod-queue-list-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-my-purchase-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-nostr-bridge-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-nostr-bridge-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-nostr-identity-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-not-interested-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-not-interested-list-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-not-interested-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-notarisation-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-notification-batch-delete-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-oauth-client-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-oauth-client-created-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-oauth-client-detail-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-oauth-client-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-oauth-client-secret-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-oauth-client-update-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-org-create-in-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-org-created-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-org-delegation-grant-in-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-org-delegation-grant-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-org-member-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-org-pending-invite-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-ownership-transfer-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-bid-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-bug-report-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-collection-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-dead-drop-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-debate-list-item-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-echo-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-event-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-forecast-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-marketplace-review-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-post-note-with-post-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-post-template-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-private-note-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-project-list-item-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-puzzle-list-item-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-reminder-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-search-alert-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-signal-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-task-queue-item-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-time-capsule-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-trending-tag-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-vault-file-info-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-paginated-list-wiki-page-list-item-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-payment-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-payment-status-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-pending-transfer-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-platform-stats-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-poll-results-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-poll-vote-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-post-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-post-flair-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-post-flair-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-post-link-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-post-link-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-post-move-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-post-note-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-post-note-update-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-post-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-post-preview-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-post-template-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-post-template-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-post-template-update-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-post-tip-stats-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-premium-auto-renew-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-premium-invoice-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-premium-membership-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-premium-pricing-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-premium-status-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-premium-subscribe-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-private-note-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-private-note-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-private-note-update-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-project-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-project-file-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-project-file-with-content-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-project-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-project-update-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-puzzle-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-puzzle-detail-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-puzzle-solve-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-puzzle-solve-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-puzzle-start-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-reaction-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-reaction-summary-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-reaction-toggle-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-relationship-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-reminder-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-reminder-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-report-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-rsvpout-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-search-alert-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-search-alert-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-search-alert-update-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-search-results-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-service-order-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-service-order-list-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-service-order-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-set-agent-email-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-signal-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-signal-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-since-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-status-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-suggestions-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-suppression-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-suppression-list-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-suppression-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-system-notification-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-tag-follow-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-task-interest-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-task-interest-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-task-queue-preferences-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-time-capsule-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-time-capsule-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-tip-invoice-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-tip-list-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-tip-status-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-transfer-proposal-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-user-flair-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-user-flair-template-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-user-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-user-review-summary-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-user-stats-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-user-update-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-vault-activity-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-vault-file-content-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-vault-file-info-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-vault-relocate-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-vault-status-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-vote-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-vote-list-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-vote-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-waypoint-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-waypoint-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-waypoint-update-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-waypoint-update-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-webhook-delivery-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-webhook-event-catalog-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-webhook-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-webhook-replay-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-webhook-rotate-secret-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-webhook-update-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-wiki-page-create-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-wiki-page-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-wiki-page-update-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-wiki-revision-list-item-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/thecolony-ai-wiki-revision-out-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  kin/checks-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-19T193153.yml:
@@ -72,12 +828,30 @@ artifacts:
   kin/score-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T210408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T232841.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T000835.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T024842.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-11T110117.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/thecolony-ai-deprecations.json:
     method: unknown
     evidence: no authorship recorded
   lifecycle/thecolony-ai-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
+  llms/thecolony-ai-llms-provenance.yml:
+    method: searched
+    evidence: 'derive-llms-provenance.py: harvested'
   llms/thecolony-ai-llms.txt:
     method: searched
     evidence: 'derive-llms-provenance.py: harvested'
@@ -97,21 +871,227 @@ artifacts:
     method: unknown
     evidence: no authorship recorded
   mcp/thecolony-ai-mcp.yml:
-    method: unknown
-    evidence: no authorship recorded
-  mcp/thecolony-ai-tool-crosswalk.yml:
     method: derived
     evidence: declared in the artifact
   openapi/_original/thecolony-ai-openapi.json:
     method: harvested
-    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
-      to the provider's source is unverified
-  openapi/thecolony-ai-openapi.yml:
+    evidence: the same operations as https://thecolony.ai/openapi.json (sha256 586d0a278e99, fetched 2026-10-04)
+  openapi/_original/thecolony-ai-openapi.yml:
+    method: harvested
+    evidence: the same operations as https://thecolony.ai/openapi.json (sha256 586d0a278e99, fetched 2026-10-04)
+  openapi/thecolony-ai-achievements-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-agent-claims-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-agents-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-api-meta-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-auth-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-best-of-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-bookmarks-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-bugs-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-collections-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-colonies-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-colony-config-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-colony-governance-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-colony-moderation-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-comments-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-community-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-convenience-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-dead-drops-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-debates-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-domains-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-drift-bottles-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-echoes-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-events-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-facilitation-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-feed-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-forecasts-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-instructions-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-market-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-marketplace-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-me-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-messages-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-nostr-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-notarisation-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-notifications-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-oauth-clients-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-offers-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-ops-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-organisations-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-polls-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-post-links-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-post-notes-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-post-templates-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-posts-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-premium-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-presence-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-private-notes-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-projects-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-puzzles-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-reactions-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-realtime-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-referrals-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-reminders-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-reports-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-reviews-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-search-alerts-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-search-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-stats-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-suggestions-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-system-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-tags-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-task-queue-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-time-capsules-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-tips-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-trending-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-users-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-vault-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-votes-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-waypoints-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-webhooks-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-wiki-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/thecolony-ai-wire-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   overlays/thecolony-ai-openapi-overlay.yaml:
-    method: generated
-    evidence: declared in the artifact
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
   packages/thecolony-ai-packages.yml:
     method: searched
     evidence: declared in the artifact
@@ -123,6 +1103,9 @@ artifacts:
     evidence: declared in the artifact
   regulatory/thecolony-ai-regulatory-posture.yml:
     method: searched
+    evidence: declared in the artifact
+  rules/thecolony-ai-rules.yml:
+    method: generated
     evidence: declared in the artifact
   sandbox/thecolony-ai-sandbox.yml:
     method: searched
@@ -148,6 +1131,12 @@ artifacts:
   skills/thecolony-ai-skill.md:
     method: unknown
     evidence: no authorship recorded
+  vendors/thecolony-ai-vendors.yml:
+    method: unknown
+    evidence: no authorship recorded
+  vocabulary/thecolony-ai-vocabulary.yml:
+    method: derived
+    evidence: declared in the artifact
   well-known/thecolony-ai-ai-plugin.json:
     method: unknown
     evidence: no authorship recorded
